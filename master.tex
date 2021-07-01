@@ -1,0 +1,25 @@
+\documentclass{report}
+\input{preamble}
+
+\usepackage{subfiles}
+\usepackage{hyperref}
+\hypersetup{
+  linktoc=all
+}
+% \usepackage{standalone}
+
+\renewcommand\thechapter{\Roman{chapter}}
+
+\title{Solutions to Algebra: Chapter 0 by Aluffi}
+\author{Akash Narayanan}
+\date{ }
+
+\begin{document}
+  \maketitle
+  \tableofcontents
+  % Insert chapter solutions
+  \subfile{chapter1/chapter1}
+
+  \setcounter{chapter}{4}
+  \subfile{chapter5/chapter5}
+\end{document}

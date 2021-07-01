@@ -1,0 +1,217 @@
+\documentclass[../../master.tex]{subfiles}
+
+\begin{document}
+\section{Functions between sets}
+
+  % Problem 2.1
+  \begin{problem}
+    How many different bijections are there between a set \(S\) with \(n\) elements and itself?
+  \end{problem}
+
+  \begin{solution}
+    A function \(f: S \to S\) is a subset \(\Gamma_{f} \subseteq S \times S\).
+    Since \(f\) is bijective, then for all \(y \in S\), there exists a unique \(x \in S\) such that \((x, y) \in \Gamma_{f}\).
+    Certainly \(|\Gamma_{f}| = n\). Since each \(x\) is unique, every element \(x \in S\) must be present in the first component of exactly one element in \(\Gamma_{f}\).
+    Similarly, each element \(y \in S\) must be present in the second component of exactly one element in \(\Gamma_{f}\).
+    Then each bijection is merely a permutation of \(S\), and there are \(n!\) permutations.
+    Thus, there are \(n!\) bijections from \(S\) to itself.
+  \end{solution}
+
+  % Problem 2.2
+  \begin{problem}
+    Prove statement (2) in Proposition 2.1. You may assume that given a family of disjoint subsets of a set, there is a way to choose one element in each member of the family.
+  \end{problem}
+
+  \begin{proposition}[Proposition 2.1]
+    Assume \(A \neq \emptyset \), and let \(f: A \to B\) be a function.
+    Then (1) \(f\) has a left-inverse if and only if \(f \) is injective; and (2) \(f\) has a right-inverse if and only if \(f\) is surjective.
+  \end{proposition}
+
+  \begin{solution}
+    Assume \(A \neq \emptyset\) and let \(f: A \to B\) be a function.
+
+    \(( \Longrightarrow)\) Suppose there exists a function \(g\) that is a right-inverse of \(f\). Then \(f \circ g = \text{id}_{B}\).
+    Let \(b \in B\). Then \(g(b) \in A\) and \(f(g(b)) = b\). Thus for all \(b \in B\), there exists \(a = g(b)\) such that \(f(a) = b\). Hence, \(f\) is surjective.
+
+    \(( \Longleftarrow)\) Suppose that \(f\) is surjective. We want a function \(g: B \to A\) such that \(f(g(b)) = b\) for all \(b \in B\).
+    Since \(f\) is surjective, for all \(b \in B\), there exists an \(a \in A\) such that \(f(a) = b\).
+    Construct a set \(\Gamma = \{(b, a) \mid f(a) = b\} \subseteq B \times A\).
+    Note that \(\Gamma\) is not necessarily unique since there may be several \(a\) such that \(f(a) = b\).
+    However, its existence is guaranteed since \(f\) is surjective.
+    Then this set may be used to define \(g\) where \(g(b) = a\) if and only if \((a, b) \in \Gamma\).
+    Now let \(b \in B\). Then there exists an \(a \in A\) such that \(f(a) = b\). Therefore, \((a, b) \in \Gamma\) so \(g(b) = a\).
+    We get that \(f(g(b)) = f(a) = b\) so \(g\) is a right-inverse of \(f\).
+  \end{solution}
+
+  % Problem 2.3
+  \begin{problem}
+    Prove that the inverse of a bijection is a bijection and that the composition of two bijections is bijection.
+  \end{problem}
+
+  \begin{solution}
+    Let \(f: A \to B\) be a bijection. Consider \(f^{-1}: B \to A\). We have that \(f^{-1} \circ f = \text{id}_{A}\) and \(f \circ f^{-1} = \text{id}_{B}\).
+    Then \(f\) is the left- and right-inverse of \(f^{-1}\), so \(f^{-1}\) is also a bijection.
+
+    Let \(f: A \to B\) and \(g: B \to C\) be bijections and consider \(g \circ f\). Suppose \(a, a' \in A\) such that \((g \circ f)(a) = (g \circ f)(a')\).
+    Since \(g\) is bijective, and in particular it is injective, we have \((g \circ f)(a) = (g \circ f)(a') \Longrightarrow f(a) = f(a')\).
+    Similarly, \(f\) is injective so \(f(a) = f(a') \Longrightarrow a = a'\). Thus, \(g \circ f\) is injective.
+    Now let \(c \in C\). Since \(g\) is surjective, there exists a \(b \in B\) such that \(g(b) = c\).
+    Similarly, since \(f\) is surjective, there exists an \(a \in A\) such that \(f(a) = b\).
+    Then \((g \circ f)(a) = g(b) = c\) so \(g \circ f\) is surjective. Hence, \(g \circ f\) is bijective.
+  \end{solution}
+
+  % Problem 2.4
+  \begin{problem}
+    Prove that `isomorphism' is an equivalence relation (on any set of sets).
+  \end{problem}
+
+  \begin{solution}
+    Let \(A\) be a set. Then \(\text{id}_{A}\) is a bijection so \(A \cong A\).
+    Let \(B\) be another set such that \(A \cong B\). That is, there exists a bijection \(f: A \to B\).
+    Since \(f\) is bijective, it has an inverse \(f^{-1}: B \to A\), so \(B \cong A\).
+    If \(C\) is another set such that \(B \cong C\), then there exists a bijection \(g: B \to C\).
+    The composition of bijections is a bijection so \(g \circ f: A \to C\) is bijective.
+    Hence \(A \cong C\) and \(\cong\) is an equivalence relation.
+  \end{solution}
+
+  % Problem 2.5
+  \begin{problem}
+    Formulate a notion of \textit{epimorphism}, in the style of the notion of \textit{monomorphism} seen in \S 2.6,
+    and prove a result analogous to Proposition 2.3, for epimorphisms and surjections.
+  \end{problem}
+
+  \begin{proposition}[Proposition 2.3]
+    A function is injective if and only if it is a monomorphism.
+  \end{proposition}
+
+  \begin{solution}
+    A function \(f: A \to B\) is an epimorphism if for all sets \(Z\) and all functions \(\beta, \beta': B \to Z\) we have \(\beta \circ f = \beta' \circ f \Longrightarrow \beta = \beta'\).
+    Now we show that a function is surjective if and only if it is an epimorphism.
+
+    \((\Longrightarrow)\) Suppose that \(f: A \to B \) is surjective. Then \(f\) has a right-inverse \(g: B \to A\).
+    Let \(\beta, \beta'\) be functions from \(B\) to another set \(Z\) such that \(\beta \circ f = \beta' \circ f\).
+    Compose on the right by \(g\) and use associativity of composition:
+    \begin{equation*}
+      \beta \circ (f \circ g) = (\beta \circ f) \circ g = (\beta' \circ f) \circ g = \beta' \circ (f \circ g)
+    \end{equation*}
+    Since \(g\) is a right-inverse of \(f\), we have
+    \begin{equation*}
+      \beta \circ \text{id}_{B} = \beta' \circ \text{id}_{B}
+    \end{equation*}
+    and thus \(\beta = \beta'\) and \(f\) is an epimorphism.
+
+    \((\Longleftarrow)\) Now suppose that \(f: A \to B\) is an epimorphism.
+    Let \(Z = \{0, 1\}\) and consider the morphisms \(\beta, \beta': B \to Z\) where \(\beta(b) = 0\) for all \(b \in B\) and \(\beta'(b) = 0\) if \(b \in \text{im}(f)\) or \(\beta'(b) = 1\) otherwise.
+    By construction, \(\beta \circ f = \beta' \circ f\). This implies that \(\beta = \beta'\),
+    which is only the case if every element \(b \in B\) is sent to the same element of \(Z\).
+    \(\beta\) sends every element of \(B\) to 0, and \(\beta'\) sends every element of \(\text{im}(f)\) to 0, so \(\text{im}(f) = B\) and \(f\) is surjective.
+  \end{solution}
+
+  % Problem 2.6
+  \begin{problem}
+    With notation as in Example 2.4, explain how any function \(f: A \to B\) determines a section of \(\pi_{A}\).
+  \end{problem}
+
+  \begin{solution}
+    We know \(f\) corresponds to a subset \(\Gamma_{f} = \{(a, b) \mid f(a) = b\} \subseteq A \times B\).
+    The projection \(\pi_{A}: A \times B \to A\) is defined such that \(\pi_{A} (a, b) = a\).
+    Let \(g: A \to A \times B\) be a function such that \(g(a) = (a, f(a)) \in \Gamma_{f}\).
+    Since \((\pi_{A} \circ g) (a) = \pi_{A}(a, f(a)) = a\) for all \(a \in A\), \(g\) is a section of \(\pi_{A}\) which is determined by \(f\).
+  \end{solution}
+
+  % Problem 2.7
+  \begin{problem}
+    Let \(f: A \to B\) be any function. Prove that the graph \(\Gamma_{f}\) of \(f\) is isomorphic to \(A\).
+  \end{problem}
+
+  \begin{solution}
+    Recall that \(\Gamma_{f} = \{(a, b) \mid b = f(a)\} \subseteq A \times B\).
+    Let \(g: A \to \Gamma_{f}\) be defined as \(g(a) = (a, f(a))\).
+    For all \((a, b) \in \Gamma_{f}\), we have \(g(a) = (a, f(a)) = (a, b)\) so \(g\) is surjective.
+    If \(g(a) = g(a')\), then \((a, f(a)) = (a', f(a'))\).
+    That is, \(a = a'\) so \(g\) is injective, hence it is a bijection.
+    Therefore, \(\Gamma_{f} \cong A\).
+  \end{solution}
+
+  % Problem 2.8
+  \begin{problem}
+    Describe as explicitly as you can all terms in the canonical decomposition of the function \(\mathbb{R} \to \mathbb{C}\) defined by \(r \mapsto e^{2\pi ir}\).
+    (This exercise matches one assigned previously. Which one?)
+  \end{problem}
+
+  \begin{solution}
+    Let \(f: \mathbb{R} \to \mathbb{C}\) be the function defined above.
+    The first part of the decomposition is defined by letting \(\sim\) be an equivalence relation on \(\mathbb{R}\) such that \(a \sim b \Longleftrightarrow f(a) = f(b)\).
+    That is, \([a]_{\sim}\) is the set of elements in \(\mathbb{R}\) that are mapped to the same element as \(a\) in \(\mathbb{C}\).
+    Then we have a projection \(\mathbb{R} \twoheadrightarrow \mathbb{R} / {\sim}\) which sends each element \(a \in \mathbb{R}\) to its equivalence class \([a]_{\sim}\).
+    Note that \(f(x) = f(x+1)\). That is, the function is periodic about the integers so real numbers which differ by an integer amount belong to the same equivalence class.
+    Then \(\mathbb{R} / {\sim} = \{ \{r + k \mid k \in \mathbb{Z} \} \mid r \in [0, 1)\) which is identical to the quotient set in Exercise 1.1.6.
+
+    The function \(\tilde{f}: \mathbb{R} \to \text{im}(f)\) maps each equivalence class to the complex number that \(f\) maps the representative to.
+    Certainly if \(\tilde{f}([a]_{\sim}) = \tilde{f}([a']_{\sim})\) then \(f(a) = f(a')\) and \(a \sim a'\) by definition.
+    Thus \([a]_{\sim} = [a']_{\sim}\) so \(\tilde{f}\) is injective.
+    Similarly, let \(b \in \text{im}(f)\). Then there is an element \(a \in \mathbb{R}\) such that \(f(a) = b\).
+    Then \(\tilde{f}([a]_{\sim}) = f(a) = b\) so \(\tilde{f}\) is surjective and hence a bijection.
+    Finally, we have the inclusion \(\text{im}(f) \hookrightarrow \mathbb{C}\) which embeds the image of \(f\) into its codomain.
+  \end{solution}
+
+  % Problem 2.9
+  \begin{problem}
+    Show that if \(A' \cong A''\) and \(B' \cong B''\), and further \(A' \cap B' = \emptyset\) and \(A'' \cap B'' = \emptyset\), then \(A' \cup B' \cong A'' \cup B''\).
+    Conclude that the operation \(A \coprod B\) is well-defined \textit{up to isomorphism}.
+  \end{problem}
+
+  \begin{solution}
+    There exist bijections \(f: A' \to A''\) and \(g: B' \to B''\).
+    Then we can define \(h: A' \cup B' \to A'' \cup B''\) where
+    \begin{equation*}
+      h(x) =
+      \begin{cases}
+        f(x) \text{ if } x \in A' \\
+        g(x) \text{ if } x \in B'
+      \end{cases}
+    \end{equation*}
+    Let \(y \in A'' \cup B''\). Since \(A'' \cap B'' = \emptyset\), we have either \(y \in A''\) or \(y \in B''\).
+    WLOG, suppose that \(y \in A''\).
+    Note that since \(f\) is surjective, there exists \(x \in A'\) such that \(f(x) = y\).
+    Then \(h(x) = f(x) = y\) so \(h\) is surjective.
+    Suppose \(x \neq x'\) for \(x, x' \in A' \cup B'\). If \(x, x' \in A'\) then since \(f\) is injective and \(h(x) = f(x)\) for all \(x \in A'\), we have \(h(x) \neq h(x')\).
+    A similar reasoning shows that if \(x, x' \in B'\), then \(h(x) \neq h(x')\).
+    WLOG, suppose that \(x \in A'\) and \(x' \in B'\). Then \(h(x) = f(x) \neq g(x') = h(x')\) since \(A'' \cap B'' = \emptyset\). Thus \(h\) is surjective and hence a bijection, showing that \(A' \cup B' \cong A'' \cup B''\).
+
+    The constructions of \(A', A'', B', B''\) are equivalent to creating ``copies" of sets \(A\) and \(B\) to use in the disjoint union.
+    Thus, the disjoint union \(A \coprod B\) is well-defined up to isomorphism.
+  \end{solution}
+
+  % Problem 2.10
+  \begin{problem}
+    Show that if \(A\) and \(B\) are finite sets, then \(|B^{A}| = |B|^{|A|}|\).
+  \end{problem}
+
+  \begin{solution}
+    Recall that \(|B^{A}|\) is the number of functions from \(A\) to \(B\).
+    Each functions assigns a single element of \(A\) to a single element of \(B\).
+    There are \(|B|\) choices for each of the \(|A|\) elements.
+    This is equivalent to \(|B|^{|A|}\) total choices.
+    Thus, \(|B^{A}| = |B|^{|A|}\).
+  \end{solution}
+
+  % Problem 2.11
+  \begin{problem}
+    In view of Exercise 2.10, it is not unreasonable to use \(2^{A}\) to denote the set of functions from an arbitrary set \(A\) to a set with 2 elements (say \(\{0, 1\}\)).
+    Prove that there is a bijection between \(2^{A}\) and the \textit{power set} of \(A\).
+  \end{problem}
+
+  \begin{solution}
+    Consider \(f: \mathscr{P} (A) \to 2^{A}\) defined as
+    \begin{equation*}
+      f(X) = \{(a, 1) \text{ if } a \in X \text{, and } (a, 0) \text{ otherwise} \}
+    \end{equation*}
+    Let \(g \in 2^{A}\). Then \(g\) is a function from \(A\) to \(\{0, 1\}\).
+    Let \(A_{1} = \{a \in A \mid g(a) = 1\). Then \(A_{1} \in \mathscr{P}(A)\) and \(f(A_{1}) = g\), so \(f\) is surjective.
+    Now suppose that \(X, Y \subseteq A\) such that \(f(X) = f(Y)\).
+    That is, for all \(a \in A\), \(a \in X \Longleftrightarrow (a, 1) \in f(X) \Longleftrightarrow (a, 1) \in f(Y) \Longleftrightarrow a \in Y\).
+    Thus, \(X = Y\) so \(f\) is injective and a bijection.
+    Therefore, \(2^{A} \cong \mathscr{P}(A)\).
+  \end{solution}
+\end{document}

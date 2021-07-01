@@ -1,0 +1,343 @@
+\documentclass[../../master.tex]{subfiles}
+
+\begin{document}
+\section{Categories}
+
+  % Problem 3.1
+  \begin{problem}
+    Let \(\mathsf{C}\) be a category. Consider a structure \(\mathsf{C}^{op}\) with
+    \begin{itemize}
+      \item \(\text{Obj}(\mathsf{C}^{op}) := \text{Obj}(\mathsf{C})\);
+      \item for \(A, B\) objects of \(\mathsf{C}^{op}\) (hence objects of \(\mathsf{C}\)),
+      \(\text{Hom}_{\mathsf{C}^{op}} (A, B) := \text{Hom}_{\mathsf{C}}(B, A)\).
+    \end{itemize}
+    Show how to make this into a category (that is, define composition of moprhisms in \(\mathsf{C}^{op}\) and verify the properties listed in \S 3.1).
+
+    Intuitively, the `opposite' category \(\mathsf{C}^{op}\) is simply obtained by `reversing all the arrows' in \(\mathsf{C}\).
+  \end{problem}
+
+  \begin{solution}
+    For objects \(A, B, C \in \text{Obj}(\mathsf{C}^{op})\), the set of morphisms from \(A\) to \(B\), \(\text{Hom}_{\mathsf{C}^{op}}(A, B)\), is defined as \(\text{Hom}_{\mathsf{C}}(B, A)\).
+    For morphisms \(f \in \text{Hom}_{\mathsf{C}^{op}}(A, B)\) and \(g \in \text{Hom}_{\mathsf{C}^{op}}(B, C)\), define composition as follows:
+    \begin{equation*}
+      \circ_{\mathsf{C}^{op}}: \text{Hom}_{\mathsf{C}^{op}}(A, B) \times \text{Hom}_{\mathsf{C}^{op}}(B, C) \to \text{Hom}_{\mathsf{C}^{op}}(A, C)
+    \end{equation*}
+    such that
+    \begin{equation*}
+      \circ_{\mathsf{C}^{op}}(g, f) = \circ_{\mathsf{C}}(f, g)
+    \end{equation*}
+    Then if \(f \in \text{Hom}_{\mathsf{C}^{op}}(A, B), g \in \text{Hom}_{\mathsf{C}^{op}}(B, C), h \in \text{Hom}_{\mathsf{C}^{op}}(C, D)\), then
+    \begin{equation*}
+      (h \circ_{\mathsf{C}^{op}} g) \circ_{\mathsf{C}^{op}} f = f \circ_{\mathsf{C}} (g \circ_{\mathsf{C}} h) = (f \circ_{\mathsf{C}} g) \circ_{\mathsf{C}} h = h \circ_{\mathsf{C}^{op}} (g \circ_{\mathsf{C}^{op}} f)
+    \end{equation*}
+    so composition is associative.
+    Furthermore, define the identity morphism \(1_{A_{\mathsf{C}^{op}}} = 1_{A_{\mathsf{C}}}\).
+    Then for all \(f \in \text{Hom}_{\mathsf{C}^{op}}(A, B)\) we have
+    \begin{gather*}
+      f \circ_{\mathsf{C}^{op}} 1_{A_{\mathsf{C}^{op}}} = 1_{A_{\mathsf{C}}} \circ_{\mathsf{C}} f = f \\
+      1_{B_{\mathsf{C}^{op}}} \circ_{\mathsf{C}^{op}} f = f \circ_{\mathsf{C}} 1_{B_{\mathsf{C}}} = f
+    \end{gather*}
+    so identities preserve morphisms.
+    Finally, let \(A, B, C, D \in \text{Obj}(\mathsf{C}^{op})\) where \(A \neq C\) and \(B \neq D\).
+    Consider the sets \(\text{Hom}_{\mathsf{C}^{op}} (A, B)\) and \(\text{Hom}_{\mathsf{C}^{op}} (C, D)\).
+    These are equal to the sets \(\text{Hom}_{\mathsf{C}} (B, A)\) and \(\text{Hom}_{\mathsf{C}} (D, C)\) respectively, which are disjoint since \(\mathsf{C}\) is a category.
+    Thus, \(\mathsf{C}^{op}\) forms a category.
+  \end{solution}
+
+  % Problem 3.2
+  \begin{problem}
+    If \(A\) is a finite set, how large is \(\text{End}_{\mathsf{Set}}(A)\)?
+  \end{problem}
+
+  \begin{solution}
+    Recall that \(\text{End}_{\mathsf{Set}}(A)\) is the set of functions from \(A\) to \(A\).
+    By Exercise 2.10, we have \(|B^{A}| = |B|^{|A|}\).
+    Thus, \(|\text{End}_{\mathsf{Set}}(A)| = |A|^{|A|}\).
+  \end{solution}
+
+  % Problem 3.3
+  \begin{problem}
+    Formulate precisely what it means to say that \(1_{a}\) is an identity with respect to composition in Example 3.3, and prove this assertion.
+  \end{problem}
+
+  \begin{solution}
+    Let \(S\) be a set and \(\sim\) be a reflexive and transitive relation on \(S\).
+    Consider a category \(\mathsf{C}\) where
+    \begin{itemize}
+      \item \(\text{Obj}(\mathsf{C})\) are the elements in \(S\)
+      \item If \(a, b\) are objects, then let \(\text{Hom}(a, b) = (a, b) \in S \times S\) if \(a \sim b\) and let \(\text{Hom}(a, b) = \emptyset\) otherwise.
+    \end{itemize}
+    This forms a category and composition is defined as follows. Let \(a, b, c\) be objects and \(f \in \text{Hom}(a, b)\), \(g \in \text{Hom}(b, c)\).
+    Then \(g \circ f = (a, c) \in \text{Hom}(a, c)\) by the transitivity of \(\sim\).
+
+    Now we verify that the identity preserves morphisms in this category.
+    Let \(a, b \in S\) and \(f \in \text{Hom}(a, b)\).
+    A morphism \(1_{a} = (a, a) \in \text{End}(a)\) is an identity with respect to composition if
+    \begin{equation*}
+      f \circ 1_{a} = f
+    \end{equation*}
+    Indeed, we have \(f = (a, b)\) and \(1_{a} = (a, a)\).
+    Then by definition we have
+    \begin{equation*}
+      f \circ 1_{a} = (a, b) (a, a) = (a, b) = f
+    \end{equation*}
+    Thus \(1_{a}\) is an identity with respect to composition as required.
+  \end{solution}
+
+  % Problem 3.4
+  \begin{problem}
+    Can we define a category in the style of Example 3.3 using the relation \(<\) on the set \(\mathbb{Z}\).
+  \end{problem}
+
+  \begin{solution}
+    No, since the relation \(<\) is not reflexive. That is, \(a < a\) does not hold for any \(a \in \mathbb{Z}\).
+    There is no reasonable way to define an identity morphism.
+  \end{solution}
+
+  % Problem 3.5
+  \begin{problem}
+    Explain in what sense Example 3.4 is an instance of the categories considered in Example 3.3.
+  \end{problem}
+
+  \begin{solution}
+    Let \(S\) be a set and consider the category \(\hat{S}\) where
+    \begin{itemize}
+      \item \(\text{Obj}(\hat{S}) = \mathscr{P}(S)\)
+      \item For \(A, B \in \text{Obj}(\hat{S})\), let \(\text{Hom}_{\hat{S}}(A, B)\) be the pair \((A, B)\) if \(A \subseteq B\),
+      and let \(\text{Hom}_{\hat{S}}(A, B) = \emptyset\) otherwise.
+      \end{itemize}
+      Composition is obtained by using the transitivity of inclusion.
+
+      This is equivalent to the category in Example 3.3 by considering the relation \(\sim\) defined on \(\mathscr{P}(S)\) where \(A \sim B\) if and only if \(A \subseteq B\).
+      Indeed, this relation is both reflexive and transitive so we may construct the category considered in Example 3.3, and the two are equivalent.
+  \end{solution}
+
+  % Problem 3.6
+  \begin{problem}
+    (Assuming some familiarity with linear algebra.)
+    Define a category \(\mathsf{V}\) by taking \(\text{Obj}(\mathsf{V}) = \mathbb{N}\)
+    and letting \(\text{Hom}_{\mathsf{V}}(n, m) =\) the set of \(m \times n\) matrices with real entries, for all \(n, m \in \mathbb{N}\).
+    (We will leave the reader the task of making sense of a matrix with 0 rows or columns.)
+    Use products of matrices to define composition. Does this category `feel' familiar?
+  \end{problem}
+
+  \begin{solution}
+    First of all, the identity morphism for the object \(n\) is the set of \(n \times n\) matrices.
+    Let \(l, m, n \in \mathbb{N}\) and
+    \begin{equation*}
+      f \in \text{Hom}(l, m), \quad g \in \text{Hom}(m, n)
+    \end{equation*}
+    Then \(fg\) is an \(l \times n\) matrix and is in \(\text{Hom}(l, n)\).
+    Furthermore, matrix multiplication is associative.
+
+    This category is another instance of Example 3.3 where the set is \(\mathbb{N}\) and the relation \(\sim\) is defined as follows:
+    \(m \sim n\) if and only if \(\text{Hom}(m, n)\) is nonempty.
+    Certainly this relation is both reflexive and transitive so it is an instance of Example 3.3.
+    \end{solution}
+
+    % Problem 3.7
+    \begin{problem}
+      Define carefully objects and morphisms in Example 3.7, and draw the diagram corresponding to composition.
+    \end{problem}
+
+    \begin{solution}
+      Given a category \(\mathsf{C}\) and an object \(A \in \text{Obj}(\mathsf{C})\), consider the category \(\mathsf{C}^{A}\) where
+      \begin{itemize}
+        \item \(\text{Obj}(\mathsf{C}^{A}) =\) all morphisms from \(A\) to any object of \(\mathsf{C}\);
+        \item Let \(f_{1}, f_{2}\) be objects of \(\mathsf{C}^{A}\), or two arrows
+        \[
+        \begin{tikzcd}
+	        {A} && {A} \\
+	        \\
+	        {Z_{1}} && {Z_{2}}
+	        \arrow["{f_{1}}"', from=1-1, to=3-1]
+	        \arrow["{f_{2}}", from=1-3, to=3-3]
+        \end{tikzcd}
+        \]
+        in \(\mathsf{C}\). Morphisms \(f_{1} \to f_{2}\) are \textit{commutative diagrams}
+        \[
+        \begin{tikzcd}
+	        && {A} \\
+          \\
+          {Z_{1}} &&&& {Z_{2}}
+          \arrow["{f_{1}}"', from=1-3, to=3-1]
+	        \arrow["{f_{2}}", from=1-3, to=3-5]
+          \arrow["{\sigma}"', from=3-1, to=3-5]
+        \end{tikzcd}
+        \]
+        in the category \(\mathsf{C}\).
+      \end{itemize}
+      That is, morphisms \(\sigma \in \text{Hom}_{\mathsf{C}^{A}}(f_{1}, f_{2})\)
+      are precisely the morphisms \(\sigma: Z_{1} \to Z_{2}\) in \(\mathsf{C}\) such that \(f_{2} = \sigma \circ f_{1}\).
+
+      If \(\sigma \in \text{Hom}(f, g)\) and \(\tau \in \text{Hom}(g, h)\), then \(\tau \circ \sigma \in \text{Hom}(f, h)\) is the morphism in \(\mathsf{C}\) making the following diagram commute:
+      \[
+      \begin{tikzcd}
+	       && {A} \\
+	        \\
+	        {Z_{1}} && {Z_{2}} && {Z_{3}}
+	        \arrow["{f}"', from=1-3, to=3-1]
+          \arrow["{g}", from=1-3, to=3-3]
+          \arrow["{\sigma}"', from=3-1, to=3-3]
+	        \arrow["{h}", from=1-3, to=3-5]
+	        \arrow["{\tau}"', from=3-3, to=3-5]
+          \arrow["{\tau \circ \sigma}"', from=3-1, to=3-5, bend right=30]
+      \end{tikzcd}
+      \]
+    \end{solution}
+
+    % Problem 3.8
+    \begin{problem}
+      A \textit{subcategory} \(\mathsf{C'}\) of a category \(\mathsf{C}\) consists of a collection of objects of \(\mathsf{C}\),
+      with morphisms \(\text{Hom}_{\mathsf{C'}}(A, B) \subseteq \text{Hom}_{\mathsf{C}}(A, B)\) for all objects \(A, B\) in \(\text{Obj}(\mathsf{C'})\),
+      such that identities and compositions in \(\mathsf{C}\) make \(\mathsf{C'}\) into a category.
+      A subcategory \(\mathsf{C'}\) is \textit{full} if \(\text{Hom}_{\mathsf{C'}}(A, B) = \text{Hom}_{\mathsf{C}}(A, B)\) for all \(A, B\) in \(\text{Obj}(\mathsf{C'})\).
+      Construct a category of \textit{infinite sets} and explain how it may be viewed as a full subcategory of \(\mathsf{Set}\).
+    \end{problem}
+
+    \begin{solution}
+      Let \(\mathsf{Set}^{\infty}\) be a category whose objects are infinite sets and whose morphisms are set functions between them.
+      That is, for infinite sets \(A, B\) we let \(\text{Hom}_{\mathsf{Set}^{\infty}}(A, B)\) be the set of set functions from \(A\) to \(B\).
+      Certainly this is equivalent to \(\text{Hom}_{\mathsf{Set}}(A, B)\) so the subcategory is full.
+    \end{solution}
+
+    % Problem 3.9
+    \begin{problem}
+      An alternative to the notion of \textit{multiset} introduced in \S 2.2 is obtained by considering sets endowed with equivalence relations;
+      equivalent elements are taken to be multiple instances of elements `of the same kind'.
+      Define a notion of morphism between such enhanced sets, obtaining a category \(\mathsf{MSet}\) containing (a `copy' of) \(\mathsf{Set}\) as a full subcategory.
+      (There may be more than one reasonable way to do this! This is intentionally an open-ended exercise.)
+      Which objects in \(\mathsf{MSet}\) determine ordinary multisets as defined in \S 2.2 and how?
+      Spell out what a morphism of multisets would be from this point of view.
+      (There are several natural notions of morphisms of multisets.
+      Try to define morphisms in \(\mathsf{MSet}\) so that the notion you obtain for ordinary multisets captures your intuitive understanding of these objects.)
+    \end{problem}
+
+    \begin{solution}
+      Consider the category \(\mathsf{MSet}\) where
+      \begin{itemize}
+        \item \(\text{Obj}(\mathsf{MSet}) =\) sets endowed with equivalence relations;
+        \item If \(A, B \in \text{Obj}(\mathsf{MSet})\) then \(\text{Hom}_{\mathsf{MSet}}(A, B)\) is the collection of functions from \(A\) to \(B\) which preserve equivalence classes.
+        That is, if \(\sim\) is an equivalence relation on \(A\) and \(\approx\) is an equivalence relation on \(B\) then
+        for \(a, b \in A\) and \(f \in \text{Hom}_{\mathsf{MSet}}(A, B)\) we have \(a \sim b \Longrightarrow f(a) \approx f(b)\).
+      \end{itemize}
+      Composition is naturally defined as it is \(\mathsf{Set}\).
+      For objects \(A, B, C\), let
+      \(f \in \text{Hom}_{\mathsf{MSet}} (A, B)\) and \(g \in \text{Hom}_{\mathsf{MSet}} (B, C)\).
+      If \(a, b \in A\) and \(a \sim_{A} b\) then, since \(f\) is a morphism, \(f(a) \sim_{B} f(b)\).
+      Furthermore, \(g\) is a morphism so \(g(f(a)) \sim_{C} g(f(b))\) so \(g \circ f \in \text{Hom}_{\mathsf{MSet}}(A, C)\).
+      The identity morphism has a natural definition where \(1_{S}: S \to S\) is the identity function \(\mathsf{Set}\).
+      It obviously preserves equivalence classes.
+      Associativity is similarly inherited from \(\mathsf{Set}\).
+
+      In \S 2.2, multisets are defined as a set \(A\) along with a function \(m: A \to \mathbb{N}^{*}\) which takes each element of \(A\) to the number denoting its multiplicity.
+      We define the equivalence relation \(\sim\) on \(A\) which partitions \(A\) into its distinct elements, or those elements which are not equal.
+      In other words, \(m(a) \neq m(b) \Longrightarrow a \nsim b\).
+      Morphisms between these objects as defined above can intuitively be expressed as
+      the functions which allow elements to be renamed and naturally mapped to other multisets which preserve multiplicity.
+    \end{solution}
+
+    % Problem 3.10
+    \begin{problem}
+      Since the objects of a category \(\mathsf{C}\) are not (necessarily) sets, it is not clear how to make sense of a notion of `subobject' in general.
+      In some situations it \textit{does} make sense to talk about subobjects,
+      and the subobjects of any given object \(A\) in \(\mathsf{C}\) are in one-to-one correspondence with the morphisms \(A \to \Omega\)
+      for a fixed special object \(\Omega\) of \(\mathsf{C}\), called a \textit{subobject classifier}.
+      Show that \(\mathsf{Set}\) has a subobject classifier.
+    \end{problem}
+
+    \begin{solution}
+      Consider the set \(\Omega = \{0, 1\}\).
+    Let \(A\) be any set.
+    The subsets \(X \subseteq A\) induce morphisms \(f: A \to \Omega\) where
+      \begin{equation*}
+        f(x) =
+        \begin{cases}
+          1 \text{ if } x \in X \\
+          0 \text{ if } x \notin X
+        \end{cases}
+      \end{equation*}
+      Certainly these morphisms are in bijection with subsets of \(A\).
+      Thus \(\{0, 1\}\) is a subobject classifier of \(\mathsf{Set}\), though any set with 2 elements works.
+    \end{solution}
+
+    % Problem 3.11
+    \begin{problem}
+      Draw the relevant diagrams and define composition and identities for the category \(\mathsf{C}^{A, B}\) mentioned in Example 3.9.
+      Do the same for the category \(\mathsf{C}^{\alpha, \beta}\) mentioned in Example 3.10.
+    \end{problem}
+
+    \begin{solution}
+      Consider the category \(\mathsf{C}^{A, B}\) where
+      \begin{itemize}
+        \item \(\text{Obj}(\mathsf{C}^{A, B}) =\) diagrams
+        \[
+        \begin{tikzcd}
+	        {A} \\
+	        && {Z} \\
+	        {B}
+	        \arrow["{f}", from=1-1, to=2-3]
+	        \arrow["{g}"', from=3-1, to=2-3]
+        \end{tikzcd}
+        \]
+        in \(\mathsf{C}\)
+        \item Morphisms between objects \((Z_{1}, f_{1}, g_{1})\) and \((Z_{2}, f_{2}, g_{2})\) are commutative diagrams
+        \[
+        \begin{tikzcd}
+	        {A} \\
+	        && {Z_{1}} && {Z_{2}} \\
+	        {B}
+	        \arrow["{f_{1}}", from=1-1, to=2-3]
+	        \arrow["{g_{1}}"', from=3-1, to=2-3]
+	        \arrow["{f_{2}}", from=1-1, to=2-5, bend left=15]
+	        \arrow["{g_{2}}"', from=3-1, to=2-5, bend right=15]
+	        \arrow["{\sigma}", from=2-3, to=2-5]
+        \end{tikzcd}
+        \]
+        That is, we have a morphism \(\sigma \in \text{Hom}_{\mathsf{C}}(Z_{1}, Z_{2})\) such that
+        \(f_{2} = \sigma \circ f_{1}\) and \(g_{2} = \sigma \circ g_{1}\).
+      \end{itemize}
+      Composition has a natural definition.
+      Given a third object \((Z_{3}, f_{3}, g_{3})\) with a morphism \(\tau: Z_{2} \to Z_{3}\) we define \(\tau \circ \sigma: Z_{1} \to Z_{3}\)
+      such that \(f_{3} = \tau \circ \sigma (f_{1})\) and \(g_{3} = \tau \circ \sigma (g_{1})\).
+      Given an object \((Z, f, g)\), the identity morphism \(1_{Z} \in \text{End}_{\mathsf{C}}(Z)\) serves as an identity in \(\mathsf{C}^{A, B}\) as well.
+      Specifically, we have \(f = 1_{Z} \circ f\) and \(g = 1_{Z} \circ g\).
+
+      Now consider the category \(\mathsf{C}^{\alpha, \beta}\) where \(\alpha: C \to A\) and \(\beta: C \to B\). Then we have
+      \begin{itemize}
+        \item \(\text{Obj}(\mathsf{C}^{\alpha, \beta}) = \) commutative diagrams
+        \[
+        \begin{tikzcd}
+	        && {A} \\
+	        {C} &&&& {Z} \\
+	        && {B}
+	        \arrow["{\alpha}", from=2-1, to=1-3]
+	        \arrow["{\beta}"', from=2-1, to=3-3]
+	        \arrow["{f}", from=1-3, to=2-5]
+	        \arrow["{g}"', from=3-3, to=2-5]
+        \end{tikzcd}
+        \]
+        where \(Z\) is an object in \(\mathsf{C}\)
+        \item Morphisms between objects \((Z_{1}, f_{1}, g_{1})\) and \((Z_{2}, f_{2}, g_{2})\) are commutative diagrams
+        \[
+        \begin{tikzcd}
+	        && {A} \\
+	        {C} &&&& {Z_{1}} && {Z_{2}} \\
+	        && {B}
+	        \arrow["{\alpha}", from=2-1, to=1-3]
+	        \arrow["{\beta}"', from=2-1, to=3-3]
+	        \arrow["{f_{1}}", from=1-3, to=2-5]
+	        \arrow["{g_{1}}"', from=3-3, to=2-5]
+	        \arrow["{f_{2}}", from=1-3, to=2-7, bend left=15]
+	        \arrow["{g_{2}}"', from=3-3, to=2-7, bend right=15]
+	        \arrow["{\sigma}", from=2-5, to=2-7]
+        \end{tikzcd}
+        \]
+        That is, we have a morphism \(\sigma \in \text{Hom}_{\mathsf{C}}(Z_{1}, Z_{2})\) such that the diagram commutes.
+      \end{itemize}
+      Composition again has a natural definition. Given a third object \((Z_{3}, f_{3}, g_{3})\) and a morphism \(\tau: Z_{2} \to Z_{3}\),
+      we can define a morphism \(\tau \circ \sigma: Z_{1} \to Z_{3}\) such that the corresponding diagram commutes.
+      Finally, given an object \((Z, f, g)\) we inherit the identity morphism \(1_{Z}\) from \(\mathsf{C}\).
+      Certainly the corresponding diagram commutes.
+    \end{solution}
+\end{document}

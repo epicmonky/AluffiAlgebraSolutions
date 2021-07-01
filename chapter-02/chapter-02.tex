@@ -1,0 +1,75 @@
+% \documentclass[class=report, crop=false]{standalone}
+\documentclass[../master.tex]{subfiles}
+% \input{../preamble}
+
+\begin{document}
+  \chapter{Groups, first encounter}
+
+  \section{Definition of group}
+
+  % Problem 1.1
+  \begin{problem}
+    Write a careful proof that every group is the group of isomorphisms of a groupoid.
+    In particular, every group is the group of automorphisms of some object in some category.
+  \end{problem}
+
+  \begin{solution}
+    Let \(G\) be a group.
+    Consider a category \(\mathsf{C}_{G}\) with a single object \(\bullet\).
+    Morphisms from \(\bullet\) to itself are the elements of \(G\).
+    If \(g, h \in G\), then the morphism \(gh\) is their composition which is also in \(G\).
+    The existence of inverse elements indicates that each morphism has an inverse, so they are all isomorphisms.
+    Hence, each morphism is an isomorphism from \(\bullet\) to itself, thus making each morphism an automorphism.
+    Therefore \(\mathsf{C}_{G}\) is a grouped with one object.
+  \end{solution}
+
+  % Problem 1.2
+  \begin{problem}
+     Consider the 'sets of numbers' listed in \S 1.1, and decide which are made
+     into groups by conventional operations such as $+$ and $\cdot$. Even if the
+     answer is negative (for example, $(\mathbb{R}, \cdot)$ is not a group), see
+     if variations on the definition of these sets lead to groups (for example,
+     $(\mathbb{R}^{*}, \cdot)$ \textit{is} a group; cf. \S 1.4).
+  \end{problem}
+
+  \begin{solution}
+      $\mathbb{Z}$ is a group under normal addition, as are other sets with
+      negatives and 0. Multiplicative groups require reciprocals and exclude
+      zero since it has no multiplicative inverse. 
+  \end{solution}
+
+  % Problem 1.3
+  \begin{problem}
+      Prove that $(gh)^{-1} = h^{-1} g^{-1}$ for all elements $g, h$ of a group
+      $G$.
+  \end{problem}
+
+  \begin{solution}
+      First note that
+      \[
+          (gh) (gh)^{-1} = (gh) (h^{-1} g^{-1}) = g (h h^{-1}) g^{-1} = g g^{-1}
+          = e
+      \] 
+      Furthermore, we have
+      \[
+          (gh)^{-1} (gh) = (h^{-1} g^{-1}) (gh) = h^{-1} g^{-1} g h = h^{-1} h =
+          e
+      \] 
+      Thus, $(gh)^{-1} = h^{-1} g^{-1}$ is a two-sided inverse of $gh$.
+  \end{solution}
+
+  % Problem 1.4
+  \begin{problem}
+      Suppose that $g^2 = e$ for all elements $g$ of a group $G$; prove that $G$ 
+      is commutative.
+  \end{problem}
+
+  \begin{solution}
+      First note that $g^2 = e \Longrightarrow g = g^{-1}$. Then we have
+      \[
+          (gh)^{-1} = h^{-1} g^{-1} \Longrightarrow gh = hg
+      \] 
+      Thus, $G$ is commutative.
+  \end{solution}
+
+\end{document}

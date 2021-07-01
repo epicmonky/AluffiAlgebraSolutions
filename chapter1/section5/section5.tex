@@ -1,0 +1,495 @@
+\documentclass[../../master.tex]{subfiles}
+
+\begin{document}
+\section{Universal Properties}
+
+    % Problem 5.1
+    \begin{problem}
+      Prove that a final object in a category \(\mathsf{C}\) is initial in the opposite category \(\mathsf{C}^{op}\).
+    \end{problem}
+
+    \begin{solution}
+      Let \(A\) be a final object in \(\mathsf{C}\).
+      That is, for every object \(Z\) of \(\mathsf{C}\), there exists exactly one morphism \(f \in \text{Hom}_{\mathsf{C}}(Z, A)\).
+      Recall that the opposite category \(\mathsf{C}^{op}\) is formed by `reversing' all arrows.
+      More formally, we set \(\text{Hom}_{\mathsf{C}^{op}}(Z, B) = \text{Hom}_{\mathsf{C}}(B, Z)\).
+      In particular, for every object \(Z\) of \(\mathsf{C}^{op}\), there exists exactly one morphism \(f \in \text{Hom}_{\mathsf{C}^{op}}(A, Z)\).
+      Thus, \(A\) is initial in \(\mathsf{C}^{op}\).
+    \end{solution}
+
+    % Problem 5.2
+    \begin{problem}
+      Prove that \(\emptyset\) is the \textit{unique} initial object in \(\mathsf{Set}\).
+    \end{problem}
+
+    \begin{solution}
+      Note that the empty set \(\emptyset\) is initial in \(\mathsf{Set}\) with the only morphism to other sets being the empty mapping.
+      Now let \(I\) be any other initial object in \(\mathsf{Set}\).
+      Then \(I \cong \emptyset\).
+      Recall that isomorphic sets are those which have the same order (so that a bijection exists between them).
+      Thus, \(|I| = |\emptyset| = 0\) and \(I\) is necessarily the empty set \(\emptyset\) since it is the only set with no elements.
+    \end{solution}
+
+    % Problem 5.3
+    \begin{problem}
+      Prove that final objects are unique up to isomorphism.
+    \end{problem}
+
+    \begin{solution}
+      First note that if \(F\) is a final object in a category \(\mathsf{C}\), then there is a unique morphism \(F \to F\), namely the identity \(1_{F}\).
+      Now assume \(F_{1}\) and \(F_{2}\) are both final in \(\mathsf{C}\).
+      Since \(F_{2}\) is final, there is a unique morphism \(f: F_{1} \to F_{2}\).
+      We will show that \(f\) is an isomorphism.
+      Since \(F_{1}\) is final, there is a unique morphism \(g: F_{2} \to F_{1}\).
+      Consider the composition \(g \circ f: F_{1} \to F_{1}\).
+      As noted earlier, this is necessarily the identity morphism \(1_{F_{1}}\).
+      Similarly, \(f \circ g: F_{2} \to F_{2}\) is necessarily the identity morphism \(1_{F_{2}}\).
+      Thus, \(f\) is an isomorphism and \(F_{1} \cong F_{2}\).
+    \end{solution}
+
+    % Problem 5.4
+    \begin{problem}
+      What are initial and final objects in the category of `pointed sets'?
+      Are they unique?
+    \end{problem}
+
+    \begin{solution}
+      Recall that the category of pointed sets \(\mathsf{Set}^{*}\) is defined as follows:
+      \begin{itemize}
+        \item \(\text{Obj}(\mathsf{Set}^{*}) =\) morphisms \(f: \{*\} \to S\) in \(\mathsf{Set}\) where \(S\) is any set.
+        Note that objects may be denoted as pairs \((S, s)\) where \(S\) is the set the morphism maps to and \(s\) is the element that \(f\) sends \(*\) to.
+        \item Given two objects \((S, s)\) and \((T, t)\), a morphism \(f: (S, s) \to (T, t)\) corresponds to a set-function \(\sigma: S \to T\) such that \(\sigma(s) = t\).
+      \end{itemize}
+      Then the pointed singleton sets \((\{s\}, s)\) are the initial and final objects of \(\mathsf{Set}^{*}\).
+      Indeed, let \((T, t)\) be any object in \(\mathsf{Set}^{*}\).
+      Then there is only one morphism \(\sigma: S \to T\) such that \(\sigma(s) = t\).
+      Similarly, there is only one morphism \(\sigma': T \to S\) such that \(\sigma(t) = s\).
+      Thus, pointed singleton sets are both initial and final.
+      They are also clearly not unique as both \((\{a\}, a)\) and \((\{b\}, b)\) where \(a \neq b\) are distinct pointed singleton sets.
+    \end{solution}
+
+    % Problem 5.5
+    \begin{problem}
+      What are the final objects in the category considered in \S 5.3?
+    \end{problem}
+
+    \begin{solution}
+      The category considered in \S 5.3 is defined as follows:
+      Let \(\sim\) be an equivalence relation defined on a set \(A\).
+      Consider the category \(\mathsf{C}_{A}\) where
+      \begin{itemize}
+        \item \(\text{Obj}(\mathsf{C}_{A}) =\) morphisms \(\varphi: A \to Z\) where \(Z\) is an arbitrary set such that \(a \sim a' \Longrightarrow \varphi(a) = \varphi(a')\).
+        Objects are frequently denoted \((\varphi, Z)\).
+        \item Morphisms \((\varphi_{1}, Z_{1}) \to (\varphi_{2}, Z_{2})\) are commutative diagrams
+        \[
+        \begin{tikzcd}
+          {Z_{1}} && {Z_{2}} \\
+          & {A}
+          \arrow["{\varphi_{1}}", from=2-2, to=1-1]
+          \arrow["{\varphi_{2}}"', from=2-2, to=1-3]
+          \arrow["{\sigma}", from=1-1, to=1-3]
+        \end{tikzcd}
+        \]
+      \end{itemize}
+      Then the objects \((\varphi^{*}, \{*\})\) are final in this category, where \(\varphi^{*}\) is the morphism mapping every element of \(A\) to \(*\).
+      To verify, let \((\varphi, Z)\) be an object.
+      Then there exists a unique morphism \(\sigma: Z \to \{*\}\), namely the one mapping every element of \(Z\) to \(*\).
+      Certainly this morphism makes the diagram commute, and since it exists for all objects, \(\varphi^{*}, \{*\}\) is final.
+    \end{solution}
+
+    % Problem 5.6
+    \begin{problem}
+      Consider the category corresponding to endowing (as in Example 3.3) the set \(\mathbb{Z}^{+}\) of positive integers with the \textit{divisibility} relation.
+      Thus there is exactly one morphism \(d \to m\) in this category if and only if \(d\) divides \(m\) without remainder;
+      there is no morphism between \(d\) and \(m\) otherwise.
+      Show that this category has products and coproducts.
+      What are their conventional names?
+    \end{problem}
+
+    \begin{solution}
+      Given two positive integers \(m, n\), their categorical product \(m \times n\) is the positive integer such that, given any positive integer \(z\), the diagram
+      \[
+      \begin{tikzcd}
+        &&&& {m} \\
+        {z} && {m \times n} \\
+        &&&& {n}
+        \arrow["{\sigma}"', from=2-1, to=2-3]
+        \arrow["{\pi_{m}}"', from=2-3, to=1-5]
+        \arrow["{\pi_{n}}"', from=2-3, to=3-5]
+        \arrow["{f_{m}}", from=2-1, to=1-5, bend left=15]
+        \arrow["{f_{n}}", from=2-1, to=3-5, bend right=15]
+      \end{tikzcd}
+      \]
+      commutes.
+
+      Note that the existence of projections \(\pi_{m}, \pi_{n}\) implies \(m \times n\) divides \(m\) and \(m \times n\) divides \(n\).
+      Thus, we have \(m \times n\) divides \(\text{gcd}(m, n)\).
+      Furthermore, consider \(z = \text{gcd}(m, n)\).
+      Certainly there exist morphisms \(f_{m}: z \to m\) and \(f_{n}: z \to n\).
+      Then by the definition of categorical products, there exists a unique morphism \(\sigma: z \to m \times n\).
+      That is, we have \(\text{gcd}(m, n)\) divides \(m \times n\).
+      Combined with the earlier observation, we find \(m \times n = \text{gcd}(m, n)\).
+
+      Now let us consider the categorical coproduct \(m \coprod n\).
+      This is a positive integer such that, given any positive integer \(z\), the diagram
+      \[
+      \begin{tikzcd}
+        {m} \\
+        && {m \coprod n} && {z} \\
+        {n}
+        \arrow["{i_{m}}", from=1-1, to=2-3]
+        \arrow["{i_{n}}"', from=3-1, to=2-3]
+        \arrow["{\sigma}", from=2-3, to=2-5]
+        \arrow["{f_{m}}", from=1-1, to=2-5, bend left=15]
+        \arrow["{f_{n}}"', from=3-1, to=2-5, bend right=15]
+      \end{tikzcd}
+      \]
+      commutes.
+
+      The existence of the inclusion morphisms imply that both \(m\) and \(n\) divide \(m \coprod n\),
+      so \(\text{lcm}(m, n)\) divides \(m \coprod n\).
+      Furthermore, take \(z\) to be \(\text{lcm}(m, n)\).
+      Then there certainly exist morphisms \(f_{m}: m \to z\) and \(f_{n}: n \to z\).
+      By the definition of the categorical coproduct, there exists a unique morphism \(\sigma: m \coprod n \to z\), so \(m \coprod n\) divides \(\text{lcm}(m, n)\).
+      Thus, we have \(m \coprod n = \text{lcm}(m, n)\).
+    \end{solution}
+
+    % Problem 5.7
+    \begin{problem}
+      Redo Exercise 2.9, this time using Proposition 5.4.
+    \end{problem}
+
+    \begin{solution}
+      Exercise 2.9 asks that we show if \(A' \cong A''\) and \(B' \cong B''\),
+      and further \(A' \cap B' = A'' \cap B'' = \emptyset\),
+      then \(A' \cup B' \cong A'' \cup B''\).
+      We can conclude that \(A \coprod B\) is well-defined up to isomorphism.
+
+      First consider \(i_{A'}: A' \to A' \cup B', i_{A'}(a) = a\) for all \(a \in A'\).
+      Define a similar function \(i_{B'}\).
+      If \(Z\) is a set with morphisms \(f_{A'}: A' \to Z\) and \(f_{B'}: B' \to Z\),
+      we have a unique morphism \(\sigma: A' \coprod B' = A' \cup B' \to Z\) where
+      \begin{equation*}
+        \sigma(x) =
+        \begin{cases}
+          f_{A'}(x) \text{ if } x \in A' \\
+          f_{B'}(x) \text{ if } x \in B'
+        \end{cases}
+      \end{equation*}
+      This shows that the disjoint union is a coproduct.
+
+      We define entirely analagous morphisms for \(A''\) and \(B''\).
+      Then we have a second coproduct \(A'' \coprod B'' = A'' \cup B''\).
+
+      Proposition 5.4 states that in any category \(\mathsf{C}\), two initial objects \(I_{1}\) and \(I_{2}\) are isomorphic.
+      Note that the coproducts \(A' \coprod B'\) and \(A'' \coprod B''\) we have defined are initial in the category \(\mathsf{Set}_{A, B}\).
+      Thus, they are isomorphic.
+    \end{solution}
+
+    % Problem 5.8
+    \begin{problem}
+      Show that in every category \(\mathsf{C}\) the products \(A \times B\) and \(B \times A\) are isomorphic, if they exist.
+      (Hint: Observe that they both satisfy the universal property for the product of \(A\) and \(B\);
+      then use Proposition 5.4.)
+    \end{problem}
+
+    \begin{solution}
+      Let \(A \times B\) and \(B \times A\) be products in a category \(\mathsf{C}\).
+      Certainly \(A \times B\) satisfies the universal property for products.
+      That is, given an object \(Z\) and morphisms \(f_{A}: Z \to A\) and \(f_{B}: Z \to B\), we can construct a unique morphism
+      \(\sigma: Z \to A \times B\).
+
+      Now consider the morphism \(\tau: A \times B \to B \times A, \tau(a, b) = (b, a)\).
+      Certainly this morphism is an isomorphism since it has an inverse \(\tau^{-1}(b, a) = (a, b)\).
+      Then for any object \(Z\) and morphisms \(f_{A}, f_{B}\) as defined above, we consider the morphism
+      \(\varphi: Z \to B \times A, \varphi = \tau \circ \sigma\).
+      It is unique since it is determined by the product \(A \times B\).
+      Therefore, \(B \times A\) also satisfies the universal property for the product of \(A\) and \(B\).
+      By Proposition 5.4, the two objects are isomorphic.
+      Admittedly, we already observed that an isomorphism exists between the two objects.
+    \end{solution}
+
+    % Problem 5.9
+    \begin{problem}
+      Let \(\mathsf{C}\) be a category with products.
+      Find a reasonable candidate for the universal property that the product \(A \times B \times C\) of \textit{three} objects of \(\mathsf{C}\) ought to satisfy,
+      and prove that both \((A \times B) \times C\) and \(A \times (B \times C)\) satisfy this universal property.
+      Deduce that \((A \times B) \times C\) and \(A \times (B \times C)\) are necessarily isomorphic.
+    \end{problem}
+
+    \begin{solution}
+      Given three objects \(A, B, C\) of a category \(\mathsf{C}\),
+      we can consider the product \(A \times B \times C\) with three natural projections \(\pi_{A}, \pi_{B}, \pi_{C}\).
+      The reasonable definition of the universal property is as follows:
+      For every object \(Z\) and morphisms \(f_{A}: Z \to A\),  \(f_{B}: Z \to B\), and \(f_{C}: Z \to C\),
+      there exists a unique morphism \(\sigma: Z \to A \times B \times C\) such that the diagram
+      \[
+      \begin{tikzcd}
+        &&&& {A} \\
+        {Z} && {A \times B \times C} \\
+        &&&& {B} \\
+        &&&&& {C}
+        \arrow["{\sigma}", from=2-1, to=2-3]
+        \arrow["{\pi_{A}}", from=2-3, to=1-5]
+        \arrow["{\pi_{B}}", from=2-3, to=3-5]
+        \arrow["{\pi_{C}}", from=2-3, to=4-6, bend left=30]
+	      \arrow["{f_{A}}", from=2-1, to=1-5, bend left=18]
+	      \arrow["{f_{B}}"', from=2-1, to=3-5, bend right=6]
+	      \arrow["{f_{A}}"', from=2-1, to=4-6, bend right=18]
+      \end{tikzcd}
+      \]
+      commutes.
+
+      First we will show that \((A \times B) \times C\) satisfies this universal property.
+      For every object \(Z\), we have a unique morphism \(\tau: Z \to A \times B, \tau(z) = (f_{A}(z), f_{B}(z))\).
+      Now we define \(\sigma: Z \to (A \times B) \times C\),
+      \begin{equation*}
+        \sigma(z) = (\tau(z), f_{C}(z)) = ((f_{A}(z), f_{B}(z)), f_{C}(z))
+      \end{equation*}
+      We define a natural projection \(\pi_{A}':(A \times B) \times C \to A, \pi_{A}' = \pi_{A} \circ \pi_{A \times B}\)
+      along with an analogous projection \(\pi_{B}'\) and the typical \(\pi_{C}\).
+      These morphisms make the diagram commute because for all \(z \in Z\) we have
+      \begin{equation*}
+        \pi_{A}' \circ \sigma(z) = \pi_{A} \circ \pi_{A \times B} ((f_{A}(z), f_{B}(z)), f_{C}(z)) = \pi_{A} (f_{A}(z), f_{B}(z)) = f_{A}(z)
+      \end{equation*}
+      and similarly for \(f_{B}\) and \(f_{C}\).
+      Thus, \((A \times B) \times C\) satisfies the universal property for the product \(A \times B \times C\).
+
+      An entirely analogous construction shows that \(A \times (B \times C)\) also satisfies this universal property.
+      By Proposition 5.4, we must have \((A \times B) \times C \cong A \times (B \times C)\).
+    \end{solution}
+
+    % Problem 5.10
+    \begin{problem}
+      Push the envelope a little further still, and define products and coproducts for \textit{families} (i.e., indexed sets) of objects of a category.
+      Do these exist in \(\mathsf{Set}\)?
+      It is common to denote the product \(\underbrace{A \times \cdots \times A}_{n \text{ times}}\) by \(A^{n}\).
+    \end{problem}
+
+    \begin{solution}
+      Given a family of objects \(\{A_{i}\}_{i \in I}\) for some set \(I\) in a category \(\mathsf{C}\),
+      the product \(\Pi_{i \in I} A_{i}\) with natural projections \(\{\pi_{A_{i}}\}_{i \in I}\) should satisfy the universal property that
+      for all objects \(Z\) and morphisms \(\{f_{A_{i}}\}_{i \in I}, f_{A_{i}}: Z \to A_{i}\), there exists a unique morphism
+      \(\sigma: Z \to \Pi_{i \in I} A_{i}\) such that \(\pi_{A_{i}} \circ \sigma = f_{A_{i}}\) for all \(i \in I\).
+
+      Similarly, the coproduct \(\coprod_{i \in I} A_{i}\) with natural inclusions \(\{i_{A_{i}}\}_{i \in I}\) should satisfy the following universal property:
+      for all objects \(Z\) and morphisms \(\{f_{A_{i}}\}_{i \in I}, f_{A_{i}}: A_{i} \to Z\), there exists a unique morphism
+      \(\sigma: \coprod_{i \in I} A_{i} \to Z\) such that \(\sigma \circ i_{A_{i}} = f_{A_{i}}\) for all \(i \in I\).
+
+      The product for finite families of sets exists.
+      However, we require the Axiom of Choice to ensure that the infinite product of nonempty sets is nonempty.
+      The coproduct should exist for any family of sets since the family is indexed so we can just take the coproduct to be \(\bigcup \{i\} \times \{A_{i}\}\) but I'm not positive.
+    \end{solution}
+
+    % Problem 5.11
+    \begin{problem}
+      Let \(A\), resp. \(B\), be a set endowed with an equivalence relation \(\sim_{A}\), resp. \(\sim_{B}\).
+      Define a relation \(\sim\) on \(A \times B\) by setting
+      \begin{equation*}
+        (a_{1}, b_{1}) \sim (a_{2}, b_{2}) \Longleftrightarrow a_{1} \sim_{A} a_{2} \text{ and } b_{1} \sim_{B} b_{2}.
+      \end{equation*}
+      (This is immediately seen to be an equivalence relation.)
+      \begin{itemize}
+        \item Use the universal property for quotients (\S 5.3) to establish that there are functions
+        \((A \times B) / {\sim} \to A / {\sim_{A}}\), \((A \times B) / {\sim} \to B / {\sim_{B}}\).
+        \item Prove that \((A \times B) / {\sim}\), with these two functions, satisfies the universal property for the product of
+        \(A / {\sim_{A}}\) and \(B / {\sim_{B}}\).
+        \item Conclude (without further work) that \((A \times B) / {\sim} \; \cong (A / {\sim_{A}}) \times (B / {\sim_{B}})\).
+      \end{itemize}
+    \end{problem}
+
+    \begin{solution}
+      Let \(\pi_{A}: A \times B \to A\) and \(\pi_{B}: A \times B \to B\) be the canonical projections for \(A\) and \(B\).
+      Let \(\pi_{\sim}^{Z}: Z \to Z / {\sim}\) be the canonical quotient mapping for all objects \(Z\) and equivalence relations \(\sim\).
+      Consider the morphism \(\varphi_{A}: A \times B \to A / {\sim_{A}},\)
+      \begin{equation*}
+        \varphi_{A} = \pi_{\sim_{A}}^{Z} \circ \pi_{A}
+      \end{equation*}
+      We then use the universal property of quotients to see that there exists a unique morphism
+      \(\overline{\varphi}_{A}: (A \times B) / {\sim} \to A / {\sim_{A}}\).
+      By analogous means, there exists a unique morphism \(\overline{\varphi}_{B}: (A \times B) / {\sim} \to B / {\sim_{B}}\).
+
+      Now we will show that these morphisms act as natural projections from the product of \(A / {\sim_{A}}\) and \(B / {\sim_{B}}\).
+      Let \(Z\) be a set with morphisms \(f_{A}: Z \to A / {\sim_{A}}\) and \(f_{B}: Z \to B / {\sim_{B}}\).
+      Then there exists a unique morphism \(\sigma: Z \to (A \times B) / {\sim}\) such that the diagram
+      \[
+      \begin{tikzcd}
+        &&&& {A / {\sim_{A}}} \\
+        {Z} && {(A \times B) / {\sim}} \\
+        &&&& {B / {\sim_{B}}}
+        \arrow["{\sigma}", from=2-1, to=2-3]
+        \arrow["{\overline{\varphi}_{A}}"', from=2-3, to=1-5]
+        \arrow["{\overline{\varphi}_{B}}", from=2-3, to=3-5]
+        \arrow["{f_{A}}", from=2-1, to=1-5, bend left=15]
+        \arrow["{f_{B}}"', from=2-1, to=3-5, bend right=15]
+      \end{tikzcd}
+      \]
+      commutes.
+      Define a function \(\tau: Z \to A / {\sim_{A}} \times B / {\sim_{B}}, \tau(z) = (f_{A}(z), f_{B}(z))\).
+      Note that by the universal property of the quotient there exists a unique function \(\overline{1}_{A}: A / {\sim_{A}} \to A\), \(\overline{1}_{A}([a]_{\sim_{A}}) = a\).
+      We define a similar function \(\overline{1}_{B}\).
+      Then we construct a morphism \(\overline{1}_{A \times B}: A / {\sim_{A}} \times B / {\sim_{B}} \to A \times B\),
+      \begin{equation*}
+        \overline{1}_{A \times B}([a]_{\sim_{A}}, [b]_{\sim_{B}}) = (\overline{1}_{A}([a]_{\sim_{A}}), \overline{1}_{B}([b]_{\sim_{B}}))
+      \end{equation*}
+      We now finally define \(\sigma = \pi_{\sim}^{A \times B} \circ \overline{1}_{A \times B} \circ \tau\).
+      Then we have
+      \begin{align*}
+        \overline{\varphi}_{A} \circ \sigma(z) &= \overline{\varphi}_{A} \circ \pi_{\sim}^{A \times B} (\overline{1}_{A \times B}(f_{A}(z), f_{B}(z))) \\
+        &= \overline{\varphi}_{A} (f_{A}(z), f_{B}(z)) \\
+        &= f_{A}(z)
+      \end{align*}
+      Similarly, \(\overline{\varphi}_{B} \circ \sigma(z) = f_{B}(z)\).
+      Thus, \((A \times B) / {\sim}\) satisfies the universal property for the product of \(A / {\sim_{A}}\) and \(B / {\sim_{B}}\).
+      Therefore, \((A \times B) / {\sim} \cong A / {\sim_{A}} \times B / {\sim_{B}}\).
+    \end{solution}
+
+    % Problem 5.12
+    \begin{problem}
+      Define the notions of \textit{fibered products} and \textit{fibered coproducts},
+      as terminal objects of the categories \(\mathsf{C}_{\alpha, \beta}\), \(\mathsf{C}^{\alpha, \beta}\) considered in Example 3.10
+      (cf. also Exercise 3.11),
+      by stating carefullly the corresponding universal properties.
+      As it happens, \(\mathsf{Set}\) has both fibered products and coproducts.
+      Define these objects `concretely', in terms of naive set theory.
+    \end{problem}
+
+    \begin{solution}
+      Recall that given two morphisms \(\alpha: A \to C\) and \(\beta: B \to C\),
+      the category \(\mathsf{C}_{\alpha, \beta}\) is defined as follows:
+      \begin{itemize}
+        \item \(\text{Obj}(\mathsf{C}_{\alpha, \beta}) = \) commutative diagrams
+        \[
+        \begin{tikzcd}
+	        && {A} \\
+	        {Z} &&&& {C} \\
+	        && {B}
+	        \arrow["{f}", from=2-1, to=1-3]
+	        \arrow["{g}"', from=2-1, to=3-3]
+	        \arrow["{\alpha}", from=1-3, to=2-5]
+	        \arrow["{\beta}"', from=3-3, to=2-5]
+        \end{tikzcd}
+        \]
+        where \(Z\) is an object in \(\mathsf{C}\)
+        \item Morphisms between objects \((Z_{1}, f_{1}, g_{1})\) and \((Z_{2}, f_{2}, g_{2})\) are commutative diagrams
+        \[
+        \begin{tikzcd}
+	        &&&& {A} \\
+	        {Z_{1}} && {Z_{2}} &&&& {C} \\
+	        &&&& {B}
+	        \arrow["{\alpha}", from=1-5, to=2-7]
+	        \arrow["{\beta}"', from=3-5, to=2-7]
+	        \arrow["{f_{1}}", from=2-1, to=1-5, bend left=15]
+	        \arrow["{g_{1}}"', from=2-1, to=3-5, bend right=15]
+	        \arrow["{f_{2}}", from=2-3, to=1-5]
+	        \arrow["{g_{2}}"', from=2-3, to=3-5]
+	        \arrow["{\sigma}", from=2-1, to=2-3]
+        \end{tikzcd}
+        \]
+        That is, we have a morphism \(\sigma \in \text{Hom}_{\mathsf{C}}(Z_{1}, Z_{2})\) such that the diagram commutes.
+      \end{itemize}
+      The fibered product \(A \times_{C} B\) is a final object in this category.
+      In other words, for every object \(Z\) with morphisms \(f: Z \to A\) and  \(g: Z \to B\) where \(\alpha \circ f = \beta \circ g\),
+      there exists a unique morphism \(\sigma: Z \to A \times_{C} B\) such that the diagram
+      \[
+      \begin{tikzcd}
+        &&&& {A} \\
+        {Z} && {A \times_{C} B} &&&& {C} \\
+        &&&& {B}
+        \arrow["{\alpha}", from=1-5, to=2-7]
+        \arrow["{\beta}"', from=3-5, to=2-7]
+        \arrow["{f}", from=2-1, to=1-5, bend left=15]
+        \arrow["{g}"', from=2-1, to=3-5, bend right=15]
+        \arrow["{\pi_{A}}", from=2-3, to=1-5]
+        \arrow["{\pi_{B}}"', from=2-3, to=3-5]
+        \arrow["{\sigma}", from=2-1, to=2-3]
+      \end{tikzcd}
+      \]
+      commutes.
+
+      We claim that the fibered product in \(\mathsf{Set}\) is defined as
+      \begin{equation*}
+        A \times_{C} B = \{(a, b) \mid \alpha(a) = \beta(b)\}
+      \end{equation*}
+      with the natural projections \(\pi_{A}\) and \(\pi_{B}\).
+      Let \(Z\) be an arbitrary object with appropriate morphisms \(f\) and \(g\).
+      Define \(\sigma: Z \to A \times_{C} B\) as \(\sigma(z) = (f_{A}(z), f_{B}(z))\).
+      Then we have \(\pi_{A} \circ \sigma = f\) and \(\pi_{B} \circ \sigma = g\).
+      Combined with the condition that \(\alpha \circ f = \beta \circ g\),
+      it becomes clear that these definitions make the diagram commute.
+
+      We define the fibered coproduct analogously.
+      Recall that given morphisms \(\alpha: C \to A\) and \(\beta: C \to B\),
+      the category \(\mathsf{C}^{\alpha, \beta}\) is defined as:
+      \begin{itemize}
+        \item \(\text{Obj}(\mathsf{C}^{\alpha, \beta}) = \) commutative diagrams
+        \[
+        \begin{tikzcd}
+	        && {A} \\
+	        {C} &&&& {Z} \\
+	        && {B}
+	        \arrow["{\alpha}", from=2-1, to=1-3]
+	        \arrow["{\beta}"', from=2-1, to=3-3]
+	        \arrow["{f}", from=1-3, to=2-5]
+	        \arrow["{g}"', from=3-3, to=2-5]
+        \end{tikzcd}
+        \]
+        where \(Z\) is an object in \(\mathsf{C}\)
+        \item Morphisms between objects \((Z_{1}, f_{1}, g_{1})\) and \((Z_{2}, f_{2}, g_{2})\) are commutative diagrams
+        \[
+        \begin{tikzcd}
+	        && {A} \\
+	        {C} &&&& {Z_{1}} && {Z_{2}} \\
+	        && {B}
+	        \arrow["{\alpha}", from=2-1, to=1-3]
+	        \arrow["{\beta}"', from=2-1, to=3-3]
+	        \arrow["{f_{1}}", from=1-3, to=2-5]
+	        \arrow["{g_{1}}"', from=3-3, to=2-5]
+	        \arrow["{f_{2}}", from=1-3, to=2-7, bend left=15]
+	        \arrow["{g_{2}}"', from=3-3, to=2-7, bend right=15]
+	        \arrow["{\sigma}", from=2-5, to=2-7]
+        \end{tikzcd}
+        \]
+        That is, we have a morphism \(\sigma \in \text{Hom}_{\mathsf{C}}(Z_{1}, Z_{2})\) such that the diagram commutes.
+      \end{itemize}
+
+      The fibered coproduct \(A \coprod_{C} B\) is initial in this category.
+      Thus, for every object \(Z\) with morphisms \(f: A \to Z\) and \(g: B \to Z\) where \(f \circ \alpha = g \circ \beta\), the diagram
+      \[
+      \begin{tikzcd}
+        && {A} \\
+        {C} &&&& {A \coprod_{C} B} && {Z} \\
+        && {B}
+        \arrow["{\alpha}", from=2-1, to=1-3]
+        \arrow["{\beta}"', from=2-1, to=3-3]
+        \arrow["{i_{A}}", from=1-3, to=2-5]
+        \arrow["{i_{B}}"', from=3-3, to=2-5]
+        \arrow["{f}", from=1-3, to=2-7, bend left=15]
+        \arrow["{g}"', from=3-3, to=2-7, bend right=15]
+        \arrow["{\sigma}", from=2-5, to=2-7]
+      \end{tikzcd}
+      \]
+      commutes.
+
+      To construct the fibered coproduct \(A \coprod_{C} B\) in \(\mathsf{Set}\),
+      first consider the disjoint union \((\{0\} \times A) \cup (\{1\} \times B)\).
+      We define an equivalence relation \(\sim\) on this set, setting
+      \begin{align*}
+        &(0, a) \sim (0, a') \Longleftrightarrow a = a', \\
+        &(1, b) \sim (1, b') \Longleftrightarrow b = b', \\
+        &(0, a) \sim (1, b) \Longleftrightarrow \exists c \in C: \alpha(c) = a \text{ and } \beta(c) = b
+      \end{align*}
+      Interestingly, note that equivalence classes have at most 2 elements.
+
+      We claim that \(A \coprod_{C} B / {\sim}\) is a fibered coproduct in \(\mathsf{Set}\) with the maps \(i_{A}(a) = [(0, a)]_{\sim}\) and \(i_{B}(b) = [(1, b)]_{\sim}\).
+      Let \(Z\) be a set with functions \(f: A \to Z\) and \(g: B \to Z\) such that \(f \circ \alpha = g \circ \beta\).
+      By the universal property of the coproduct, there is a unique morphism \(\sigma': A \coprod B \to Z\).
+      Now we use the universal property of the quotient to construct a unique function \(\sigma: A \coprod B / {\sim} \to Z\).
+      We can verify that
+      \begin{equation*}
+        \sigma \circ i_{A}(a) = \sigma([(0, a)]_{\sim}) = \sigma'(0, a) = f(a)
+      \end{equation*}
+      Similarly, we have \(\sigma \circ i_{B}(b) = g(b)\).
+      Combined with the condition that \(f \circ \alpha = g \circ \beta\), it becomes clear that the diagram commutes.
+    \end{solution}
+\end{document}

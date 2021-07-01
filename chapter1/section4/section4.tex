@@ -1,0 +1,242 @@
+\documentclass[../../master.tex]{subfiles}
+
+\begin{document}
+\section{Morphisms}
+
+    % Problem 4.1
+    \begin{problem}
+      Composition is defined for \textit{two} morphisms.
+      If more than two morphisms are given, e.g.,
+      \[
+      \begin{tikzcd}
+        {A} & {B} & {C} & {D} & {E}
+        \arrow["{f}", from=1-1, to=1-2]
+        \arrow["{g}", from=1-2, to=1-3]
+        \arrow["{h}", from=1-3, to=1-4]
+        \arrow["{i}", from=1-4, to=1-5]
+      \end{tikzcd}
+      \]
+      then one may compose them in several ways, for example:
+      \begin{equation*}
+        (ih)(gf), \quad (i(hg))f, \quad i((hg)f), \quad \text{etc.}
+      \end{equation*}
+      so that at every step one is only composing two morphisms.
+      Prove that the result of any such nested composition is independent of the placement of the parentheses.
+      (Hint: Use induction on \(n\) to show that any such choice for \(f_{n} f_{n-1} \cdots f_{1}\) equals
+      \begin{equation*}
+        ((\cdots ((f_{n} f_{n-1}) f_{n-2}) \cdots) f_{1}).
+      \end{equation*}
+      Carefully working out the case \(n=5\) is helpful.)
+    \end{problem}
+
+    \begin{solution}
+      For \(n = 3\), we have \((fg)h = f(gh)\) by the associativity of composition in a category.
+      Suppose \(n \geq 4\) and that for \(n - 1\) morphisms we have shown that composition is independent of the placement of the parentheses.
+      Let \(f_{1}, \ldots, f_{n}\) be morphisms in a category:
+      \[
+      \begin{tikzcd}
+        {Z_{1}} & {Z_{2}} & {\cdots} & {Z_{n}} & {Z_{n+1}}
+        \arrow["{f_{1}}", from=1-1, to=1-2]
+        \arrow["{f_{2}}", from=1-2, to=1-3]
+        \arrow["{f_{n-1}}", from=1-3, to=1-4]
+        \arrow["{f_{n}}", from=1-4, to=1-5]
+      \end{tikzcd}
+      \]
+      Suppose that a parenthesization of \(f_{n}, f_{n-1}, \ldots, f_{1}\) is \(f\) and that
+      \(f = hg\) where \(h\) is some parenthesization of \(f_{n}, f_{n-1}, \ldots, f_{i+1}\),
+      and \(g\) is some parenthesization of \(f_{i}, f_{i-1}, \ldots, f_{1}\), where \(1 \leq i \leq n\).
+      Applying the inductive to \(h\) and \(g\), we see that
+      \begin{gather*}
+        h = ((\cdots ((f_{n}f_{n-1}) f_{n-2}) \cdots) f_{i+1}) \\
+        g = (f_{i} (f_{i-1} (\cdots (f_{2} f_{1}) \cdots)) = f_{i} g'
+      \end{gather*}
+      hence \(f = hg = h (f_{i} g') = (h f_{i}) g'\).
+      Effectively, we remove morphisms \(f_{i}\) from the left side of \(g'\) and attach them to the right side of \(h\) to obtain the form
+      \begin{equation*}
+        f = ((\cdots ((f_{n} f_{n-1}) f_{n-2}) \cdots) f_{1})
+      \end{equation*}
+    \end{solution}
+
+    % Problem 4.2
+    \begin{problem}
+      In Example 3.3 we have seen how to construct a category from a set endowed with a relation,
+      provided this latter is reflexive and transitive.
+      For what types of relations is the corresponding category a groupoid (cf. Example 4.6)?
+    \end{problem}
+
+    \begin{solution}
+      Recall that a groupoid is a category in which every morphism is an isomorphism and hence has a two-sided inverse.
+      The corresponding category is a groupoid when the relation is also symmetric and hence an equivalence relation.
+      Indeed, if \((x, y) \in \text{Hom}(x, y)\) then \(x \sim y\).
+      If \(\sim\) is reflexive then this implies that \(y \sim x\) so \((y, x) \in \text{Hom}(y, x)\).
+      Then \((x, y) (y, x) = (x, x)\) and \((y, x) (x, y) = (y, y)\), both of which are the identity morphisms of their respective objects.
+      Thus, \((x, y)\) is an isomorphism and the category is a groupoid.
+    \end{solution}
+
+    % Problem 4.3
+    \begin{problem}
+      Let \(A, B\) be objects of a category \(\mathsf{C}\), and let \(f \in \text{Hom}_{\mathsf{C}}(A, B)\) be a morphism.
+      \begin{itemize}
+        \item Prove that if \(f\) has a right-inverse, then \(f\) is an epimorphism.
+        \item Show that the converse does not hold, by giving an explicity example of a category and an epimorphism without a right-inverse.
+      \end{itemize}
+    \end{problem}
+
+    \begin{solution}
+      Suppose \(f\) has a right-inverse. That is, there exists a morphism \(g \in \text{Hom}_{\mathsf{C}}(B, A)\) such that
+      \(f \circ g = 1_{B}\).
+      Then if we consider two morphisms \(\beta, \beta' \in \text{Hom}_{\mathsf{C}}(B, Z)\) such that \(\beta \circ f = \beta' \circ f\) we have
+      \begin{align*}
+        (&\beta \circ f) \circ g = (\beta' \circ f) \circ g \\
+        \Longrightarrow &\beta \circ (f \circ g) = \beta' \circ (f \circ g) \\
+        \Longrightarrow &\beta \circ 1_{B} = \beta' \circ 1_{B} \\
+        \Longrightarrow &\beta = \beta'
+      \end{align*}
+      Thus, \(f\) is an epimorphism.
+
+      However, consider the category \(\mathsf{C}\) where
+      \begin{itemize}
+        \item \(\text{Obj}(\mathsf{C}) = \mathbb{Z}\)
+        \item For objects \(a, b \in \mathbb{Z}\) we have
+        \(\text{Hom}_{\mathsf{C}}(a, b) = \{(a, b)\}\) if \(a \leq b\) and \(\emptyset\) otherwise.
+      \end{itemize}
+      The reflexivity and transitivity of \(\leq\) makes this a category.
+      Given morphisms \(f \in \text{Hom}_{\mathsf{C}}(a, b)\) and \(g \in \text{Hom}_{\mathsf{C}}(b, c)\) we define composition as
+      \(g \circ f = (b, c) \circ (a, b) = (a, c) \in \text{Hom}_{\mathsf{C}}(a, c)\).
+      Consider two objects \(a, b \in \mathbb{Z}\) such that \(a < b\) and let \(f: a \to b = (a, b)\) be the morphism from \(a\) to \(b\).
+      Consider two morphisms \(\beta, \beta' \in \text{Hom}_{\mathsf{C}}(b, c)\) such that \(\beta \circ f = \beta' \circ f\).
+      Then we have \(\beta = \beta'\) since each Hom set has at most one morphism.
+      Thus \(f\) is an epimorphism. However, it does not have a right-inverse.
+      Indeed, suppose \(\text{Hom}_{\mathsf{C}}(b, a)\) is nonempty.
+      Then it can only contain \((b, a)\) which would imply that \(b \leq a\), a contradiction since we assumed \(a < b\).
+      Thus, we have a category where epimorphisms do not necessarily have right-inverses.
+    \end{solution}
+
+    % Problem 4.4
+    \begin{problem}
+      Prove that the composition of two monomorphims is a monomorphism.
+      Deduce that one can define a subcategory \(\mathsf{C}_{\text{mono}}\) of a category \(\mathsf{C}\)
+      by taking the same objects as in \(\mathsf{C}\) and defining \(\text{Hom}_{\mathsf{C}_{\text{mono}}}(A, B)\)
+      to be subset of \(\text{Hom}_{\mathsf{C}}(A, B)\) consisting of monomorphisms, for all objects \(A, B\).
+      (Cf. Exercise 3.8; of course, in general \(\mathsf{C}_{\text{mono}}\) is not full in \(\mathsf{C}\).)
+      Do the same for epimorphisms.
+      Can you define a subcategory \(\mathsf{C}_{\text{nonmono}}\) of \(\mathsf{C}\) by restricting to morphisms that are \textit{not} monomorphisms?
+    \end{problem}
+
+    \begin{solution}
+      Suppose that \(f \in \text{Hom}_{\mathsf{C}}(A, B)\) and \(g \in \text{Hom}_{\mathsf{C}}(B, C)\) are two monomorphisms.
+      Let \(\alpha, \alpha' \in \text{Hom}_{\mathsf{C}}(Z, A)\) be two morphisms such that \((g \circ f) \circ \alpha = (g \circ f) \circ \alpha'\).
+      Then we have
+      \begin{align*}
+        (&g \circ f) \circ \alpha = (g \circ f) \circ \alpha' \\
+        \Longrightarrow &g \circ (f \circ \alpha) = g \circ (f \circ \alpha') && \text{by the associativity of composition} \\
+        \Longrightarrow &f \circ \alpha = f \circ \alpha' && \text{since \(g\) is a monomorphism} \\
+        \Longrightarrow &\alpha = \alpha' && \text{since \(f\) is a monomorphism}
+      \end{align*}
+      Hence, \(g \circ f\) is a monomorphism.
+      Therefore, the subcategory \(\mathsf{C}_{\text{mono}}\) is closed with respect to composition.
+
+      We use a similar proof to show that the composition of two epimorphisms is an epimorphism.
+      Suppose that \(f \in \text{Hom}_{\mathsf{C}}(A, B)\) and \(g \in \text{Hom}_{\mathsf{C}}(B, C)\) are epimorphisms.
+      Let \(\beta, \beta' \in \text{Hom}_{\mathsf{C}}(C, Z)\) be two morphisms such that \(\beta \circ (g \circ f) = \beta' \circ (g \circ f)\).
+      Then we have
+      \begin{align*}
+        &(\beta \circ g) \circ f = (\beta' \circ g) \circ f && \text{by the associativity of composition} \\
+        \Longrightarrow &\beta \circ g = \beta' \circ g && \text{since \(f\) is an epimorphism} \\
+        \Longrightarrow &\beta = \beta' && \text{since \(g\) is an epimorphism}
+      \end{align*}
+      Thus, \(g \circ f\) is an epimorphism so we can define a similar subcategory \(\mathsf{C}_{\text{epi}}\) which is closed with respect to compositon.
+
+      We can also define a category \(\mathsf{C}_{\text{nonmono}}\) whose morphisms are restricted to those of \(\mathsf{C}\) which are not monomorphisms.
+      Indeed, suppose \(f \in \text{Hom}_{\mathsf{C}}(A, B)\) is not a monomorphism.
+      That is, there exist morphisms \(\alpha, \alpha' \in \text{Hom}_{\mathsf{C}}(Z, A)\) such that \(f \circ \alpha = f \circ \alpha'\) but \(\alpha \neq \alpha'\).
+      Let \(g \in \text{Hom}_{\mathsf{C}}(B, C)\) be a non-monomorphism.
+      Then we have \((g \circ f) \circ \alpha = (g \circ f) \circ \alpha'\) but \(\alpha \neq \alpha'\).
+      Thus, \((g \circ f)\) is not a monomorphism so the category \(\mathsf{C}_{\text{nonmono}}\) is closed under composition.
+      Interestingly, this only relies on the fact that \(f\) is not a monomorphism.
+    \end{solution}
+
+    % Problem 4.5
+    \begin{problem}
+      Give a concrete description of monomorphims and epimorphisms in the category \(\mathsf{MSet}\) you constructed in Exercise 3.9.
+      (Your answer will depend on the notion of morphism you defined in that exercise!)
+    \end{problem}
+
+    \begin{solution}
+      Recall that we defined multisets to be sets equipped with equivalence relations.
+      A morphism between two multisets is a set function which preserves the equivalence relation.
+      The notions of monomorphism and epimorphism are naturally inherited from \(\mathsf{Set}\).
+      \begin{itemize}
+        \item A morphism \(f \in \text{Hom}_{\mathsf{MSet}}(A, B)\) is a monomorphism if for all \(a_{1}, a_{2} \in A\) we have
+        \(f(a_{1}) \sim_{B} f(a_{2}) \Longrightarrow a_{1} \sim_{A} a_{2}\). We call these morphisms \textit{injective}.
+        \item A morphism \(f \in \text{Hom}_{\mathsf{MSet}}(A, B)\) is an epimorphism if for all \(b \in B\) there exists an \(a \in A\) such that \(f(a) = b\). We call these morphisms \textit{surjective}.
+      \end{itemize}
+      We will prove that these definitions satisfy the category theoretical definitions of monomorphisms and epimorphisms.
+      We start by proving an analogue of Proposition 2.1 in \(\mathsf{MSet}\).
+      \begin{proposition}[Lemma]
+        Assume \(A \neq \emptyset\) and let \(f: A \to B\) be a morphism of multisets. Then
+        \begin{enumerate}
+          \item \(f\) has a left-inverse if and only if it is injective.
+          \item \(f\) has a right-inverse if and only if it is surjective.
+        \end{enumerate}
+      \end{proposition}
+      \begin{proof}
+        First we prove (1). If \(f\) has a left-inverse, then there exists a morphism \(g \in \text{Hom}_{\mathsf{MSet}}(B, A)\) such that \(g \circ f = 1_{A}\).
+        Let \(a_{1} \nsim_{A} a_{2}\) be elements in \(A\) not eqivalent under the relation.
+        Then
+        \begin{equation*}
+          g \circ f(a_{1}) = 1_{A}(a_{1}) = a_{1} \nsim_{A} a_{2} = 1_{A}(a_{2}) = g \circ f(a_{2})
+        \end{equation*}
+        That is, \(a_{1} \nsim_{A} a_{2} \Longrightarrow f(a_{1}) \nsim_{B} f(a_{2})\) which is the contrapositive of the definition for an injective morphism.
+        Thus, if \(f\) has a left-inverse it must be injective.
+
+        Now suppose \(f: A \to B\) is injective. We will construct a left-inverse \(g: B \to A\).
+        Choose one fixed element \(s \in A\).
+        Now set
+        \begin{equation*}
+          g(b) =
+          \begin{cases}
+            a \text{ if } b = f(a) \text{ for some } a \in A, \\
+            s \text{ if } b \notin \text{im} f
+          \end{cases}
+        \end{equation*}
+        This definition guarantees that every \(b\) that is in the image of \(f\) maps to a unique element since \(f\) is injective.
+        We can verify that \(g\) is a left-inverse of \(f\).
+        If \(a \in A\), then \(g \circ f(a) = a = 1_{A}(a)\).
+
+        A highly similar proof follows for (2). If \(f: A \to B\) has a right-inverse, then there exists a morphism \(g: B \to A\) such that \(f \circ g = 1_{B}\).
+        Let \(b \in B\). Then \(g(b) \in A\) and \(f \circ g(b) = b\) for all such \(b\).
+        Thus \(f\) is surjective.
+
+        For the reverse direction, suppose that \(f: A \to B\) is surjective. We will construct a right-inverse \(g: B \to A\).
+        Let \(S = \{(a, b) \mid f(a) = b\}\).
+        Certainly \(S\) contains elements for each \(b \in B\) since \(f\) is surjective.
+        Then define \(g: B \to A\), \(g(b) = a\) where \(a\) is the least element such that \((a, b) \in S\).
+        This definition guarantees that every element of \(b\) is mapped to only one element since there may be several \(a\) which are mapped to \(b\).
+        We can verify that \(g\) is a right-inverse of \(f\).
+        Let \(b \in B\). Then \(f \circ g(b) = b = 1_{B}(b)\).
+      \end{proof}
+      With this lemma, we show that our definition of injective and surjective morphisms is precisely equivalent to monomorphisms and epimorphisms in the category \(\mathsf{MSet}\).
+
+      First suppose that \(f: A \to B\) is injective. Then it has a left-inverse \(g: B \to A\).
+      Let \(\alpha, \alpha' \in \text{Hom}_{\mathsf{MSet}}(Z, A)\) be morphisms such that \(f \circ \alpha = f \circ \alpha'\).
+      Then we find
+      \begin{align*}
+        (&g \circ f) \circ \alpha = (g \circ f) \circ \alpha' && \text{by associativity of composition} \\
+        \Longrightarrow & 1_{A} \circ \alpha = 1_{A} \circ \alpha' && \text{since \(g\) is a left-inverse of \(f\)} \\
+        \Longrightarrow & \alpha = \alpha'
+      \end{align*}
+      Thus, \(f\) is a monomorphism in the category theoretical sense.
+
+      Now suppose that \(f: A \to B\) is a monomorphism. We will show it is injective.
+      Consider the set \(Z = \{p\}\) and let \(\alpha, \alpha' \in \text{Hom}_{\mathsf{MSet}}(Z, A)\) be morphisms such that \(f \circ \alpha = f \circ \alpha'\).
+      Since \(f\) is a monomorphism, this forces \(\alpha = \alpha'\).
+      In turn, this means \(\alpha(p) \sim_{A} \alpha'(p)\).
+      Letting \(a_{1} = \alpha(p)\) and \(a_{2} = \alpha'(p)\), we have
+      \begin{equation*}
+        f(a_{1}) \sim_{A} f(a_{2}) \Longrightarrow a_{1} \sim_{A} a_{2}
+      \end{equation*}
+      Thus, \(f\) is injective.
+      A nearly identical proof follows for epimorphisms and surjective morphisms.
+    \end{solution}
+\end{document}

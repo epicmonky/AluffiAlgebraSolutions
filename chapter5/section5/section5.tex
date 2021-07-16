@@ -153,7 +153,16 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    Consider the polynomial
+    \[
+        \ell_{j}(x) = \prod_{\substack{0 \leq i \leq d \\ i \neq j}} \frac{x - a_i}{a_j - a_i}.
+    \]
+    Then we may define the Lagrange polynomial as
+    \[
+        L(x) = \sum_{j = 0}^{k} b_j \ell_{j}.
+    \]
+    Clearly this polynomial satisfies the desired properties.
+    Uniqueness can be verified in a similar manner to the previous problem.
 \end{solution}
 
 % Problem 5.9
@@ -163,7 +172,15 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    Consider a polynomial $p(x) \in \mathbb{Z}[x]$ of degree $d$.
+    We can evaluate it at $d$ points, say $p(a_1) = b_1, \ldots, p(a_d) = b_d$.
+    Now factor each $b_i$ over $\mathbb{Z}$.
+    From here, we can use Lagrange Interpolation to construct a polynomial $q(x) \in \mathbb{Q}[x]$ such that $q(a_i) = c_i$ for some factor $c_i$ of $b_i$.
+    Finally, one may check if $q(x)$ divides $p$ via polynomial division.
+    The key observation is that if $q$ has degree less than $d$, then it is uniquely determined by the choice of $c_i$.
+    As a result, there are only finiely many choices for $q$.
+
+    Applying the algorithm to the given polynomial is incredibly tedious but ultimately yields a factorizaiton of $(-x^2 + 5x - 5)^2$.
 \end{solution}
 
 % Problem 5.10
@@ -173,18 +190,29 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    Note that $f(x) = (x-1)(x-2) \cdots (x-n) - 1$ is monic.
+    Suppose $f = gh$ has a nontrivial factorization into two monic polynomials of strictly lower degrees.
+    Then, for $1 \leq k \leq n$, we have $f(k) = g(k) h(k) = -1$ so $g(k), h(k) = \pm 1$ and we must have $g(k) = -h(k)$.
+    Now consider the polynomial $p(x) = g(x) + h(x)$. 
+    Clearly  $p$ has strictly lower degree than $f$ since we are working over an integral domain.
+    However, $p(k) = 0$ for all $1 \leq k \leq n$ so necessarily $f = -g$, a contradiction since we assumed that $f$ and $g$ were both monic.
+    Thus, $f$ must be irreducible.
 \end{solution}
 
 % Problem 5.11
 \begin{problem}
-    Let $F$ be a finite field
+    Let $F$ be a finite field.
     Prove that there are irreducible polynomials in $F[x]$ of arbitrarily high degree.
     (Hint: Exercise 2.24.)
 \end{problem}
 
 \begin{solution}
-    To do.
+    Suppose otherwise.
+    That is, suppose there are only finitely many irreducible polynomials in $F[x]$, say $p_1(x), \ldots, p_n(x)$.
+    Consider the polynomial $f(x) = p_1(x) \cdots p_n(x) + 1$.
+    By assumption, $f(x)$ is not irreducible so it is divisibly by one of our irreducible polynomials, say $p_i(x)$.
+    But then $p_i(x)$ divides 1, a contradiction.
+    Therefore, there must be infinitely many irreducible polynomials and they are necessarily of arbitrarily high degree since there are only finitely many polynomials of a fixed degree.
 \end{solution}
 
 % Problem 5.12
@@ -193,7 +221,21 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    Let $f$ be an irreducible linear polynomial in $k[x]$ and define
+    \[
+        F = \frac{k[x]}{(f(x))}.
+    \]
+    Consider the valuation function which sends $g(x) \to g(0) \in F$ (recall that $F$ can be seen as an extension of $k$).
+    Clearly this mapping preserves sums and products so it suffices to check what the kernel is.
+    The kernel is the set of polynomials such that $g(0) \in (f(x))$. 
+    However, note that the valuation functions maps to a constant and the only constant in this ideal is 0.
+    Thus, the kernel is the set of polynomials such that $g(0) = 0$, but this is only the case if $g = 0$ or $g$ has no constant term.
+    Therefore, the kernel is the ideal $(x)$.
+    By the First Isomorphism Theorem, we find
+    \[
+        F \cong \frac{k[x]}{(x)} \cong k,
+    \]
+    showing the fields are isomorphic.
 \end{solution}
 
 % Problem 5.13
@@ -203,7 +245,13 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    We can factor $f$ into a product of irreducibles since $k[x]$ is a UFD.
+    For each irreducible element $g_i(t)$ in the factorization of $f$, we can consider the quotient
+    \[
+        F_i := \frac{k[t]}{(g_i(t))}
+    \]
+    where $F_i$ is an extension of $k$ containing a root of $g_i(t)$.
+    Repeating this process for each irreducible factor of $f$ yields a field extension $F$ in which $f$ factors completely.
 \end{solution}
 
 % Problem 5.14
@@ -228,7 +276,18 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    Suppose $k$ is algebraically closed. 
+    That is, every irreducible polynomial has degree 1.
+    Since $k[x]$ is a UFD, every polynomial $f \in k[x]$ factors into irreducibles and thus factors into linear polynomials.
+
+    Now suppose that every polynomial $f \in k[x]$ factors completely as a product of linear factors.
+    Then every polynomial has at least one factor of the form $(x - a)$, which occurs if and only if $a$ is a root of $f$.
+    Therefore, every polynomial has a root in $k$.
+
+    Finally, suppose that every nonconstant polynomial $f \in k[x]$ has a root in $k$ and consider an irreducible polynomial $f$.
+    Suppose $f$ has degree greater than 1.
+    Since $f$ has a root $a$, we can factor out a linear polynomial $(x - a)$, contradicting that $f$ is irreducible.
+    Thus $f$ has degree 1 so $k$ is algebraically closed.
 \end{solution}
 
 % Problem 5.16
@@ -238,7 +297,7 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    I do not know complex analysis.
 \end{solution}
 
 % Problem 5.17
@@ -248,7 +307,11 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    We have $\lim_{x \to +\infty} f(x)  = +\infty$ and $\lim_{x \to -\infty} f(x) = -\infty$.
+    In particular, for some $a$, $f(a) < 0$ and for some $b$, $f(b) > 0$.
+    Since $f$ is a polynomial, it is continuous over $[a, b]$. 
+    Thus, the intermediate value theorem applies and there exists some $c \in [a, b]$ such that $f(c) = 0$.
+    That is, $c$ is a real root of $f$.
 \end{solution}
 
 % Problem 5.18
@@ -258,7 +321,12 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    Suppose $f$ is reducible. Then it must have a linear factor. 
+    However, consider that $x \equiv y \pmod n \Longrightarrow f(x) \equiv f(y) \pmod n$.
+    In particular, for any integer $x$, if $x \equiv 0 \pmod 2$ then $f(x) \equiv 0 \pmod 2$.
+    Similarly, if $x \equiv 1 \pmod 2$ then $f(x) \equiv 1 \pmod 2$.
+    Since $0 \equiv 0 \pmod 2$, it is clear that no integer $x$ is a root of $f$.
+    Thus, $f$ is irreducible over $\mathbb{Z}[x]$ and hence over $\mathbb{Q}[x]$.
 \end{solution}
 
 % Problem 5.19
@@ -280,8 +348,12 @@
 \end{problem}
 
 \begin{solution}
-    Consider the prime ideal $\mathfrak{p} = (2)$.
-    Since $1 \notin (2)$, $4 \in (2)$, and $1 \notin (2)^2$, Eisenstein's criterion applies and the polynomial is irreducible in $\mathbb{Z}[x]$ and hence in $\mathbb{Q}[x]$.
+    Note that there is no prime $p$ which divides $1$ so Eisenstein's criterion does not apply to this specific polynomial.
+    However, we can make the substitution $x = y + 1$ which yields the polynomial $y^{6}+6y^{5}+15y^{4}+24y^3+27y^2+18y+6$.
+    Note that this polynomial \textit{does} satisfy Eisenstein's criterion with the prime ideal $\mathfrak{p} = (3)$.
+    That is, the polynomial after transformation is irreducible in the ring $\mathbb{Q}[y + 1]$.
+    However, this ring is isomorphic to $\mathbb{Q}[x]$. 
+    Thus, the original polynomial is also irreducible.
 \end{solution}
 
 % Problem 5.21
@@ -290,6 +362,44 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    Suppose $n$ is not prime so it can be written as $n = pq$.
+    Recall that we have
+    \[
+    1 + x + x^2 + \cdots + x^{n-1} = \frac{x^{n} - 1}{x - 1} = \frac{x^{pq} - 1}{x - 1}.
+    \]
+    However, we find that 
+    \[
+        \frac{(x^{p})^{q} - 1}{x^{p} - 1} = 1 + x^{p} + x^{2p} + \cdots + x^{(q-1)p}
+    \]
+    which yields the factorization
+    \[
+        \frac{x^{n} - 1}{x - 1} = \frac{x^{n} - 1}{x^{p} - 1} \cdot \frac{x^{q} - 1}{x - 1}.
+    \]
+    Thus, the polynomial is reducible over $\mathbb{Z}[x]$.
+\end{solution}
+
+% Problem 5.22
+\begin{problem}
+    Let $R$ be a UFD, and let $a \in R$ be an element that is not divisible by the square of some irreducible element in its factorization.
+    Prove that $x^{n} - a$ is irreducible for every integer $n \geq 1$.
+\end{problem}
+
+\begin{solution}
+    Let $q$ denote an irreducible element whose square does not divide $a$.
+    Since $R$ is a UFD, $q$ is also prime.
+    Then we have $1 \notin (q)$ and $a \notin (q)^2$.
+    Therefore, Eisenstein's criterion applies and the polynomial is irreducible for all $n \geq 1$.
+\end{solution}
+
+% Problem 5.23
+\begin{problem}
+    Decide whether $y^{5} + x^2 y^3 + x^3 y^2 + x$ is reducible or irreducible in $\mathbb{C}[x, y]$.
+\end{problem}
+
+\begin{solution}
+    Consider the ideal $\mathfrak{p} = (x)$. 
+    Certainly this is a prime ideal since modding out the ideal yields the ring $\mathbb{C}[y]$ which is an integral domain.
+    Furthermore, we have $1 \notin (x)$, $x^2 y^3 \in (x)$, $x^3 y^2 \in (x)$, and $x \notin (x)^2$.
+    Thus, we may apply Eisenstein's criterion and conclude that the polynomial is irreducible in $\mathbb{C}[x, y]$.
 \end{solution}
 \end{document}

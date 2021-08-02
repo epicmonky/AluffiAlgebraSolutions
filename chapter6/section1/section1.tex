@@ -323,6 +323,287 @@
 \end{problem}
 
 \begin{solution}
+    Recall that a field of characteristic 0 must contain a copy of $\mathbb{Q}$ (Exercise V.4.17).
+    Thus, $A$ has the structure of a $\mathbb{Q}$-vector space.
+    Recall that $\text{End} (A \oplus B)$ can be thought of as the set of $2 \times 2$ matrices of the form
+    \[
+    \begin{bmatrix}
+        \text{End}(A) & \text{Hom}(B, A) \\
+        \text{Hom}(A, B) & \text{End}(B)
+    \end{bmatrix}
+    \]
+    so that homomorphisms from $A$ and $B$ interact with each other.
+    Suppose $\text{dim}(A) > 1$ so we can write $\text{End}(A) = \text{End}(\mathbb{Q}^{m} \oplus \mathbb{Q}^{n})$ with $m, n \geq 1$.
+    Note that the description of $\text{End}(A \oplus B)$ means this ring is not a field.
+    Indeed, consider the matrix
+    \[
+    \begin{bmatrix}
+        0 & 1 \\
+        0 & 0
+    \end{bmatrix}
+    \]
+    which is nilpotent and has determinant zero.
+    It is clearly non-invertible, so this contradicts the assumption that $\text{End}(A)$ is a field.
+    Hence, it must be the case the $\text{dim}(A) = 1$ so $A \cong \mathbb{Q}$.
+\end{solution}
+
+% Problem 1.14
+\begin{problem}
+    Let $V$ be a finite-dimensional vector space, and let $\varphi: V \to V$ be a homomorphism of vector spaces.
+    Prove that there is an integer $n$ such that $\text{ker } \varphi^{n+1} = \text{ker } \varphi^{n}$ and $\text{im } \varphi^{n+1} = \text{im } \varphi^{n}$.
+
+    Show that both claims may fail if $V$ has infinite dimension.
+\end{problem} 
+
+\begin{solution}
+    Consider the following chain of vector spaces
+    \[
+        V \supseteq \varphi(V) \supseteq \varphi^2 (V) \supseteq \cdots
+    \]
+    where each step either preserves or lowers the dimension of the vector space.
+    Since $V$ is finite-dimensional, the dimension cannot keep decreasing.
+    Thus, there exists some integer $m$ such that $\varphi^{m}(V) = \varphi^{m+1}(V)$.
+
+    Similarly, we have the chain of vector spaces
+    \[
+        0 \subseteq \text{ker } \varphi \subseteq \text{ker } \varphi^2 \subseteq \cdots
+    \]
+    where each step either preserves or increases the dimension of the vector space.
+    Since $V$ is finite-dimensional, the dimension cannot keep increasing.
+    Thus, there exists some integer $m'$ such that $\text{ker } \varphi^{m'} = \text{ker } \varphi^{m' + 1}$.
+    Finally, we only need to set $n = \max\{m, m'\}$.
+
+    For a counterexample in the case of infinite dimension, let $V = \mathbb{Q}^{\oplus \mathbb{N}}$ and consider $\varphi$ which maps $a_i$ to $a_{i + 1}$.
+    Clearly the image of $\varphi$ is smaller each iteration, but it never terminates for a finite integer.
+    Similarly, the kernel of $\varphi$ increases each iteration, but it doesn't terminate for a finite integer.
+\end{solution}
+
+% Problem 1.15
+\begin{problem}
+    Consider the question of Exercise 1.14 for free $R$-modules $F$ of finite rank, where $R$ is an integral domain that is not a field.
+    Let $\varphi : F \to F$ be an $R$-module homomorphism.
+
+    What property of $R$ immediately guarantees that $\text{ker } \varphi^{n+1} = \text{ker } \varphi^{n}$ for $n \gg 0$?
+
+    Show that there is an $R$-module homomorphism $\varphi: F \to F$ such that $\text{im } \varphi^{n+1} \subsetneq \text{im } \varphi^{n}$ for all $n \geq 0$.
+\end{problem}
+
+\begin{solution}
     To do.
+\end{solution}
+
+% Problem 1.16
+\begin{problem}
+    Let $M$ be a module over a ring $R$.
+    A \textit{finite composition series} for $M$ (if it exists) is a decreasing sequence of submodules
+    \[
+        M = M_0 \supsetneq M_1 \supsetneq \cdots \supsetneq M_m = \langle 0 \rangle
+    \]
+    in which all quotients $M_i / M_{i + 1}$ are \textit{simple} $R$-modules (cf. Exercise III.5.4).
+    The \textit{length} of a series is the number of strict inclusions.
+    The \textit{composition factors} are the quotients $M_i / M_{i+1}$.
+
+    Prove a Jordan-H\"older theorem for modules;
+    any two finite composition series of a module have the same length and the same (multiset of) composition factors.
+    (Adapt the proof of Theorem IV.3.2.)
+
+    We say that $M$ has \textit{length} $m$ if $M$ admits a finite composition series of length $m$.
+    This notion is well-defined as a consequence of the result you just proved.
+\end{problem}
+
+\begin{solution}
+    Let
+    \[
+        M = M_0 \supsetneq M_1 \supsetneq \cdots \supsetneq M_m = \langle 0 \rangle
+    \]
+    be a composition series.
+    We prove this by induction on $m$.
+    If $m = 0$, then $M$ is trivial so there is nothing to prove.
+    Assume $m > 0$ and let 
+    \[
+        M = M_0' \supsetneq M_1' \supsetneq \cdots \supsetneq M_m' = \langle 0 \rangle
+    \]
+    be another composition series for $M$.
+    If $M_1 = M_1'$ then the result follows from the induction hypothesis since $M_1$ has length $m - 1 < m$.
+
+    Thus, we may assume $M_1 \neq M_1'$.
+    Then, since $M_1$ and $M_1'$ are maximal in $M$, we must have $M_1 + M_1' = M$.
+    Let $K = M_1 \cap M_1'$ and consider the composition series
+    \[
+        K \supsetneq K_1 \supsetneq \cdots \supsetneq K_r = \langle 0 \rangle.
+    \]
+    By the isomorphism theorems for modules, we have
+    \[
+    \frac{M_1}{K} = \frac{M_1}{M_1 \cap M_1'} \cong \frac{M_1 + M_1'}{M_1'} = \frac{M}{M_1'}, \quad \frac{M_1'}{K} \cong \frac{M}{M_1}
+    \]
+    are simple modules.
+    Then we can construct new composition series for $M$, namely
+    \[
+        M \supsetneq M_1 \supsetneq K \supsetneq K_1 \supsetneq \cdots \supsetneq \langle 0 \rangle
+    \]
+    and
+    \[
+        M \supsetneq M_1' \supsetneq K \supsetneq K_1 \supsetneq \cdots \supsetneq \langle 0 \rangle
+    \]
+    which only differ in the first step.
+    These two series have the same length and the same quotients.
+
+    Now we show that the first of these two series has the same length and quotients as the original series.
+    We can see that
+    \[
+    M_1 \supsetneq K \supsetneq K_1 \supsetneq \cdots \supsetneq K_r
+    \]
+    is a composition series for $M_1$.
+    By the induction hypothesis, it must have the same length and quotients as
+    \[
+    M_1 \supsetneq M_2 \supsetneq \cdots \supsetneq M_m
+    \]
+    proving our claim.
+
+    Similarly, we can show that
+    \[
+    M_1' \supsetneq K \supsetneq K_1 \supsetneq \cdots \supsetneq K_r
+    \]
+    has the same length and quotients as
+    \[
+    M_1' \supsetneq M_2' \supsetneq \cdots \supsetneq M_m'.
+    \]
+    Thus, the statement follows.
+\end{solution}
+
+% Problem 1.17
+\begin{problem}
+    Prove that a $k$-vector space $V$ has finite length as a module over $k$ (cf. Exercise 1.16) if and only if it is finite-dimensional and that in this case its length equals its dimension.
+\end{problem}
+
+\begin{solution}
+    Suppose $V$ is finite-dimensional and let $B$ be a basis for $V$.
+    Then we may construct the composition series
+    \[
+        V = \text{span}(B) \supsetneq \text{span}(B \setminus \{b_1\}) \supsetneq \text{span}(B \setminus \{b_1, b_2\}) \supsetneq \cdots \supsetneq \text{span}(\emptyset) = \langle 0 \rangle
+    \]
+    which has finite length this $B$ is finite.
+    It is evident from this construction that the length of $V$ is equal to its dimension.
+
+    If $V$ has finite length as a module over $k$, consider a composition series
+    \[
+        V = V_0 \supsetneq V_1 \supsetneq \cdots \supsetneq V_n = \langle 0 \rangle
+    \]
+    of length $n$.
+    Suppose $V$ is not finite dimensional and let $B = \{v_1, \ldots, v_n\}$ be a linearly independent set.
+    Then there exists a $v_{k+1} \in V \setminus B$ such that $B \cup \{v_{k+1}\}$ is still linearly independent.
+    But then we may repeat this and construct a composition series for $V$ of infinite length, contradicting our assumption that $V$ has finite length.
+    Thus, $V$ must be finite dimensional (and as shown above, its dimension is equal to its length).
+\end{solution}
+
+% Problem 1.18
+\begin{problem}
+    Let $M$ be an $R$-module of finite length $m$ (cf. Exercise 1.16).
+    \begin{itemize}
+        \item Prove that every submodule $N$ of $M$ has finite length $n \leq m$.
+            (Adapt the proof of Proposition IV.3.4.)
+        \item Prove that the `descending chain condition' (d.c.c.) for submodules holds in $M$.
+            (Use induction on the length.)
+        \item Prove that if $R$ is an integral domain that is not a field and $F$ is a free $R$-module, then $F$ has finite length if and only if it is the 0-module.
+    \end{itemize}
+\end{problem}
+
+\begin{solution}
+    Assume $M$ has a composition series
+    \[
+        M = M_0 \supsetneq M_1 \supsetneq \cdots \supsetneq M_m = \langle 0 \rangle
+    \]
+    and let $N$ be a submodule of $M$.
+    Consider the series
+    \[
+        N = M \cap N \supsetneq M_1 \cap N \supsetneq \cdots \supsetneq M_m \cap N = \langle 0 \rangle.
+    \]
+    We claim that this is a composition series for $N$.
+    To verify this, we only need to show that
+    \[
+        \frac{M_i \cap N}{M_{i+1} \cap N}
+    \]
+    is either trivial or isomorphic to $M_{i+1} / M_i$.
+    To see that this is true, consider the homomorphism
+    \[
+        M_i \cap N \xhookrightarrow{} M_i \twoheadrightarrow \frac{M_i}{M_{i+1}}
+    \]
+    which clearly has kernel $M_{i+1} \cap N$.
+    By the first isomorphism theorem, we have an injective homomorphism
+    \[
+        \frac{M_i \cap N}{M_{i+1} \cap N} \xhookrightarrow{} \frac{M_i}{M_{i+1}}
+    \]
+    which identifies the former with a submodule of the latter.
+    Since the latter is a simple module, our claim follows.
+    Furthermore, removing the trivial quotients forces the length of $N$ to be less than or equal to that of $M$.
+
+    Now we prove that $M$ satisfies the d.c.c. for submodules.
+    We show the much stronger result that every chain of submodules of $M$ can be refined to a composition series for $M$.
+    Let
+    \[
+        M = M_0 \supsetneq M_1 \supsetneq \cdots \supsetneq M_k = \langle 0 \rangle
+    \]
+    be a chain of submodules of $M$.
+    We know $k \leq m$ by the Jordan-H\"older theorem for modules.
+    If $k = m$ then we already have a composition series so suppose $k < n$.
+    Then there exists some $i$ such that $M_i / M_{i+1}$ is not a simple module.
+    That is, there exists a submodule $M_i'$ such that $M_i \supsetneq M_i' \supsetneq M_{i+1}$ and we obtain a chain of length $k + 1$.
+    If $k+1 = n$, then we are done.
+    Otherwise, we may repeat until we have constructed a chain of length $n$, at which point we have constructed a composition series for $M$.
+    This result implies our claim because for any descending chain of submodules of $M$, we may extend it into a composition series of $M$.
+    This series is certainly bounded, so the original descending chain must stabilize.
+
+    Finally, suppose $R$ is an integral domain that is not a field and let $F$ be a free $R-$ module.
+    Clearly if $F = \langle 0 \rangle$ then it has finite length.
+    Now suppose $F$ has finite length and recall that $F \cong R^{n}$.
+    Suppose $n \geq 1$.
+    Since $F$ has finite length, it satisfies the d.c.c. for submodules.
+    In particular, it satisfies the d.c.c. for ideals of $R$, so $R$ is an Artinian ring.
+    However, by Exercise V.1.10, an integral domain is Artinian if and only if it is a field, contradicting our hypothesis.
+    Thus, $F \cong R^{0} = \langle 0 \rangle$.
+\end{solution}
+
+% Problem 1.19
+\begin{problem}
+    Let $k$ be a field, and let $f(x) \in k[x]$ be any polynomial.
+    Prove that there exists a multiple of $f(x)$ in which all exponents of nonzero monomials are \textit{prime} integers.
+    (Example: for $f(x) = 1 + x^{5} + x^{6}$,
+    \begin{align*}
+        (1 + x^{8} + x^{6}) (2x^2 - x^{3} + x^{5} - x^{8} + x^{9} - &x^{10} + x^{11}) \\
+                                                                    &= 2x^2 - x^3 + x^{5} + 2x^{7} + 2x^{11} - x^{13} + x^{17}.)
+    \end{align*}
+    (Hint: $k[x] / (f(x))$ is a finite-dimensional $k$-vector space.)
+\end{problem}
+
+\begin{solution}
+    The vector space $V = k[x] / (f(x))$ has finite dimension, say $n$.
+    Take the monomials
+    \[
+        x^{p_1}, x^{p_2}, \ldots, x ^{p_{n+1}}
+    \]
+    where $p_i$ is an arbitrary prime integer and consider their remainders mod $f$ as elements of $V$.
+    Since there are $n+1$ elements, they must be linearly dependent.
+    That is, there exist $a_i \in k$ such that
+    \[
+        h(x) = a_1 x^{p_1} + a_2 x^{p_2} + \cdots + a_{n+1} x^{p_{n+1}}
+    \]
+    where $h(x) \in (f(x))$.
+    That is, $h(x)$ is a multiple of $f(x)$ in which all exponents of nonzero monomials are prime integers.
+\end{solution}
+
+% Problem 1.20
+\begin{problem}
+    Let $A, B$ be sets.
+    Prove that the free groups $F(A), F(B)$ are isomorphic if and only if there is a bijection $A \cong B$.
+    (For the interesting direction: remember that $F(A) \cong F(B) \Longrightarrow F^{ab}(A) \cong F^{ab}(B)$, by Exercise II.7.12).
+    This extends the result of Exercise II.7.13 to possibly infinite sets $A, B$.
+\end{problem}
+
+\begin{solution}
+    It is clear that if $A \cong B$, then the corresponding free groups are isomorphic.
+    Suppose $F(A) \cong F(B)$ and recall that this implies $F^{ab}(A) \cong F^{ab}(B)$.
+    Note that both of these groups are free $\mathbb{Z}$-modules.
+    However, if they are isomorphic, then it must the case that there is a bijection between their bases.
+    That is, $A \cong B$.
 \end{solution}
 \end{document}

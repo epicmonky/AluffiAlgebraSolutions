@@ -1,0 +1,749 @@
+\documentclass[../../master.tex]{subfiles}
+\usepackage{systeme}
+
+\begin{document}
+\section{Homomorphisms of free modules, II}
+
+% Problem 3.1
+\begin{problem}
+    Use Gaussian elimination to find all integer solutions of the system of equations
+    \[
+    \systeme{
+        7x - 36y + 12z = 1\text{,},
+        -8x + 42y - 14z = 2.
+    }
+    \]
+\end{problem}
+
+\begin{solution}
+    Transforming the system of equations into a matrix and applying Gaussian elimination yields the factorization
+    \[
+    \begin{pmatrix}
+        1 & 0 & 0 \\
+        0 & 2 & 0
+    \end{pmatrix} =
+    \begin{pmatrix}
+        7 & 6 \\
+        -8 & -7
+    \end{pmatrix} \cdot
+    \begin{pmatrix}
+        7 & -36 & 12 \\
+        -8 & 42 & -14 
+    \end{pmatrix} \cdot
+    \begin{pmatrix}
+        1 & 0 & 0 \\
+        0 & 1 & -1 \\
+        0 & 4 & -3
+    \end{pmatrix},
+    \]
+    or $D = M \cdot A \cdot N$.
+    As we are trying to solve $A \bm{x} = \bm{b}$, we now can now solve $D \bm{y} = M \bm{b}$.
+    Finally, we solve $\bm{x} = N \bm{y}$ for a solution of
+    \[
+        \bm{x} = 
+        \begin{pmatrix}
+            19 \\
+            -11 - z \\
+            -44 - 3z
+        \end{pmatrix}
+    \]
+    so there are infinitely many solutions based on the free variable $z$.
+\end{solution}
+
+% Problem 3.2
+\begin{problem}
+    Provide details for the proof of Lemma 3.2.
+    \begin{proposition}[Lemma 3.2] 
+        Let $A$ be a square matrix with entries in an integral domain $R$.
+        \begin{itemize}
+            \item Let $A'$ be obtained from $A$ by switching two rows or two columns.
+                Then $\det(A') = -\det(A)$.
+            \item Let $A'$ be obtained from $A$ by adding to a row (column) a multiple of another row (column).
+                Then $\det(A') = \det(A)$.
+            \item Let $A'$ be obtained from $A$ by multiplying a row (column) by an element $c \in R$.
+                Then $\det(A') = c \det(A)$.
+        \end{itemize}
+        In other words, the effect of an elementary operation on $\det A$ is the same as multiplying $\det A$ by the determinant of the corresponding matrix.
+    \end{proposition}
+\end{problem}
+
+\begin{solution}
+    Switching two rows is equivalent to multiplying each $\sigma \in S_n$ by a fixed transposition.
+    Then the sign of each permutation is switched so we have
+    \[
+        \det(A') = \sum_{\sigma \in S_n} (-1)^{\sigma + 1} \prod_{i=1}^{n} a_{i \sigma(i)} = -\det(A)
+    \]
+    yielding the desired result.
+
+    For the third point, each product has exactly one $c$ in it so we find
+    \[
+        \det(A') = \sum_{\sigma \in S_n} (-1)^{\sigma} c \prod_{i=1}^{n} a_{i \sigma(i)} = c \det(A)
+    \]
+    yielding the desired result.
+
+    For the second point, note that $A' = (a_1, a_2, \ldots, a_i + ka_j, \ldots, a_n)$ so $A$ and $A'$ differ at only one row.
+    Then we have
+    \begin{align*}
+        \det(A') &= \det(A) + \det(a_1, a_2, \ldots, ka_j, \ldots, a_n) \\
+                 &= \det(A) + k\det(a_1, a_2, \ldots, a_j, \ldots, a_n).
+    \end{align*}
+    But then rows $i$ and $j$ are identical in the second matrix so it follows that the determinant of that matrix is 0.
+    Thus, we are left with $\det(A') = \det(A)$.
+\end{solution}
+
+% Problem 3.3
+\begin{problem}
+    Redo Exercise II.8.8.
+    \begin{proposition}[Exercise II.8.8] 
+        \textup{Prove that $\text{SL}_n(\mathbb{R})$ is a \textit{normal subgroup} of $\text{GL}_n(\mathbb{R})$, and `compute' $\text{GL}_n(\mathbb{R}) / \text{SL}_n(\mathbb{R})$ as a well-known group.}
+    \end{proposition}
+\end{problem}
+
+\begin{solution}
+    Recall that $\text{SL}_n(\mathbb{R})$ is the set of $n \times n$ matrices with determinant 1.
+    Certainly this is a normal subgroup of $\text{GL}_n(\mathbb{R})$ since it is the kernel of the homomorphism induced by $\det$ from $\text{GL}_n(\mathbb{R})$ to $\mathbb{R}^{\times}$.
+    Then by the first isomorphism theorem, we find that $\mathbb{R}^{\times} \cong \text{GL}_n(\mathbb{R}) / \text{SL}_n(\mathbb{R})$.
+\end{solution}
+
+% Problem 3.4
+\begin{problem}
+    Formalize the discussion of `universal identities':
+    by what cocktail of universal properties is it true that if an identity holds in $\mathbb{Z}[x_1, \ldots, x_r]$, then it holds over every commutative ring $R$, for every choice of $x_i \in R$?
+    (Is the commutativity of $R$ necessary?)
+\end{problem}
+
+\begin{solution}
+    This holds because $Z[x_1, \ldots, x_r]$ is a free object in the category of commutative rings, or commutative $\mathbb{Z}$-algebras.
+    In particular, for every commutative ring $R$ and set function $f : A \to R$, there exists a unique $\mathbb{Z}$-algebra homomorphism from $\mathbb{Z}[x_1, \ldots, x_r]$ to $R$.
+    If the identity is preserved by homomorphisms, then it will hold in every commutative ring.
+    Furthermore, the commutativity of $R$ is not necessary but it is necessary that given a set-function $f$, we have $f(a)$ commutes with every element of $R$ for all $a \in A$.
+\end{solution}
+
+% Problem 3.5
+\begin{problem}
+    Let $A$ be an $n \times n$ square invertible matrix with entries in a field, and consider the $n \times (2n)$ matrix $B = (A \mid I_n)$ obtained by placing the identity matrix to the side of $A$.
+    Perform elementary row operations on $B$ so as to reduce $A$ to $I_n$ (cf. Exercise 2.15).
+    Prove that this transforms $B$ into $(I_n \mid A^{-1})$.
+
+    (This is a much more efficient way to compute the inverse of a matrix than by using determinants as in \S 3.2.)
+\end{problem}
+
+\begin{solution}
+    Each elementary row operation on $B$ can be encoded as an elementary matrix whose product reduces $A$ to $I_n$.
+    That is, we have $PA = I_n$.
+    But then $P = A^{-1}$ and since $P I_n = P$, it must be the case that $B = (I_n \mid P) = (I_n \mid A^{-1})$.
+\end{solution}
+
+% Problem 3.6
+\begin{problem}
+    Let $R$ be a commutative ring and $M = \langle m_1, \ldots, m_r \rangle$ a finitely generated $R$-module.
+    Let $A \in \mathcal{M}_r(R)$ be a matrix such that $A \cdot
+    \begin{pmatrix}
+        m_1 \\
+        \vdots \\
+        m_r
+    \end{pmatrix} =
+    \begin{pmatrix}
+        0 \\
+        \vdots \\
+        0
+    \end{pmatrix}$.
+    Prove that $\det(A)m = 0$ for all $m \in M$.
+    (Hint: Multiply by the adjoint.)
+\end{problem}
+
+\begin{solution}
+    Denote the adjoint matrix of $A$ by $A'$.
+    Recall that $A' A = \det(A) I_n$.
+    Multiplying both sides of the equation by the adjoint yields
+    \begin{align*}
+    A' A
+    \begin{pmatrix}
+        m_1 \\
+        \vdots \\
+        m_r
+    \end{pmatrix} &=
+    A'
+    \begin{pmatrix}
+        0 \\
+        \vdots \\
+        0
+    \end{pmatrix} \\
+    \det(A) I_n
+    \begin{pmatrix}
+        m_1 \\
+        \vdots \\
+        m_r
+    \end{pmatrix} &=
+    \begin{pmatrix}
+        0 \\
+        \vdots \\
+        0
+    \end{pmatrix}
+    \end{align*}
+    so $\det(A) m_i = 0$ for all $m_i \in \langle m_1, \ldots, m_r \rangle$.
+    Since this is a generating set for $M$, all $m \in M$ are linear combinations of $m_i$.
+    Thus, we have $\det(A) m = 0$ for all $m \in M$.
+\end{solution}
+
+% Problem 3.7
+\begin{problem}
+    Let $R$ be a commutative ring, $M$ a finitely generated $R$-module, and let $J$ be an ideal of $R$.
+    Assume $JM = M$.
+    Prove that there exists an element $b \in J$ such that $(1 + b)M = 0$.
+    (Let $m_1, \ldots, m_r$ be generators for $M$.
+    Find an $r \times r$ matrix $B$ with entries in $J$ such that $
+    \begin{pmatrix}
+        m_1 \\
+        \vdots \\
+        m_r
+    \end{pmatrix} = B \cdot 
+    \begin{pmatrix}
+        m_1 \\
+        \vdots \\
+        m_r
+    \end{pmatrix}$.
+    Then use Exercise 3.6.)
+\end{problem}
+
+\begin{solution}
+    Let $\langle m_1, \ldots, m_r \rangle$ be a set of generators for $M$.
+    Since $JM = M$, for all $m_j$ in the generating set, there exists a finite sum
+    \[
+        m_j = \sum_{i=0}^{r} b_im_i.
+    \]
+    Thus, we can construct a matrix $B$ with entries in $J$ such that
+    \[
+    \begin{pmatrix}
+        m_1 \\
+        \vdots \\
+        m_r
+    \end{pmatrix} =
+    B \cdot
+    \begin{pmatrix}
+        m_1 \\
+        \vdots \\
+        m_r
+    \end{pmatrix}
+    \]
+    which can be rearranged to $(I_r - B) (m_i)^{T} = 0$.
+    Let $d = \det(I_r - B)$.
+    Then $d \in 1 + J$ since $B \equiv 0 \mod J$.
+    By Exercise 3.7, $d m = 0$ for all $m \in M$.
+    That is, there exists $b \in J$ such that $(1 + b)M = 0$.
+\end{solution}
+
+% Problem 3.8
+\begin{problem}
+    Let $R$ be a commutative ring, $M$ be a finitely generated $R$-module, and let $J$ be an ideal of $R$ \textit{contained in the Jacobson radical} of $R$ (Exercise V.3.14).
+    Prove that $M = 0 \Longleftrightarrow JM = M$.
+    (Use Exercise 3.7.
+    This is \textit{Nakayama's lemma}, a result with important applications in commutative algebra and algebraic geometry.
+    A particular case was given as Exercise III.5.16.)
+\end{problem}
+
+\begin{solution}
+    If $M = 0$, then clearly for all $b \in J$, we have $bM = 0 = M$ so $JM = M$.
+    Now suppose $JM = M$.
+    Recall that the Jacobson radical of a ring is the intersection of its maximal ideals.
+    By Exercise 3.7, there exists some $b \in J$ such that $(1 + b)M = 0$.
+    Then $1 + b$ is a unit in $R$ so multiplying both sides by its inverse yields $M = 0$.
+\end{solution}
+
+% Problem 3.9
+\begin{problem}
+    Let $R$ be a commutative local ring, that is, a ring with a single maximal ideal $\mathfrak{m}$, and let $M, N$ be finitely generated $R$-modules.
+    Prove that if $M = \mathfrak{m} M + N$, then $M = N$.
+    (Apply Nakayama's lemma, that is, Exercise 3.8, to $M / N$.
+    Note that the Jacobson radical of $R$ is $\mathfrak{m}$.)
+\end{problem}
+
+\begin{solution}
+    If $M = \mathfrak{m}M + N$, then $M / N = \mathfrak{m} M / N$.
+    By Nakayama's lemma, $M / N = 0$ so $M = N$.
+\end{solution}
+
+% Problem 3.10
+\begin{problem}
+    Let $R$ be a commutative local ring, and let $M$ be a finitely generated $R$-module.
+    Note that $M / \mathfrak{m}M$ is a finite-dimensional vector space over the field $R / \mathfrak{m}$;
+    let $m_1, \ldots, m_r \in M$ be elements whose cosets mod $\mathfrak{m}M$ form a basis of $M / \mathfrak{m}M$.
+    Prove that $m_1, \ldots, m_r$ generate $M$.
+
+    (Show that $\langle m_1, \ldots, m_r \rangle + \mathfrak{m} M = M$;
+    then apply Nakayama's lemma in the form of Exercise 3.9.)
+\end{problem}
+
+\begin{solution}
+    We have $\langle \bar{m_1}, \ldots, \bar{m_r} \rangle = M / \mathfrak{m}M$, where $\bar{m_i} = m_i \mod \mathfrak{m}M$.
+    That is, $\langle m_1, \ldots, m_r \rangle + \mathfrak{m}M = M$.
+    Then, by Exercise 3.9, $\langle m_1, \ldots, m_r \rangle = M$.
+\end{solution}
+
+% Problem 3.11
+\begin{problem}
+    Explain how to use Gaussian elimination to find bases for the row space and the column space of a matrix over a field.
+\end{problem}
+
+\begin{solution}
+    Recall that Gaussian elimination does not change the row space of the matrix.
+    Then reducing a matrix to reduced echelon form yields a matrix whose rows have the same span as the row space of the original matrix and are linearly independent.
+    Thus, they form a basis for the row space.
+    Similarly, applying Gaussian elimination to the transpose of the matrix yields a basis for the column space.
+\end{solution}
+
+% Problem 3.12
+\begin{problem}
+    Let $R$ be an integral domain, and let $M \in \mathcal{M}_{m,n}(R)$, with $m < n$.
+    Prove that the columns of $M$ are linearly dependent over $R$.
+\end{problem}
+
+\begin{solution}
+    Recall that $M$ represents a homomorphism $f: R^{n} \to R^{m}$ and the column space of $M$ is equal to the span of $\text{im }f$.
+    If the columns of $M$ are linearly independent, then the standard basis vectors of $R^{n}$ map to a linearly independent set in $R^{m}$.
+    That is, the rank of $R^{m}$ must be greater than or equal to that of $R^{n}$, or $m \geq n$.
+    Thus, if $n < m$, it must be the case that the columns of $M$ are linearly dependent.
+\end{solution}
+
+% Problem 3.13
+\begin{problem}
+    Let $k$ be a field.
+    Prove that a matrix $M \in \mathcal{M}_{m,n}(k)$ has rank $\leq r$ if and only if there exist matrices $P \in \mathcal{M}_{m,r}(k), Q \in \mathcal{M}_{r,n}(k)$ such that $M = PQ$.
+    (Thus the rank of $M$ is the smallest such integer.)
+\end{problem}
+
+\begin{solution}
+    Suppose there exist $P \in \mathcal{M}_{m,r}(k), Q \in \mathcal{M}_{r,n}(k)$ such that $M = PQ$.
+    Let $s = \text{rank } P, t = \text{rank } Q$.
+    Then
+    \[
+    P = 
+        \left(
+            \begin{array}{@{}c|c@{}}
+                I_{s} & 0 \\
+                \hline
+                0 & 0
+            \end{array}
+        \right), \quad
+    Q = 
+        \left(
+            \begin{array}{@{}c|c@{}}
+                I_{t} & 0 \\
+                \hline
+                0 & 0
+            \end{array}
+        \right).
+    \]
+    Including zero rows (columns) to the smaller identity matrix to make block multiplication possible yields
+    \[
+    M =
+        \left(
+            \begin{array}{@{}c|c@{}}
+                I_{\min(s, t)} & 0 \\
+                \hline
+                0 & 0
+            \end{array}
+        \right)
+    \]
+    and since $\min(s, t) \leq r$, the rank of $M \leq r$.
+
+    Now suppose $M$ has rank $r' \leq r$.
+    Consider the matrices
+    \[
+    P =
+        \left(
+            \begin{array}{@{}c|c@{}}
+                I_{r'} & 0 \\
+                \hline
+                0 & 0
+            \end{array}
+        \right), \quad
+    Q = 
+        \left(
+            \begin{array}{@{}c|c@{}}
+                I_{r'} & 0 \\
+                \hline
+                0 & 0
+            \end{array}
+        \right).
+    \]
+    Note that $P$ and $Q$ can be defined for all $r \geq r'$.
+    Then their product is equivalent to $M$ (up to multiplication by invertible matrices on the left and right, both of which preserve the rank of $M$).
+\end{solution}
+
+% Problem 3.14
+\begin{problem}
+    Generalize Proposition 3.11 to the case of finitely generated free modules over any integral domain.
+    (Embed the integral domain in its field of fractions.)
+    \begin{proposition}[Proposition 3.11] 
+        Let
+	\[
+	\begin{tikzcd}
+	    0 & U & V & W & 0
+	    \arrow[from=1-1, to=1-2]
+	    \arrow[from=1-2, to=1-3]
+	    \arrow[from=1-3, to=1-4]
+	    \arrow[from=1-4, to=1-5]
+	\end{tikzcd}
+	\]
+    be a short \textup{exact} sequence of finite-dimensional vector spaces.
+    Then
+    \[
+        \dim(V) = \dim(U) + \dim(W).
+    \]
+    
+    \end{proposition}
+\end{problem}
+
+\begin{solution}
+    Let
+	\[
+	\begin{tikzcd}
+	    0 & A & B & C & 0
+	    \arrow[from=1-1, to=1-2]
+	    \arrow[from=1-2, to=1-3]
+	    \arrow[from=1-3, to=1-4]
+	    \arrow[from=1-4, to=1-5]
+	\end{tikzcd}
+	\]
+        be a short exact sequence of finitely generated free modules over an integral domain $R$.
+        Embed $R$ in its field of fractions $K$.
+        By Exercise 1.7, each module is naturally mapped to a vector space over $K$.
+        In particular, if $A'$ denotes the vector space corresponding to the module $A$, we have $\text{rank}(A) = \dim(A')$.
+        Then, by Proposition 3.11, we have $\dim(B') = \dim(A') + \dim(C')$ which translates into $\text{rank}(B) = \text{rank}(A) + \text{rank}(C)$.
+\end{solution}
+
+% Problem 3.15
+\begin{problem}
+    Prove Proposition 3.13 for the case $N = 1$.
+    \begin{proposition}[Proposition 3.13] 
+        With notation as above,
+        \[
+            \chi(V_{\bullet}) = \sum_{i=0}^{N} (-1)^{i} \dim(H_i(V_{\bullet})).
+        \]
+        In particular, if $V_{\bullet}$ is exact, then $\chi(V_{\bullet}) = 0$.
+    \end{proposition}
+\end{problem}
+
+\begin{solution}
+    Let
+	\[
+        V_{\bullet}:
+	\begin{tikzcd}
+            0 & V_1 & V_0 & 0
+	    \arrow[from=1-1, to=1-2]
+	    \arrow[from=1-2, to=1-3, "\alpha_1"]
+	    \arrow[from=1-3, to=1-4]
+	\end{tikzcd}
+	\]
+        be a complex of finite-dimensional vector spaces and linear maps.
+        By definition, we have $\chi(V_{\bullet}) = \dim(V_0) - \dim(V_1)$.
+        Furthermore, we find
+        \[
+            H_0 (V_{\bullet}) = \frac{V_0}{\text{im} (\alpha_1)}, \quad H_1(V_{\bullet}) = \text{ker} (\alpha_1).
+        \]
+        By Proposition 3.11,
+        \begin{align*}
+            \dim(H_0(V_{\bullet})) &= \dim(V_0) - \dim(\text{im} (\alpha_1)), \\
+            \dim(H_1(V_{\bullet})) &= \dim(\text{ker} (\alpha_1)), \\
+            \dim(V_1) &= \dim(\text{ker} (\alpha_1)) + \dim(\text{im} (\alpha_1))
+        \end{align*}
+        so we find
+        \begin{align*}
+            \sum_{i=0}^{1} (-1)^{i} \dim(H_i(V_{\bullet})) &= \dim(H_0(V_{\bullet})) - \dim(H_1(V_{\bullet})) \\
+                                                           &= \dim(V_0) - \dim(\text{im} (\alpha_1) - \dim(\text{ker} (\alpha_1)) \\
+                                                           &= \dim(V_0) - \dim(V_1) \\
+                                                           &= \chi(V_{\bullet})
+        \end{align*}
+        proving the desired result.
+\end{solution}
+
+% Problem 3.16
+\begin{problem}
+    Prove Claim 3.14.
+    \begin{proposition}[Claim 3.14] 
+        With notation as above, we have the following:
+        \begin{itemize}
+            \item $\chi_K$ `is an Euler characteristic', in the sense that it satisfies the formula given in Proposition 3.13:
+                \[
+                    \chi_K(V_{\bullet}) = \sum_i (-1)^{i} [H_i(V_{\bullet})].
+                \]
+            \item $\chi_K$ is a `universal Euler characteristic', in the following sense.
+                Let $G$ be an abelian group, and let $\delta$ be a function associating an element of $G$ to each finite-dimensional vector space, such that $\delta(V) = \delta(V')$ if $V \cong V'$ and $\delta(V / U) = \delta(V) - \delta(U)$.
+                For $V_{\bullet}$ a complex, define
+                \[
+                    \chi_G(V_{\bullet}) = \sum_i (-1)^{i} \delta(V_i).
+                \]
+                Then $\delta$ induces a (unique) group homomorphism
+                \[
+                K(k \textup{-}\mathsf{Vect}^{f}) \to G
+                \]
+                mapping $\chi_K(V_{\bullet})$ to $\chi_G(V_{\bullet})$.
+            \item In particular, $\delta = \dim$ induces a group homomorphism
+                \[
+                K(k \textup{-}\mathsf{Vect}^{f}) \to \mathbb{Z}
+                \]
+                such that $\chi_K(V_{\bullet}) \mapsto \chi(V_{\bullet})$.
+            \item This is in fact an isomorphism.
+        \end{itemize}
+    \end{proposition}
+\end{problem}
+
+\begin{solution}
+    Recall that we define $F(k\text{-}\mathsf{Vect}^{f})$ to be the set of isomorphism classes of finite-dimensional vector spaces $[V]$ over a field $k$.
+    We let $E$ be the subgroup generated by the elements $[V] - [U] - [W]$ for all short exact sequences
+    \[
+    \begin{tikzcd}
+        0 & U & V & W & 0
+        \arrow[from=1-1, to=1-2] 
+        \arrow[from=1-2, to=1-3] 
+        \arrow[from=1-3, to=1-4] 
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    and define
+    \[
+        K(k\text{-}\mathsf{Vect}^{f}) := \frac{F(k\text{-}\mathsf{Vect})}{E}
+    \]
+    to be the Grothendieck group of the category $k\text{-}\mathsf{Vect}^{f}$.
+    We also define
+    \[
+        \chi_K(V_{\bullet}) := \sum_i (-1)^{i} [V_i] \in K
+    \]
+    where summation is the direct sum.
+
+    First we prove that $\chi_k$ is an Euler characteristic.
+    We adapt the proof by induction used to prove Propositoin 3.11, starting with the case $N = 1$.
+    Again, let
+	\[
+        V_{\bullet}:
+	\begin{tikzcd}
+            0 & V_1 & V_0 & 0
+	    \arrow[from=1-1, to=1-2]
+	    \arrow[from=1-2, to=1-3, "\alpha_1"]
+	    \arrow[from=1-3, to=1-4]
+	\end{tikzcd}
+	\]
+        be a complex of finite-dimensional vector spaces and linear maps.
+        By definition, we have $\chi_K(V_{\bullet}) = [V_0] - [V_1]$.
+        Recall that, by the definition of homology,
+        \[
+            H_0 (V_{\bullet}) = \frac{V_0}{\text{im}(\alpha_1)}, \quad H_1 (V_{\bullet}) = \text{ker} (\alpha_1)
+        \]
+        so we have two exact sequences in $k\text{-}\mathsf{Vect}^{f}$:
+        \[
+        \begin{tikzcd}
+            0 & H_1(V_{\bullet}) & V_1 & \text{im}(\alpha_1) & 0
+            \arrow[from=1-1, to=1-2] 
+            \arrow[from=1-2, to=1-3] 
+            \arrow[from=1-3, to=1-4] 
+            \arrow[from=1-4, to=1-5] 
+        \end{tikzcd}
+        \]
+        and
+        \[
+        \begin{tikzcd}
+            0 & \text{im}(\alpha_1) & V_0 & H_0(V_{\bullet}) & 0
+            \arrow[from=1-1, to=1-2] 
+            \arrow[from=1-2, to=1-3] 
+            \arrow[from=1-3, to=1-4] 
+            \arrow[from=1-4, to=1-5] 
+        \end{tikzcd}
+        \]
+        so we have the relations $[H_1(V_{\bullet})] = [V_1] - [\text{im}(\alpha_1)]$ and $[H_0(V_{\bullet})] = [V_0] - [\text{im}(\alpha_1)]$.
+        Thus, we find
+        \begin{align*}
+            \sum_{i=0}^{1} [H_i(V_{\bullet})] &= [H_0(V_{\bullet})] - [H_1(V_{\bullet})] \\
+                                             &= ([V_0] - [\text{im}(\alpha_1)]) - [V_1] - [\text{im}(\alpha_1)] \\
+                                             &= [V_0] - [V_1] \\
+                                             &= \chi_K(V_{\bullet})
+        \end{align*}
+        so the statement holds in the base case.
+        Now we prove the inductive step.
+        Given a complex 
+        \[
+            V_{\bullet}:
+            \begin{tikzcd}
+                0 & V_N & V_{N-1} & \cdots & V_1 & V_0 & 0
+                \arrow[from=1-1, to=1-2] 
+                \arrow[from=1-2, to=1-3, "\alpha_{N}"] 
+                \arrow[from=1-3, to=1-4, "\alpha_{N-1}"] 
+                \arrow[from=1-4, to=1-5, "\alpha_2"] 
+                \arrow[from=1-5, to=1-6, "\alpha_1"] 
+                \arrow[from=1-6, to=1-7] 
+            \end{tikzcd}
+        \]
+        we can consider the truncated complex
+        \[
+            V_{\bullet}':
+            \begin{tikzcd}
+                0 & V_{N-1} & \cdots & V_1 & V_0 & 0
+                \arrow[from=1-1, to=1-2] 
+                \arrow[from=1-2, to=1-3, "\alpha_{N-1}"] 
+                \arrow[from=1-3, to=1-4, "\alpha_{2}"] 
+                \arrow[from=1-4, to=1-5, "\alpha_1"] 
+                \arrow[from=1-5, to=1-6] 
+            \end{tikzcd}
+        \]
+        where the result is known to hold for $V_{\bullet}'$.
+        Then
+        \[
+            \chi_K(V_{\bullet}) = \chi_K(V_{\bullet}') + (-1)^{N} [V_N] 
+        \]
+        and
+        \[
+            H_i (V_{\bullet}) = H_i (V_{\bullet}') \text{ for } 0 \leq i \leq N - 2
+        \]
+        while
+        \[
+            H_{N-1} (V_{\bullet}') = \text{ker}(\alpha_{N-1}), \quad H_{N-1} (V_{\bullet}) = \frac{\text{ker}(\alpha_{N-1}}{\text{im}(\alpha_N)}, \quad H_N(V_{\bullet}) = \text{ker}(\alpha_N).
+        \]
+        Then we have exact sequences
+        \[
+        \begin{tikzcd}
+            0 & \text{ker}(\alpha_N) & V_N & \text{im}(\alpha_N) & 0
+            \arrow[from=1-1, to=1-2] 
+            \arrow[from=1-2, to=1-3]
+            \arrow[from=1-3, to=1-4]
+            \arrow[from=1-4, to=1-5] 
+        \end{tikzcd}
+        \]
+        and
+        \[
+        \begin{tikzcd}
+            0 & \text{im}(\alpha_N) & \text{ker}(\alpha_{N-1}) & H_{N-1}(V_{\bullet}) & 0
+            \arrow[from=1-1, to=1-2] 
+            \arrow[from=1-2, to=1-3]
+            \arrow[from=1-3, to=1-4]
+            \arrow[from=1-4, to=1-5] 
+        \end{tikzcd}
+        \]
+        which yield the relations $[V_N] = [\text{ker}(\alpha_N)] + [\text{im}(\alpha_N)]$ and $[H_{N-1}(V_{\bullet})] = [\text{ker}(\alpha_{N-1})] - [\text{im}(\alpha_N)]$.
+        Then we have
+        \[
+            [H_{N-1}(V_{\bullet}')] - [V_N] = [H_{N-1}(V_{\bullet})] - [H_N(V_{\bullet})] 
+        \]
+        so we find
+        \begin{align*}
+            \chi_K(V_{\bullet}) &= \chi_K(V_{\bullet}') + (-1)^{N} [V_N] \\
+                                &= \sum_{i=0}^{N-1} (-1)^{i} [H_i(V_{\bullet}')] + (-1)^{N} [V_N] \\
+                                &= \sum_{i=0}^{N-2} (-1)^{i} [H_i(V_{\bullet}')] + (-1)^{N-1} \left( [H_{N-1}(V_{\bullet}')] - [V_N] \right) \\
+                                &= \sum_{i=0}^{N-2} (-1)^{i} [H_i(V_{\bullet})] + (-1)^{N-1} ( [H_{N-1}(V_{\bullet})] - [H_N(V_{\bullet})] ) \\
+                                &= \sum_{i=0}^{N} (-1)^{i} [H_i(V_{\bullet})] 
+        \end{align*}
+        which proves the desired result.
+
+        For the second part, let $\varphi : K(k\text{-}\mathsf{Vect}^{f}) \to G$ be the unique group homomorphism induced by $\delta$.
+        We claim that $\varphi([V]) = \delta(V)$ satisfies this universal property.
+        First we check that it is well defined; suppose $[V] = [V']$.
+        Then, since $V \cong V'$, we have $\delta(V) = \delta(V')$.
+        Now we show that this is a group homomorphism.
+        Let $[U], [V] \in K(k\text{-}\mathsf{Vect}^{f})$. 
+        Then
+         \[
+             \varphi([V] - [U]) = \varphi([V / U]) = \delta(V / U) = \delta(V) - \delta(U) = \varphi([V]) - \varphi([U])
+        \]
+        which verifies that this is a group homomorphism.
+        Finally, let $V_{\bullet}$ be a complex of finite-dimensional vector spaces.
+        Then
+        \begin{align*}
+            \varphi(\chi_K(V_{\bullet})) &= \varphi \left(\sum_i (-1)^{i} [V_i] \right) \\
+                                         &= \sum_i (-1)^{i} \varphi([V_i]) \\
+                                         &= \sum_i (-1)^{i} \delta(V_i) \\
+                                         &= \chi_G(V_{\bullet})
+        \end{align*}
+        where the second equality follows from $\varphi$ being a group homomorphism.
+
+        The third point follows naturally from the second.
+        Indeed, letting $\delta = \dim$ induces a group homomorphism from $K(k\text{-}\mathsf{Vect}^{f})$ to $\mathbb{Z}$ such that $\chi_K(V_{\bullet}) = \chi(V_{\bullet})$, where $\chi$ is the natural definition of the Euler characteristic.
+
+        To show that this is an isomorphism, we prove it is both injective and surjective.
+        First note that for any non-negative integer $n$, we may consider the vector space $V = k^{n}$.
+        Then $\varphi([V]) = n$.
+        If $n$ is negative, consider $V = k^{-n}$ such that $\varphi(-[V]) = -\varphi([V]) = n$.
+        Thus, $\varphi$ is surjective.
+        Now suppose $\varphi([U]) = \varphi([V])$.
+        That is, $\dim(U) = \dim(V)$.
+        Then $U \cong V$ so $[U] = [V]$ and $\varphi$ is injective.
+        Thus, $\varphi$ is an isomorphism and
+        \[
+            K(k\text{-}\mathsf{Vect}^{f}) \cong \mathbb{Z}.
+        \]
+\end{solution}
+
+% Problem 3.17
+\begin{problem}
+    Extend the definition of Grothendieck group of vector spaces given in \S 3.4 to the category of vector spaces of \textit{countable} (possibly infinite) dimension, and prove that it is the trivial group.
+\end{problem}
+
+\begin{solution}
+    Consider the sequence
+    \[
+    \begin{tikzcd}
+        0 & k^{\oplus \mathbb{N}} & k^{\oplus \mathbb{N}} & k^{n} & 0
+        \arrow[from=1-1, to=1-2] 
+        \arrow[from=1-2, to=1-3] 
+        \arrow[from=1-3, to=1-4] 
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    where $n \in \mathbb{N}$.
+    Certainly, this sequence is exact because $k^{\oplus \mathbb{N}} \cong k^{\oplus \mathbb{N}} \oplus k^{n}$.
+    But this implies that $[k^{\oplus \mathbb{N}}] = [k^{\oplus \mathbb{N}}] + [k^{n}]$ or $[k^{n}] = 0$.
+    Since this also holds for $[k^{\oplus \mathbb{N}}]$, the group $K(k\text{-}\mathsf{Vect})$ is the trivial group.
+\end{solution}
+
+% Problem 3.18
+\begin{problem}
+    Let $\mathsf{Ab}^{fg}$ be the category of finitely generated abelian groups.
+    Define a Grothendieck group of this category in the style of the construction of $K(k\text{-}\mathsf{Vect}^{f})$, and prove that $K(\mathsf{Ab}^{fg}) \cong \mathbb{Z}$.
+\end{problem}
+
+\begin{solution}
+    Note that every object $G$ of $\mathsf{Ab}^{fg}$ determines an isomorphism class $[G]$.
+    Let $F(\mathsf{Ab}^{fg})$ be the free abelian group on the set of these isomorphism classes.
+    Furthermore, let $E$ be the subgroup generated by the elements $[B] - [A] - [C]$ for all short exact sequences
+    \[
+    \begin{tikzcd}
+        0 & A & B & C & 0
+        \arrow[from=1-1, to=1-2] 
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    in $\mathsf{Ab}^{fg}$.
+    Let
+    \[
+        K(\mathsf{Ab}^{fg}) := \frac{F(\mathsf{Ab}^{fg})}{E}
+    \]
+    be the Grothendieck group of this category.
+
+    Recall that every finitely generated abelian group is isomorphic to a direct sum of cyclic groups
+\end{solution}
+
+% Problem 3.19
+\begin{problem}
+    Let $\mathsf{Ab}^{f}$ be the category of finite abelian groups.
+    Prove that assigning to every finite abelian group its order extends to a homomorphism from the Grothendieck group $K(\mathsf{Ab}^{f})$ to the multiplicative group $(\mathbb{Q}^{*}, \cdot)$.
+\end{problem}
+
+\begin{solution}
+    To do.
+\end{solution}
+
+% Problem 3.20
+\begin{problem}
+    Let $R\text{-}\mathsf{Mod}^{f}$ be the category of modules of finite \textit{length} (cf. Exercise 1.16) over a ring $R$.
+    Let $G$ be an abelian group, and let $\delta$ be a function assigning an element of $G$ to every \textit{simple} $R$-module.
+    Prove that $\delta$ extends to a homomorphism from the Grothendieck group of $R\text{-}\mathsf{Mod}^{f}$ to $G$.
+
+    Explain why Exercise 3.19 is a particular case of this observation.
+
+    (For another example, letting $\delta(M) = 1 \in \mathbb{Z}$ for every simple module $M$ shows that length itself extends to a homomorphism from the Grothendieck group of $R\text{-}\mathsf{Mod}^{f}$ to $\mathbb{Z}$.)
+\end{problem}
+
+\begin{solution}
+    To do.
+\end{solution}
+\end{document}

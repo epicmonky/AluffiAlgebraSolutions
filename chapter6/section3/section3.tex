@@ -1,5 +1,4 @@
 \documentclass[../../master.tex]{subfiles}
-\usepackage{systeme}
 
 \begin{document}
 \section{Homomorphisms of free modules, II}
@@ -719,7 +718,40 @@
     \]
     be the Grothendieck group of this category.
 
-    Recall that every finitely generated abelian group is isomorphic to a direct sum of cyclic groups
+    Recall that every finitely generated abelian group is isomorphic to a direct sum of cyclic groups (Exercise 2.19).
+    That is, for all finitely generated abelian groups $G$, we have
+    \[
+        G \cong \mathbb{Z}^{m} \oplus \frac{\mathbb{Z}}{d_1\mathbb{Z}} \oplus \cdots \oplus \frac{\mathbb{Z}}{d_r \mathbb{Z}}
+    \]
+    where $d_i \mid d_{i+1}$.
+    Next, note that we may construct the exact sequence
+    \[
+    \begin{tikzcd}
+        0 & \mathbb{Z} & \mathbb{Z} & \mathbb{Z} / n \mathbb{Z} & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3, "\times n"]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    so that $[\mathbb{Z} / n\mathbb{Z}] = [\mathbb{Z}] - [\mathbb{Z}] = [0]$ for all $n \in \mathbb{Z}$.
+    Thus, we may construct a homomorphism $\varphi: K(\mathsf{Ab}^{fg}) \to \mathbb{Z}$ which sends $[A]$ to $m$ where $\mathbb{Z}^{m}$ is in the decomposition of $A$.
+    Let $\text{rank}(A)$ denote the power of $\mathbb{Z}$ in the decomposition of $A$.
+    First we verify that this homomorphism is well-defined:
+    if $[A] = [B]$ then $A \cong B$ so $\\text{rank}(A) = \text{rank}(B)$ and $\varphi([A]) = \varphi([B])$.
+    Now we show it is a homomorphism.
+    Let $[A], [B] \in K(\mathsf{Ab}^{fg})$ where $\text{rank}(A) = m$ and $\text{rank}(B) = n$.
+    Then
+    \[
+        \varphi([A] + [B]) = \varphi(A \oplus B) = m + n = \varphi([A]) + \varphi([B])
+    \]
+    so $\varphi$ is in fact a homomorphism.
+    Finally, we verify that it is in fact an isomorphism.
+    Certainly it is surjective since $\varphi([\mathbb{Z}^{n}]) = n$ for all $n \in \mathbb{Z}^{\geq 0}$ and one can use the additive inverse for negative integers.
+    Lastly, the kernel of the homomorphism is the set of equivalence classes with rank 0.
+    But if $A$ has rank 0 then $A$ is isomorphic to a direct sum of finite cyclic groups which are all isomorphic to $[0]$.
+    That is, $\text{ker}(\varphi) = [0]$ and the mapping is injective.
+    Thus, it is a bijective homomorphism, proving that $K(\mathsf{Ab}^{fg}) \cong \mathbb{Z}$.
 \end{solution}
 
 % Problem 3.19
@@ -729,7 +761,25 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    First note that the sequence
+    \[
+    \begin{tikzcd}
+        0 & A & A \oplus B & B & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3, "i"]
+        \arrow[from=1-3, to=1-4, "\pi"]
+        \arrow[from=1-4, to=1-5]
+    \end{tikzcd}
+    \]
+    is exact.
+    Let $\varphi : K(\mathsf{Ab}^{f}) \to \mathbb{Q}$ send a finite abelian group $A$ to its order.
+    To see that this is a homomorphism, let $[A], [B] \in K(\mathsf{Ab}^{f})$ with $|A| = m, |B| = n$.
+    Then
+    \[
+        \varphi([A] + [B]) = \varphi([A \oplus B]) = mn = \varphi([A]) \cdot \varphi([B])
+    \]
+    so it is in fact a homomorphism.
+    Indeed, $\varphi([0]) = 1$ where $0$ is the trivial group, and we can define $\varphi$ for additive inverses accordingly.
 \end{solution}
 
 % Problem 3.20
@@ -744,6 +794,37 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    Recall that a module $M$ has length $m$ if it admits a composition series
+    \[
+        M = M_0 \supsetneq M_1 \supsetneq \cdots \supsetneq M_m = \langle 0 \rangle
+    \]
+    where each quotient $M_i / M_{i+1}$ is simple.
+    Let $\varphi : K(R\text{-}\mathsf{Mod}^{f}) \to G$ be defined as
+    \[
+        \varphi([M]) = \sum{i=0}^{m-1} \delta \left( \frac{M_i}{M_{i+1}} \right)
+    \]
+    where the sum denotes the operation in $G$.
+    Certainly this mapping is well-defined as isomorphic modules admit the same composition series (up to a reordering of the composition factors).
+    To prove that it is a homomorphism, let $[M], [N] \in K(R\text{-}\mathsf{Mod}^{f})$ where $M$ has length $m$ and $N$ has length $n$.
+    Then
+    \[
+        \varphi([M] + [N]) = \varphi([M \oplus N]) = m + n = \varphi([M]) + \varphi([N])
+    \]
+    by properties of the length of a module.
+
+    In particular, let $R = \mathbb{Z}$ and $G = (\mathbb{Q}^{*}, \cdot)$.
+    Since simple finite abelian groups are cyclic groups of prime order $\mathbb{Z} / p\mathbb{Z}$, let $\delta (\mathbb{Z} / p\mathbb{Z}) = p$.
+    Then $\varphi$ is the extension of $\delta$ from $K(\mathbb{Z}\text{-}\mathsf{Mod}^{f}) \to \mathbb{Q}$.
+    Indeed, given a finite abelian group
+    \[
+    G = \frac{\mathbb{Z}}{p_1^{n_1}\mathbb{Z}} \oplus \cdots \oplus \frac{\mathbb{Z}}{p_r^{n_r}\mathbb{Z}}
+    \]
+    we find
+    \begin{align*}
+        \varphi([G]) &= \prod_{i} \delta \left( \frac{\mathbb{Z}}{p_i \mathbb{Z}} \right)^{n_i} \\
+                     &= \prod_i p_i^{n_i} \\
+                     &= |G|
+    \end{align*}
+    which aligns with the definition given in Exercise 3.19.
 \end{solution}
 \end{document}

@@ -1,0 +1,450 @@
+\documentclass[../../master.tex]{subfiles}
+
+\begin{document}
+\section{Classification of finitely generated modules over PID}
+
+% Problem 5.1
+\begin{problem}
+    Let $N, P$ be submodules of a module $M$, such that $N \cap P = \{0\}$ and $M = N + P$.
+    Prove that $M \cong N \oplus P$.
+    (This is a word-for-word repetition of Proposition IV.5.3 for modules.)
+\end{problem}
+
+\begin{solution}
+    Consider the mapping
+    \[
+    \varphi : N \oplus P \to N + P
+    \]
+    defined by  $\varphi(n, p) = n + p$.
+    Certainly this is an $R$-module homomorphism.
+    It is surjective since for all $m = n + p \in N + P$, we have $m = \varphi(n, p)$.
+    Furthermore, the kernel of this mapping is
+    \[
+        \ker \varphi = \{(n, p) \in N \oplus P \mid n + p = 0\}.
+    \]
+    If $n + p = 0$ then $n = -p \in P$ so $n \in N \cap P$ and $n = 0$.
+    Similarly, $p = 0$ so $\ker \varphi = \{0\}$ and the map is injective.
+    Thus, this is an isomorphism and $M = N + P \cong N \oplus P$.
+\end{solution}
+
+% Problem 5.2
+\begin{problem}
+    Let $R$ be an integral domain, and let $M$ be a finitely generated $R$-module.
+    Prove that $M$ is torsion if and only if $\rk M = 0$.
+\end{problem}
+
+\begin{solution}
+    The rank of $M$ is 0 if and only if for all $m \in M$, the set $\{m\}$ is linearly dependent.
+    This occurs if and only if there exists $r \in R$ such that $rm = 0$, but this is true if and only if $M$ is torsion.
+\end{solution}
+
+% Problem 5.3
+\begin{problem}
+    Complete the proof of Corollary 5.3.
+    \begin{proposition}[Corollary 5.3] 
+        Let $R$ be a PID, let $F$ be a finitely generated free module over $R$, and let $M \subseteq F$ be a submodule.
+        Then there exists a basis $(x_1, \ldots, x_n)$ of $F$ and nonzero elements $a_1, \ldots, a_m$ of $R$ ($m \leq n$) such that $(a_1 x_1, \ldots, a_m x_m)$ is a basis of $M$.
+        Further, we may assume $a_1 \mid a_2 \mid \cdots \mid a_m$.
+    \end{proposition}
+\end{problem}
+
+\begin{solution}
+    We only need to show the existence of the bases.
+    By Lemma 5.2, there exists $x \in F$ such that
+    \[
+        F = \langle x_1 \rangle \oplus F^{(1)}.
+    \]
+    If $F^{(1)} = 0$, then $(x_1)$ is a basis for $F$.
+    Otherwise we may repeat this process.
+    Since $F$ is a finitely generated free module, this process terminates and yields a basis $(x_1, \ldots, x_n)$ for $F$.
+    Lemma 5.2 also guarantees the existence of $y_1 = a_1 x_1$ such that
+    \[
+        M = \langle y_1 \rangle \oplus M^{(1)}.
+    \]
+    If $M^{(1)} = 0$, then $(y_1) = (a_1 x_1)$ is a basis for $M$.
+    Otherwise we may repeat this process.
+    Since $M$ is a submodule of $F$, $\rk M \leq \rk F$ so this process also terminates at some $m \leq n$.
+\end{solution}
+
+% Problem 5.4
+\begin{problem}
+    Let $R$ be an integral domain, and assume that $a, b \in R$ are such that $a \neq 0$, $b \notin (a)$, and $R/(a), R/(a, b)$ are both integral domains.
+    \begin{itemize}
+        \item Prove that the Krull dimension of $R$ is at least 2.
+        \item Prove that if $R$ satisfies the finiteness condition discussed in \S 5.2 for some $n$, then $n \geq 2$.
+    \end{itemize}
+    You can prove this second point by appealing to Proposition 5.4.
+    For a more concrete argument, you should look for an $R$-module admitting a free resolution of length 2 which cannot be shortened.
+    \begin{itemize}
+        \item Prove that $(a, b)$ is a regular sequence in $R$. (Exercise 4.13).
+        \item Prove that the $R$-module $R/(a,b)$ has a free resolution of length exactly 2.
+    \end{itemize}
+    Can you see how to construct analogous situations with $n \geq 3$ elements $a_1, \ldots, a_n$?
+\end{problem}
+
+\begin{solution}
+    Since $R / (a)$ and $R / (a, b)$ are integral domains, $(a)$ and $(a, b)$ are both prime ideals.
+    Thus, we may construct the chain of prime ideals
+    \[
+        (0) \subsetneq (a) \subsetneq (a, b)
+    \]
+    in $R$, so the Krull dimension of $R$ is at least 2.
+
+    Now suppose every finitely generated $R$-module $M$ admits a free resolution of finite length $n$.
+    To show that $n \geq 2$, it suffices to construct a free resolution of length 2 which cannot be shortened.
+    Consider the $R$-module $M = R / (a, b)$.
+    Then we have an exact sequence
+    \[
+    \begin{tikzcd}
+        0 & R & R^2 & R & M & 0
+        \arrow[from=1-1, to=1-2] 
+        \arrow[from=1-2, to=1-3, "d_2"] 
+        \arrow[from=1-3, to=1-4, "d_1"] 
+        \arrow[from=1-4, to=1-5, "\pi"] 
+        \arrow[from=1-5, to=1-6] 
+    \end{tikzcd}
+    \]
+    where $d_2(r) = (-br, ar)$, $d_1(r, s) = ra + sb$, and $\pi$ is the natural projection.
+    It is easy to check that this is an exact sequence, and it cannot be shortened to $n = 1$.
+    To see this, note that $\ker \pi = (a, b)$.
+    Any morphism whose image is $(a, b)$ must have domain $R^2$ since there are two degrees of choice in the image.
+    Since the kernel of a map from $R^2 \to R$ must be nontrivial, there must be another copy of $R$ before $R^2$ in the free resolution and the free resolution cannot be shortened.
+    It also follows from the fact that the Krull dimension of a PID is at most 1.
+
+    Recall that a regular sequence is a tuple $(a_1, a_2, \ldots, a_n)$ where $a_1$ is not a zero-divisor of $R$, $a_2$ is not a zero-divisor of $R / (a_1)$, $a_3$ is not a zero-divisor of $R / (a_1, a_2)$ and so on.
+    Since $R$ is an integral domain, $a$ is a non-zero-divisor of $R$.
+    Furthermore, $b \notin (a)$ so $b \neq 0 \in R / (a)$.
+    Then, since $R / (a)$ is an integral domain, $b$ is not a zero divisor in $R / (a)$.
+    Thus, $(a, b)$ is a regular sequence in $R$.
+
+    The sequence constructed in part 2 of this exercise proves that $R / (a, b)$ has a free resolution of length 2.
+\end{solution}
+
+% Problem 5.5
+\begin{problem}
+    Recall (Exercise V.4.11) that a commutative ring is \textit{local} if it has a single maximal ideal $\mathfrak{m}$.
+    Let $R$ be a local ring, and let $M$ be a \textit{direct summand} of a finitely generated free $R$-module:
+    that is, there exists an $R$-module $N$ such that $M \oplus N$ is a free $R$-module.
+    \begin{itemize}
+        \item Choose elements $m_1, \ldots, m_r \in M$ whose cosets mod $\mathfrak{m}M$ are a basis of $M/\mathfrak{m}M$ as a vector space over the field $R/\mathfrak{m}$.
+            By Nakayama's lemma, $M = \langle m_1, \ldots, m_r \rangle$ (Exercise 3.10).
+        \item Obtain a surjective homomorphism $\pi : F = R^{\oplus r} \to M$.
+        \item Show that $\pi$ splits, giving an isomorphism $F \cong M \oplus \ker \pi$.
+            (Apply Exercise III.6.9 to the surjective homomorphism $\pi$ and the free module $M \oplus N$ to obtain a splitting $M \to F$;
+            then use Proposition III.7.5.)
+        \item Show $\ker \pi / \mathfrak{m} \ker \pi = 0$.
+            Use Nakayama's lemma (Exercise 3.8) to deduce that $\ker \pi = 0$.
+        \item Conclude that $M \cong F$ is in fact free.
+    \end{itemize}
+
+    Summarizing, over a \textit{local ring}, every \textit{direct summand} of a finitely generated free $R$-module is free.
+    Using the terminology we will introduce in Chapter VIII, we would say that `projective modules over local rings are free'.
+    This result has strong implications in algebraic geometry, since it underlies the notion of vector bundle.
+
+    Contrast this fact with Proposition 5.1, which shows that, over a \textit{PID}, \textit{every} submodule of a finitely generated free module is free.
+\end{problem}
+
+\begin{solution}
+    The first point follows from Exercise 3.10.
+
+    Define $\pi : R^{\oplus r} \to M$ which sends $e_i$ to $m_i$ where $e_i$ is an elementary basis vector.
+    Certainly this is surjective as a projection.
+
+    There is a short exact sequence
+    \[
+    \begin{tikzcd}
+        0 & \ker \pi & F & M & 0
+        \arrow[from=1-1, to=1-2] 
+        \arrow[from=1-2, to=1-3] 
+        \arrow[from=1-3, to=1-4, "\pi"] 
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    and since $\pi$ has a right-inverse (sending the basis of $M$ to the basis of $F$), Proposition III.7.5 implies that this sequence is split and $F \cong M \oplus \ker \pi$.
+
+    Note that
+    \[
+        \left( \frac{R}{\mathfrak{m}} \right)^{r} \cong \frac{M}{\mathfrak{m}M} \oplus \frac{\ker \pi}{\mathfrak{m} \ker \pi}
+    \]
+    as vector spaces over $R/\mathfrak{m}$.
+    Since the dimension of $M/\mathfrak{m}M$ is $r$, we must have $\ker \pi / \mathfrak{m} \ker \pi = 0$.
+    Then, by Nakayama's lemma, $\ker \pi = 0$.
+
+    Thus, $F \cong M$ and $M$ is a free module.
+\end{solution}
+
+% Problem 5.6
+\begin{problem}
+    Let $R$ be an integral domain, and let $M = \langle m_1, \ldots, m_r \rangle$ be a finitely generated module.
+    Prove that $\rk M \leq r$. (Use Exercise 3.12.)
+\end{problem}
+
+\begin{solution}
+    Assume for the sake of contradiction that $k = \rk M > r$.
+    There are surjections $f : R^{r} \to M$ and $g : R^{k} \to M$.
+    Let $N \in \mathcal{M}_{r, k}(R)$ such that $g$ maps the columns of $N$ to a maximal linearly independent subset of $M$.
+    By Exercise 3.12, the columns of $N$ are linearly dependent.
+    In particular, there exist $\{r_1, \ldots, r_k\}$ such that $r_1 n_1 + \cdots + r_k n_k = 0$ where the $n_i \in R^{r}$.
+    Then
+    \[
+        g(r_1n_1 + \cdots + r_k n_k) = r_1 g(n_1) + \cdots + r_k g(n_k) = 0,
+    \]
+    which contradicts the assumption that the image of the columns of $N$ is linearly independent.
+    Thus, $k = \rk M \leq r$.
+\end{solution}
+
+% Problem 5.7
+\begin{problem}
+    Let $R$ be an integral domain, and let $M$ be a finitely generated module over $R$.
+    Prove that $\rk M = \rk (M / \Tor(M))$.
+\end{problem}
+
+\begin{solution}
+    First note that $\rk (M / \Tor(M)) \leq \rk M$ because any linearly independent subset of the former induces a linearly independent subset of the latter.
+    Suppose $\rk M = r$ and let $S = \{m_1, \ldots, m_r\}$ be a maximal linearly independent subset of $M$.
+    Consider $S + \Tor(M) = \{m_1 + \Tor(M), \ldots, m_r + \Tor(M)\}$.
+    If this set is linearly dependent, then there exist $r_1, \ldots, r_r \in R$ such that $r_1 m_1 + \cdots + r_r m_r \in \Tor(M)$.
+    That is, there exists an $s \in R, s \neq 0$ such that
+    \[
+        s(r_1m_1 + \cdots + r_r m_r) = 0.
+    \]
+    Since $R$ is an integral domain, this implies $r_1 m_1 + \cdots + r_r m_r = 0$ and $S$ is linearly dependent in $M$, a contradiction.
+    Thus, $S + \Tor(M)$ is also linearly independent and we have $\rk M = \rk (M / \Tor(M))$.
+\end{solution}
+
+% Problem 5.8
+\begin{problem}
+    Let $R$ be an integral domain, and let $M$ be a finitely generated module over $R$.
+    Prove that $\rk M = r$ if and only if $M$ has a \textit{free} submodule $N \cong R^{r}$, such that $M/N$ is torsion.
+
+    If $R$ is a PID, then $N$ may be chosen so that $
+    \begin{tikzcd}[column sep = 1em] 
+        0 & N & M & M/N & 0
+        \arrow[from=1-1, to=1-2] 
+        \arrow[from=1-2, to=1-3] 
+        \arrow[from=1-3, to=1-4] 
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}$
+    splits.
+\end{problem}
+
+\begin{solution}
+    Suppose $\rk M = r$ and let $S = \{m_1, \ldots, m_r\}$ be a linearly independent subset.
+    Consider the free submodule $N = \langle S \rangle \cong R^{r}$.
+    Indeed, an isomorphism is given by mapping corresponding basis elements $m_i \mapsto e_i$.
+    Now let $x + N \in M / N$.
+    If $x + N$ is not a torsion element then there is no $r \in R$ such that $rx \in N$.
+    That is, $x$ is linearly independent of $S$, but this contradicts that $S$ is a maximal linearly independent set.
+    Thus, $x + N$ is a torsion element and $M / N$ is torsion.
+
+    Now suppose $M$ has a free submodule $N \cong R^{r}$ such that $M / N$ is torsion.
+    Choose a linearly independent set $S = \{m_1, \ldots, m_r\}$ such that $S$ is a basis for $N$.
+    Let $x + N \in M/N$.
+    Since this module is torsion, there exists an $r \in R$ such that $rx \in N$.
+    That is, $x$ is a linear combination of the elements of $S$.
+    Since this holds for all elements of $M$, $S$ is a maximal linearly independent subset of $M$ and $\rk M = r$.
+\end{solution}
+
+% Problem 5.9
+\begin{problem}
+    Let $R$ be an integral domain, and let
+    \[
+    \begin{tikzcd}
+        0 & M_1 & M_2 & M_3 & 0
+        \arrow[from=1-1, to=1-2] 
+        \arrow[from=1-2, to=1-3] 
+        \arrow[from=1-3, to=1-4] 
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    be an exact sequence of finitely generated $R$-modules.
+    Prove that $\rk M_2 = \rk M_1 + \rk M_3$.
+
+    Deduce that `rank' defines a homomorphism from the Grothendieck group of the category of finitely generated $R$-modules to $\mathbb{Z}$.
+\end{problem}
+
+\begin{solution}
+    Let $r_i = \rk M_i$.
+    By the isomorphism theorems, $M_3 \cong M_2 / M_1$.
+    Let $\{u_1, \ldots, u_{r_1}\}$ be linearly independent in $M_1$ and $\{v_1 + M_1, \ldots, v_{r_3} + M_1\}$ be linearly independent in $M_3$.
+    If
+    \[
+        a_1 u_1 + \cdots + a_{r_1} u_{r_1} + b_1 v_1 + \cdots + b_{r_3} v_{r_3} = 0
+    \]
+    in $M_2$, then reducing the equation modulo $M_1$ yields
+    \[
+        b_1 (v_1 + M_1) + \cdots + b_{r_3} (v_{r_3} + M_1) = 0 + M_1
+    \]
+    so $b_1 = \cdots = b_{r_3} = 0$ by linear independence in $M_3$.
+    But then $a_1 = \cdots = a_{r_1} = 0$ by linear independence in $M_1$ so $r_2 \geq r_1 + r_3$.
+    
+    To show the other inequality, let $N$ be a linearly independent subset of $M_2$.
+    Let $X \subset N$ be maximal with respect to the property that $f(X)$ is linearly independent in $M_3$ (where $f$ is the surjection from $M_2 \to M_3$).
+    Now let $m \in N \setminus X$.
+    The set $f(\{m\} \cup X)$ is linearly dependent in $M_3$ so there exist $r_m, s_{m,x} \in R$ such that
+    \[
+        0 = r_m f(m) + \sum_{x \in X} s_{m,x} f(x) = f\left( r_m m + \sum_{x \in X} s_{m,x} x\right),
+    \]
+    hence $r_m m + \sum_{x \in X} s_{m,x} x \in M_1$.
+    Note that $r_m \neq 0$ since $f(X)$ is linearly independent.
+    Now let $t_m \in R$ such that
+    \[
+        \sum_{m \in N \setminus X} t_m (r_m m + \sum{x \in X} s_{m,x} x) = 0
+    \]
+    and rearrange to yield
+    \[
+        0 = \sum_{m \in N \setminus X} t_m r_m m + \sum_{x \in X} \sum_{m \in N \setminus X} t_m s_{m,x} x.
+    \]
+    The linear independence of $N$ shows that $t_m r_m = 0$, so $t_m = 0$ since $r_m \neq 0$ and $R$ is an integral domain.
+    Thus, the elements $(r_m m + \sum_{x \in X} s_{m,x} x)_{m \in N \setminus X}$ are linearly independent.
+    This shows that $N$ can be split into a disjoint union $N = (N \setminus X) \cup X$ such that the elements of $N \setminus X$ are linearly independent in $M_1$ and the elements of $X$ are linearly independent in $M_3$.
+    That is, $r_2 \leq r_1 + r_3$.
+    Combining this with the above inequality yields $\rk M_2 = \rk M_1 + \rk M_3$.
+\end{solution}
+
+% Problem 5.10
+\begin{problem}
+    Let $R$ be an integral domain, $M$ an $R$-module, and assume $M \cong R^{r} \oplus T$, with $T$ a torsion module.
+    Prove directly (that is, without using Theorem 5.6) that $r = \rk M$ and $T \cong \Tor_R(M)$.
+\end{problem}
+
+\begin{solution}
+    We have an exact sequence
+    \[
+    \begin{tikzcd}
+        0 & R^{r} & M & T & 0
+        \arrow[from=1-1, to=1-2] 
+        \arrow[from=1-2, to=1-3] 
+        \arrow[from=1-3, to=1-4] 
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    and by the above exercise, $\rk M = \rk R^{r} + \rk T$.
+    Since the rank of a torsion module is 0 (every element is linearly dependent), we have $\rk M = r$.
+    We also have an isomorphism $T \cong M / R^{r}$.
+    Note that $\Tor(M) = \{(s, t) \in M \mid \exists r \in R, (rs, rt) = (0, 0)\}$.
+    Since $R^{r}$ is a free module, if $rs = 0$ with $s \in R^{r}$, we must have $r = 0$.
+    Thus, $\Tor(M) = \{(0, t) \mid t \in T\}$, and clearly this is isomorphic to $T$.
+\end{solution}
+
+% Problem 5.11
+\begin{problem}
+    Let $R$ be an integral domain, let $M, N$ be $R$-modules, and let $\varphi : M \to N$ be a homomorphism.
+    For $m \in M$, show that $\Ann(\langle m \rangle) \subseteq \Ann(\langle \varphi(m) \rangle)$.
+\end{problem}
+
+\begin{solution}
+    Let $a \in \Ann(\langle m \rangle)$ and consider $r\varphi(m) \in \langle \varphi(m) \rangle$.
+    We have $a \cdot r \varphi(m) = r \varphi(am) = r \varphi(0) = 0$ so $a \in \Ann(\langle \varphi(m) \rangle)$.
+\end{solution}
+
+% Problem 5.12
+\begin{problem}
+    Complete the proof of uniqueness in Theorem 5.6.
+    (The hint in Exercise IV.6.1 may be helpful.)
+\end{problem}
+
+\begin{solution}
+    Let $R$ be a PID and suppose $M_1, M_2$ are isomorphic $R$-modules.
+    In particular, we have $\Tor(M_1) \cong \Tor(M_2)$ and $\rk M_1 = \rk M_2$.
+    It suffices to show that the decomposition of the torsion submodule is equivalent.
+    We have
+    \[
+        \Tor(M_1) \cong \frac{R}{(a_1)} \oplus \cdots \oplus \frac{R}{(a_m)} \cong \frac{R}{(b_1)} \oplus \cdots \oplus \frac{R}{(b_n)} \cong \Tor(M_2).
+    \]
+    Since $R$ is a PID and in particular a UFD, the decomposition of $\Tor(M_1)$ is unique up to associates so $m = n$.
+    Thus, we can rearrange the factors such that the $p_i$ are associate to the $q_i$ for $i = 1, \ldots, n$.
+    The uniqueness for form of elementary divisors follows easily.
+\end{solution}
+
+% Problem 5.13
+\begin{problem}
+    Let $M$ be a finitely generated module over a Noetherian ring $R$.
+
+    Prove that if $R$ is a PID, then $M$ is torsion-free if and only if it is free.
+    Prove that this property characterizes PIDs. 
+    (Cf. Exercise 4.3.)
+\end{problem}
+
+\begin{solution}
+    If $M$ is torsion-free, then the structure theorem yields $M \cong R^{\rk M}$ so $M$ is free.
+    If $M$ is free, then it has a basis $E$.
+    Let $m = a_1 e_1 + \cdots a_n e_n \in M$.
+    Then for $r \neq 0$ in $R$
+    \[
+        rm = (ra_1) e_1 + \cdots + (ra_n) e_n \neq 0
+    \]
+    since $a_i \neq 0 \Rightarrow ra_i \neq 0$.
+    Thus, $M$ is torsion-free.
+    
+    Now suppose that $R$ is merely a Noetherian domain and every finitely generated module $M$ is torsion-free if and only if it is free.
+    Clearly every ideal $I \subseteq R$ is torsion-free and finitely generated, so $I$ must be free.
+    Assume $I$ is generated by more than one element, say $a_1, a_2$.
+    Then $a_2 a_1 - a_1 a_2 = 0$ is a dependence relation in $R$ so $a_1 = a_2 = 0$, contradicting the fact that they form a basis for $I$.
+    Thus, $I$ is generated by one element and $R$ is a PID.
+\end{solution}
+
+% Problem 5.14
+\begin{problem}
+    Give an example of a finitely generated module over an integral domain which is \textit{not} isomorphic to a direct sum of cyclic modules.
+\end{problem}
+
+\begin{solution}
+    Consider the integral domain $R = \mathbb{Z}[x]$ and the module $M = (2, x)$.
+    Suppose $M$ is a direct sum of cyclic $\mathbb{Z}[x]$ modules.
+    If $(N_{a})$ is a family of cyclic submodules of $M$ such that $M = \sum_{a \in A} N_a$ and $N_b \cap \sum_{a \neq b} N_a = 0$ for all $b \in A$, then each $N_a$ is a principal ideal in $\mathbb{Z}[x]$.
+    But clearly if $x_a \in N_a$ and $x_b \in N_b$ then $x_a x_b \in N_a \cap N_b$ so $N_a \cap N_b \neq 0$ and $|A| = 1$, which implies that $M$ is a principal ideal, a contradiction.
+\end{solution}
+
+% Problem 5.15
+\begin{problem}
+    Prove that the prime ideals appearing in the elementary divisor version of the classification theorem for a torsion module $M$ over a PID are the prime ideals containing the characteristic ideal of $M$, as defined in Remark 5.8.
+\end{problem}
+
+\begin{solution}
+    Recall that given a torsion module
+    \[
+        M \cong \frac{R}{(a_1)} \oplus \cdots \oplus \frac{R}{(a_m)}
+    \]
+    with $a_1 \mid \cdots \mid a_m$, we define
+    \[
+        (a_1 \cdots a_m)
+    \]
+    to be the characteristic ideal of $M$.
+    To do.
+\end{solution}
+
+% Problem 5.16
+\begin{problem}
+    Prove that the prime ideals appearing in the elementary divisor version of the classification theorem for a module $M$ over a PID are the associated primes of $M$, as defined in Exercise 4.5.
+\end{problem}
+
+\begin{solution}
+    To do.    
+\end{solution}
+
+% Problem 5.17
+\begin{problem}
+    Let $R$ be a PID.
+    Prove that the Grothendieck group of the category of finitely generated $R$-modules is isomorphic to $\mathbb{Z}$.
+\end{problem}
+
+\begin{solution}
+    Let $M$ be an $R$-module.
+    By the structure theorem, we have $M \cong R^{\rk M} \oplus R / (a_1) \oplus \cdots \oplus R / (a_m)$.
+    Next note that we may construct the exact sequence
+    \[
+    \begin{tikzcd}
+        0 & R & R & \frac{R}{(a)} & 0
+        \arrow[from=1-1, to=1-2] 
+        \arrow[from=1-2, to=1-3, "a"] 
+        \arrow[from=1-3, to=1-4] 
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    which implies that $[R/(a)] = [0]$ for all $a \in R$.
+    Then we consider the homomorphism $\varphi : K(R\text{-}\mathsf{Mod}^{fg}) \to \mathbb{Z}$ which sends a module $M$ to $\rk M$.
+    It is easy to check that this morphism is well-defined, it is surjective, and the kernel is $[0]$, so it is injective.
+    Thus, $\varphi$ is an isomorphism.
+\end{solution}
+\end{document}

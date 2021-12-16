@@ -1,0 +1,258 @@
+\documentclass[../../master.tex]{subfiles}
+
+\begin{document}
+\section{Preliminaries, reprise}
+
+% Problem 1.1
+\begin{problem}
+    Let $\mathscr{F} : \mathsf{C} \to \mathsf{D}$ be a covariant functor, and assume that both $\mathsf{C}$ and $\mathsf{D}$ have products.
+    Prove that for all objects $A, B$ of $\mathsf{C}$, there is a unique morphism $\mathscr{F}(A \times B) \to \mathscr{F}(A) \times \mathscr{F}(B)$ such that the relevant diagram involving natural projections commutes.
+
+    If $\mathsf{D}$ has \textit{co}products (denoted $\coprod$ ) and $\mathscr{G} : \mathsf{C} \to \mathsf{D}$ is contravariant, prove that there is a unique morphism $\mathscr{G}(A) \coprod \mathscr{G}(B) \to \mathscr{G}(A \times B)$ (again, such that an appropriate diagram commutes).
+\end{problem}
+
+\begin{solution}
+    Recall that the product $A \times B$ in $\mathsf{C}$ comes equipped with natural projections $\pi_A$ and $\pi_B$ to $A$ and $B$ respectively.
+    Then, by the universal property of products, we have the following diagram in $\mathsf{D}$.
+    \[
+    \begin{tikzcd}
+    && {\mathscr{F}(A)} \\
+        {\mathscr{F}(A \times B)} & {\mathscr{F}(A) \times \mathscr{F}(B)} \\
+            && {\mathscr{F}(B)}
+                \arrow["{\pi'_A}", from=2-2, to=1-3]
+                    \arrow["{\pi'_B}"', from=2-2, to=3-3]
+                        \arrow["{\mathscr{F}(\pi_A)}"{description}, bend left=12, from=2-1, to=1-3]
+                            \arrow["{\mathscr{F}(\pi_B)}"{description}, bend right=12, from=2-1, to=3-3]
+                                \arrow["{\exists!f}", from=2-1, to=2-2]
+    \end{tikzcd}
+    \]
+    where the morphism from $\mathscr{F}(A \times B) \to \mathscr{F}(A) \times \mathscr{F}(B)$ is unique.
+
+    If $\mathscr{G}$ is contravariant, then there are instead morphisms $\mathscr{G}(\pi_A) : \mathscr{G}(A) \to \mathscr{G}(A \times B)$ and similarly for  $\mathscr{G}(\pi_B)$.
+    Then the universal property for coproducts induces a unique morphism from $\mathscr{G}(A) \coprod \mathscr{G}(B) \to \mathscr{G}(A \times B)$.
+\end{solution}
+
+% Problem 1.2
+\begin{problem}
+    Let $\mathscr{F} : \mathsf{C} \to \mathsf{D}$ be a fully faithful functor.
+    If $A, B$ are objects in $\mathsf{C}$, prove that $A \cong B$ in $\mathsf{C}$ if and only if $\mathscr{F}(A) \cong \mathscr{F}(B)$ in $\mathsf{D}$.
+\end{problem}
+
+\begin{solution}
+    Recall that $A \cong B$ means there exist morphisms $f \in \Hom_{\mathsf{C}}(A, B)$ and $g \in \Hom_{\mathsf{C}}(B, A)$ such that $g \circ f = 1_A$ and $f \circ g = 1_B$.
+    Furthermore, since functors preserve composition and identity, the forward direction is trivial.
+    Now suppose $\mathscr{F}(A) \cong \mathscr{F}(B)$ in $\mathsf{D}$.
+    Then there exist isomorphisms $f \in \Hom_{\mathsf{D}}(\mathscr{F}(A), \mathscr{F}(B))$ and $g \in \Hom_{\mathsf{D}}(\mathscr{F}(B), \mathscr{F}(A))$.
+    The two Hom sets are in bijection with the sets $\Hom_{\mathsf{C}}(A, B)$ and $\Hom_{\mathsf{C}}(B, A)$ so we have corresponding morphisms $f'$ and $g'$.
+    In particular, we find
+    \[
+        f \circ g = \mathscr{F}(f') \circ \mathscr{F}(g') = \mathscr{F}(f' \circ g') = \mathscr{F}(1_B) = 1_{\mathscr{F}(B)}
+    \]
+    and the bijectivity on morphisms implies that $f' \circ g' = 1_B$.
+    A similar argument holds to show that $g' \circ f' = 1_A$ so these are isomorphisms and $A \cong B$ in $\mathsf{C}$.
+\end{solution}
+
+% Problem 1.3
+\begin{problem}
+    Recall that a group $G$ may be thought of as a groupoid $\mathsf{G}$ with a single object.
+    Prove that defining the action of $G$ on an object of a category $\mathsf{C}$ is equivalent to defining a functor $\mathsf{G} \to \mathsf{C}$.
+\end{problem}
+
+\begin{solution}
+    Indeed, recall that a group $G$ can be considered as a category $\mathsf{G}$ with one object, $X$, where $\Hom_{\mathsf{G}}(X, X) = \{g \cdot \mid g \in G\}$.
+    Since every morphism is an isomorphism, this Hom set contains inverses, there is an identity, and composition guarantees associativity.
+    To define a group action of $G$ on an object $A$ of $\mathsf{C}$, let $\mathscr{F} : \mathsf{G} \to \mathsf{C}$ be a functor sending $X \mapsto A$.
+    Similarly, we send each element of $\Hom_{\mathsf{G}}(X, X)$ to an element of $\Hom_{\mathsf{C}}(A, A)$.
+    Since functors preserve identities, $\mathscr{F}(1_X) = 1_A$ which corresponds to $e \cdot a = a$ for all $a \in A$ (if it has some set structure).
+    Similarly, since functors preserve composition, we find $\mathscr{F}(g \circ h) = \mathscr{F}(g) \circ \mathscr{F}(h)$, or $(gh)(a) = g(h(a))$.
+    Thus, we have defined an action.
+    An action can be converted into a functor in a similar manner.
+\end{solution}
+
+% Problem 1.4
+\begin{problem}
+    Let $R$ be a commutative ring, and let $S \subseteq R$ be a \textit{multiplicative subset} in the sense of Exercise V.4.7.
+    Prove that `localization is a functor': 
+    associating with every $R$-module $M$ the localization $S^{-1}M$ (Exercise V.4.8) and with every $R$-module homomorphism $\varphi : M \to N$ the naturally induced homomorphism $S^{-1}M \to S^{-1}N$ defines a covariant functor from the category of $R$-modules to the category of $S^{-1}R$-modules.
+\end{problem}
+
+\begin{solution}
+    The map assigns every object of $R\textsf{-Mod}$ to an object of $S^{-1}R\textsf{-Mod}$.
+    Furthermore, given a module homomorphism $\varphi: M \to N$, we have an induced homomorphism which maps $\frac{m}{s} \mapsto \frac{\varphi(m)}{s}$.
+    We show that it preserves identities and composition.
+    Let $1_M : M \to M$ be the identity.
+    Then $\mathscr{F}(1_M) : S^{-1}M \to S^{-1}M$ is defined as $\frac{m}{s} \mapsto \frac{m}{s}$ which is equivalent to the identity on $S^{-1}M$.
+    Now let $\alpha: M \to N$ and $\beta: N \to P$ be module homomorphisms.
+    Then $\mathscr{F}(\alpha)$ sends $\frac{m}{s} \mapsto \frac{\alpha(m)}{s}$.
+    Similarly, $\mathscr{F}(\beta)$ sends $\frac{n}{s} \mapsto \frac{\beta(n)}{s}$.
+    Then we find that
+    \[
+        \mathscr{F}(\beta) \circ \mathscr{F}(\alpha) \left(\frac{m}{s}\right) = \mathscr{F}(\beta) \left(\frac{\alpha(m)}{s}\right) = \frac{\beta(\alpha(m))}{s} = \mathscr{F}(\beta \circ \alpha) \left(\frac{m}{s}\right)
+    \]
+    so this map preserves composition, hence it is a functor.
+\end{solution}
+
+% Problem 1.5
+\begin{problem}
+    For $F$ a field, denote by $F^{*}$ the group of nonzero elements of $F$, with multiplication.
+    The assignment $\mathsf{Fld} \to \mathsf{Grp}$ mapping $F$ to $F^{*}$ and a homomorphism of fields $\varphi: k \to F$ to the restriction $\varphi|_{k^{*}} :k^{*} \to F^{*}$ is clearly a covariant functor.
+
+    On the other hand, a homomorphism of fields $k \to F$ is nothing but a field extension $k \subseteq F$.
+    Prove that the assignment $F \mapsto F^{*}$ on objects, together with the prescription associating with every $k \subseteq F$ the \textit{norm} $N_{k \subseteq F} : F^{*} \to k^{*}$ (cf. Exercise VII.1.12), gives a \textit{contravariant} functor $\mathsf{Fld} \to \mathsf{Grp}$.
+    State and prove an analogous statement for the \textit{trace} (cf. Exercise VII.1.13).
+\end{problem}
+
+\begin{solution}
+    To do.
+\end{solution}
+
+% Problem 1.6
+\begin{problem}
+    Formalize the notion of presheaf of abelian groups on a topological space $T$.
+    If $\mathscr{F}$ is a presheaf on $T$, elements of $\mathscr{F}(U)$ are called \textit{sections} of $\mathscr{F}$ on $U$.
+    The homomorphism $\rho_{UV} : \mathscr{F}(U) \to \mathscr{F}(V)$ induced by an inclusion $V \subseteq U$ is called the \textit{restriction map}.
+
+    Show that an example of a presheaf is obtained by letting $\mathscr{C}(U)$ be the additive abelian group of continuous complex-valued functions on $U$, with restriction of sections defined by ordinary restrictions of functions.
+
+    For this presheaf, prove that one can uniquely glue sections agreeing on overlapping open sets.
+    That is, if $U$ and $V$ are open sets and $s_U \in \mathscr{C}(U), s_V \in \mathscr{C}(V)$ agree after restriction to $U \cap V$, prove that there exists a unique $s \in \mathscr{C}(U \cup V)$ such that $s$ restricts to $s_U$ on $U$ and to $s_V$ on $V$.
+
+    This is essentially the condition making $\mathscr{C}$ a \textit{sheaf}.
+\end{problem}
+
+\begin{solution}
+    A presheaf of abelian groups on a topological space $T$ is a map $\mathscr{F}$ which assigns each open set $U$ of $T$ to an abelian group.
+    By assumption, the restriction maps $\rho_{UV}$ are homomorphisms of abelian groups.
+    Indeed, we can define the presheaf of continuous complex-valued functions on a topological space.
+    To any open set $U$ of $T$, let $\mathscr{C}(U)$ be the abelian group of continuous functions on $U$ (under pointwise addition).
+    For an inclusion $U \subseteq V$, we can define the restriction map $\rho_{UV}: \mathscr{C}(V) \to \mathscr{C}(U)$ by sending $f \mapsto f|_U$.
+    Certainly if $f$ is continuous on $V$, it is continuous on a subset of $V$.
+    To prove that this is in fact a group homomorphism, we see that
+    \[
+        \rho_{UV} (f + g) = (f + g)|_{U} = f|_{U} + g|_{U} = \rho_{UV}(f) + \rho_{UV}(g)
+    \]
+    where the second equality follows from addition being defined as point-wise.
+    Thus, this is in fact a presheaf of abelian groups.
+
+    To see that it is also a sheaf, let $s_U \in \mathscr{C}(U)$ and $s_V \in \mathscr{C}(V)$ such that $\rho_{U, U \cap V}(s_U) = \rho_{V, U \cap V}(s_V)$.
+    Define
+    \[
+    s := 
+    \begin{cases}
+        s_U(x) & \text{if $x \in U$} \\
+        s_V(x) & \text{if $x \in V$}
+    \end{cases}
+    \]
+    Certainly $s$ is continuous on $U \cup V$ since it is continuous on both $U$ and $V$, as well as on $U \cap V$.
+    It is also unique by construction, as for any function $f$ which agrees with $s$ on $U \cup V$, we find $s - f = 0$ so they are equivalent.
+\end{solution}
+
+% Problem 1.7
+\begin{problem}
+    Define a topology on $\Spec R$ by declaring the closed sets to be the sets $V(I)$, where $I \subseteq R$ is an ideal and $V(I)$ denotes the set of prime ideals \textit{containing} $I$.
+    \begin{itemize}
+        \item Verify that this indeed defines a topology on $\Spec R$.
+            (This is the \textit{Zariski topology} on $\Spec R$.)
+        \item Relate this topology to the Zariski topology defined in \S VII.2.3.
+        \item Prove that $\Spec$ is then a contravariant functor from the category of commutative rings to the category of topological spaces (where morphisms are continuous functions).
+    \end{itemize}
+\end{problem}
+
+\begin{solution}
+    We verify that this is a topology on $\Spec R$.
+    Certainly $\emptyset$ is closed since $R \subseteq R$ is an ideal and no prime ideals contain $R$.
+    Similarly, $\Spec R$ is closed as $\{0\} \subseteq R$ is an ideal and every ideal contains $\{0\}$.
+    Now let $V(I)$ and $V(J)$ be closed sets.
+    Recall that $IJ$ is the ideal generated by elements of the form $ab$ where $a \in I, b \in J$.
+    We claim that $V(IJ) = V(I) \cup V(J)$.
+    Suppose $\mathfrak{p} \in V(I) \cup V(J)$ and WLOG, assume $\mathfrak{p} \in V(I)$.
+    Then, since $IJ \subseteq I$, we have $IJ \subseteq I \subseteq \mathfrak{p}$ so $\mathfrak{p} \in V(IJ)$.
+    For the other direction, suppose $\mathfrak{p} \in V(IJ)$.
+    Then $\mathfrak{p} \in V(I)$ or $\mathfrak{p} \in V(J)$.
+    Indeed, otherwise we could find an element $ab \in IJ \subseteq \mathfrak{p}$ such that $a, b \notin \mathfrak{p}$, contradicting the assumption that $\mathfrak{p}$ is prime.
+    Thus, $V(IJ) = V(I) \cup V(J)$ and the topology is closed under finite unions.
+    Finally, we claim that $V(I + J) = V(I) \cap V(J)$.
+    Suppose $\mathfrak{p} \in V(I+J)$.
+    That is, $I + J \subseteq \mathfrak{p}$.
+    Since $I \subseteq I + J$ and $J \subseteq I + J$, we find that $\mathfrak{p} \in V(I) \cap V(J)$.
+    Now suppose $\mathfrak{p} \in V(I) \cap V(J)$.
+    That is, $I \subseteq \mathfrak{p}$ and $J \subseteq \mathfrak{p}$.
+    Now let $x \in I + J$.
+    That is, $x = a + b$ for some $a \in I, b \in J$.
+    Then since $a,b \in \mathfrak{p}$, we have $x \in \mathfrak{p}$, thus $I + J \subseteq \mathfrak{p}$ and  $\mathfrak{p} \in V(I + J)$.
+    Thus, the intersection of two closed sets is closed, proving that this is in fact a topology on $\Spec R$.
+
+    Recall that the Zariski topology defined in \S VII.2.3 is defined on $\mathbb{A}^{n}_K$ by setting algebraic subsets to be the closed sets.
+    Given a set $S \subseteq K[x_1, \ldots, x_n]$, the points of $V(S)$ correspond to the maximal ideals of $K[x_1, \ldots, x_n]$ which contain $S$.
+    Thus, this is a natural generalization where instead of only using maximal ideals, one extends to prime ideals.
+
+    To see that this is indeed a contravariant functor from $\mathsf{CRing} \to \mathsf{Top}$, first note that $\Spec$ maps every commutative ring to a topological space (as shown above).
+    Now let $\varphi: R \to S$ be a homomorphism of rings.
+    Then $\Spec R$ induces a morphism $\Spec S \to \Spec R$ which sends $\mathfrak{p} \mapsto \varphi^{-1}(\mathfrak{p})$ (it is easy to verify that the preimage of a prime ideal is prime, which verifies that this is a continuous map).
+    Certainly $\Spec$ takes the identity to the identity, and it can quickly be seen that it preserves composition.
+\end{solution}
+
+% Problem 1.8
+\begin{problem}
+    Let $K$ be an algebraically closed field, and consider the category $K\textsf{-Aff}$ defined in Example 1.9.
+    \begin{itemize}
+        \item Denote by $h_S$ the functor $\Hom_{K\mathsf{-Aff}}(\_, S)$ (as in \S 1.2), and let $p = \mathbb{A}^{0}_K$ be a point.
+            Show that there is a natural bijection between $S$ and $h_S(p)$.
+            (Use Exercise VII.2.14.)
+        \item Show how every $\varphi \in \Hom_{K\mathsf{-Aff}}(S, T)$ determines a function \textit{of sets} $S \to T$.
+        \item If $S \subseteq \mathbb{A}^{m}_K, T \subseteq \mathbb{A}^{n}_K$, show that the function $S \to T$ determined by a morphism $\varphi \in \Hom_{K\mathsf{-Aff}}(S, T)$ is the restriction of a `polynomial function' $\mathbb{A}^{m}_K \to \mathbb{A}^{n}_K$.
+            (Part of this exercise is to make sense of what this means!)
+    \end{itemize}
+\end{problem}
+
+\begin{solution}
+    Note that $h_S(p) = \Hom_{K\mathsf{-Aff}}(p, S)$. 
+    Each map in this set is uniquely determined by the point in $q$ where $p$ is sent to.
+    To formalize this notion, recall that we define $\Hom_{K\mathsf{-Aff}}(p, S) = \Hom_{K\mathsf{-Alg}}(K[S], K)$.
+    By Exercise VII.2.14, there is a natural bijection between the points of $S$ and the maximal ideals of $K[S]$ such that if $q$ corresponds to the ideal $\mathfrak{m}_q$, then the evaluation map from $K[S]$ sending $f \mapsto f(q)$ has kernel $\mathfrak{m}_q$.
+    Thus, each point of $S$ corresponds to a map in the $\Hom$ set.
+
+    This can be extended to see that every $\varphi \in \Hom_{K\mathsf{-Aff}}(S, T)$ determines a set function $S \to T$.
+    Intuitively, this reflects nothing more than the fact that $\varphi$ maps points of $S$ to points of $T$.
+    Formally, we have that $\varphi : K[T] \to K[S]$ is determined by sending $y_i \mapsto f_i(x_1, \ldots, x_m)$.
+    Thus, given a point $p = (x_1, \ldots, x_m) \in S$, we find that $\varphi$ induces a set function sending $p \mapsto (f_1(p), \ldots, f_n(p))$.
+
+    To do.
+\end{solution}
+
+% Problem 1.9
+\begin{problem}
+    Let $\mathsf{C}, \mathsf{D}$ be categories, and assume $\mathsf{C}$ to be small.
+    Define a \textit{functor category} $\mathsf{D^{C}}$, whose objects are covariant functors $\mathsf{C} \to \mathsf{D}$ and whose morphisms are natural transformations.
+
+    Prove that the assignment $X \mapsto h_X := \Hom_{\mathsf{C}}(\_, X)$ defines a covariant functor $\mathsf{C} \to \mathsf{Set}^{\mathsf{C^{\mathsf{op}}}}$.
+    (Define the action on morphisms in the natural way.)
+\end{problem}
+
+\begin{solution}
+    Note that $\mathsf{Set^{C^{op}}}$ is the category whose objects are covariant functors $\mathsf{C^{op}} \to \mathsf{Set}$.
+    Indeed, we since $\mathsf{C}$ is small, we find $\Hom_{\mathsf{C}}(A, X)$ is a set for all objects $A$ of $\mathsf{C}$.
+    Given a morphism $f: X \to Y$ in $\mathsf{C}$, we set $\mathscr{F}(f):h_X \to h_Y$ to be the natural transformation $v_A: \Hom_{\mathsf{C}}(A, X) \to \Hom_{\mathsf{C}}(A, Y)$ which maps $\alpha: A \to X$ to $\beta: A \to Y$ where $\beta = f \circ \alpha$.
+    Verifying that that this is in fact a natural transformation is a brief diagram chase.
+    We check that this functor $\mathscr{F}$ preserves identities.
+    Indeed, consider $\mathscr{F}(1_X) : h_X \to h_X$ to be the natural transformation $v_A: \Hom_C(A, X) \to \Hom_C(A, X)$ which sends $\alpha: A \to X$ to $\beta: B \to X$ where $\beta = 1_X \circ \alpha$.
+    Then clearly $v$ is the identity on all Hom sets.
+    Similarly, since natural transformations can be composed, it is quick to check that $\mathscr{F}$ preserves compositions.
+\end{solution}
+
+% Problem 1.10
+\begin{problem}
+    Let $\mathsf{C}$ be a category, $X$ and object of $\mathsf{C}$, and consider the contravariant functor $h_X := \Hom_{\mathsf{C}}(_, X)$.
+    For every contravariant functor $\mathscr{F} : \mathsf{C} \to \mathsf{Set}$, prove that there is a bijection between the set of natural transformations $h_x \rightsquigarrow \mathscr{F}$ and $\mathscr{F}(X)$ as follows.
+    The datum of a natural transformation $h_X \rightsquigarrow \mathscr{F}$ consists of a morphism from $h_X(A) = \Hom_{\mathsf{C}}(A, X)$ to $\mathscr{F}(A)$ for every object $A$ of $\mathsf{C}$.
+    Map $h_X$ to the image of $\text{id}_X \in h_X(X)$ in $\mathscr{F}(X)$.
+    (Hint: Produce an inverse of the specified map.
+    For every $f \in \mathscr{F}(X)$ and every $\varphi \in \Hom_{\mathsf{C}}(A, X)$, how do you construct an element of $\mathscr{F}(A)$?)
+
+    This result is called the \textit{Yoneda lemma}.
+\end{problem}
+
+\begin{solution}
+    The specified map sends natural transformations to elements of $\mathscr{F}(X)$.
+\end{solution}
+\end{document}

@@ -231,11 +231,11 @@
 
 \begin{solution}
     Note that $\mathsf{Set^{C^{op}}}$ is the category whose objects are covariant functors $\mathsf{C^{op}} \to \mathsf{Set}$.
-    Indeed, we since $\mathsf{C}$ is small, we find $\Hom_{\mathsf{C}}(A, X)$ is a set for all objects $A$ of $\mathsf{C}$.
+    Indeed, since $\mathsf{C}$ is small, we find $\Hom_{\mathsf{C}}(A, X)$ is a set for all objects $A$ of $\mathsf{C}$.
     Given a morphism $f: X \to Y$ in $\mathsf{C}$, we set $\mathscr{F}(f):h_X \to h_Y$ to be the natural transformation $v_A: \Hom_{\mathsf{C}}(A, X) \to \Hom_{\mathsf{C}}(A, Y)$ which maps $\alpha: A \to X$ to $\beta: A \to Y$ where $\beta = f \circ \alpha$.
     Verifying that that this is in fact a natural transformation is a brief diagram chase.
     We check that this functor $\mathscr{F}$ preserves identities.
-    Indeed, consider $\mathscr{F}(1_X) : h_X \to h_X$ to be the natural transformation $v_A: \Hom_C(A, X) \to \Hom_C(A, X)$ which sends $\alpha: A \to X$ to $\beta: B \to X$ where $\beta = 1_X \circ \alpha$.
+    Indeed, consider $\mathscr{F}(1_X) : h_X \to h_X$ to be the natural transformation $v_A: \Hom_C(A, X) \to \Hom_C(A, X)$ which sends $\alpha: A \to X$ to $\alpha = 1_X \circ \alpha$.
     Then clearly $v$ is the identity on all Hom sets.
     Similarly, since natural transformations can be composed, it is quick to check that $\mathscr{F}$ preserves compositions.
 \end{solution}
@@ -253,6 +253,424 @@
 \end{problem}
 
 \begin{solution}
-    The specified map sends natural transformations to elements of $\mathscr{F}(X)$.
+    Given an element $f \in F(x)$, we construct a natural transform $\alpha_f : h_X \to F$.
+    The associated morphism is
+    \[
+        \alpha_f(A) : \Hom(A, X) \to F(A), \quad \varphi \mapsto F(\varphi)(f) \in F(A)
+    \]
+    since $F$ is contravariant.
+    To verify that this is indeed a natural transformation, let $f \in F(x)$, $g \in \Hom_{\mathsf{C}}(A, B)$, and $\varphi \in \Hom(B, X)$.
+    Then, 
+    \begin{gather*}
+        (\alpha_f(A) \circ h_x(g))(\varphi) = F(\varphi \circ g)(f) \\
+        (F(g) \circ \alpha_f(B))(\varphi) = F(\varphi)(f) \circ F(g) = F(\varphi \circ g)(f).
+    \end{gather*}
+    The two are equal, hence $\alpha_f$ is indeed a natural transformation.
+    Finally, we show that the two constructed functions are inverses.
+    Let $f \in F(X)$.
+    Then we can construct the natural transformation $\alpha_f$.
+    But then we obtain an element of $F(X)$ by sending this transformation to  $\alpha_f(X)(\text{id}_X) = F(\text{id}_X)(f) = \text{id}_X(f) = f$ since functors preserve identity morphisms.
+    Thus, the two are inverses and there is a bijection between the set of natural transformations from $h_x \to F$ and the set $F(X)$.
+\end{solution}
+
+% Problem 1.11
+\begin{problem}
+    Let $\mathsf{C}$ be a small category.
+    A contravariant functor $\mathsf{C} \to \mathsf{Set}$ is \textit{representable} if it is naturally isomorphic to a functor $h_X$.
+    In this case, $X$ `represents' the functor.
+    Prove that $\mathsf{C}$ is equivalent to the subcategory of representable functors in $\mathsf{Set}^{\mathsf{C}^{\mathsf{op}}}$.
+
+    Thus, every (small) category is equivalent to a subcategory of a functor category.
+\end{problem}
+
+\begin{solution}
+    Consider the functor $F : C \to \mathsf{Set}^{\mathsf{C}^{\mathsf{op}}}$ sending $X \mapsto h_X$ and which sends morphisms $f: X \to Y$ to the natural transformation $\alpha : h_X \to h_Y$ such that $\alpha_A(\varphi) = f \circ \varphi$.
+    We prove that $F$ is an equivalence of categories.
+    By the Yoneda lemma, there is a bijection between the set of natural transformations $h_X \to h_Y$ and the elements of $h_Y(X)$.
+    In particular, there is a bijection between $\Hom_{\mathsf{C}}(X, Y)$ and $\Hom_{\mathsf{C}^{\mathsf{Set}^{\mathsf{op}}}}(h_X, h_Y)$.
+    Thus, $F$ is fully faithful.
+    To show that $F$ is essentially surjective, let $G$ be a representable functor.
+    That is, $G$ is naturally isomorphic to a functor $h_X$ for some object $X$ in $\mathsf{C}$.
+    Then $G \cong h_X = F(X)$ in $\mathsf{C}^{\mathsf{Set}^{\mathsf{op}}}$.
+    Thus, $F$ is an equivalence of categories.
+\end{solution}
+
+% Problem 1.12
+\begin{problem}
+    Let $\mathsf{C}, \mathsf{D}$ be categories, and let $\mathscr{F} : \mathsf{C} \to \mathsf{D}$, $\mathscr{G} : \mathsf{D} \to \mathsf{C}$ be functors.
+    Prove that $\mathscr{F}$ is left-adjoint to $\mathscr{G}$ if and only if, for every object $Y$ in $\mathsf{D}$, the object $\mathscr{G}(Y)$ represents the functor $h_Y \circ \mathscr{F}$.
+\end{problem}
+
+\begin{solution}
+    Recall that $\mathscr{F}$ is left-adjoint to $\mathscr{G}$ iff there is a natural isomorphism such that for all objects $X$ of $\mathsf{C}$ and $Y$ of $\mathsf{D}$, $\Hom_{\mathsf{C}}(X, \mathscr{G}(Y)) \cong \Hom_{\mathsf{D}}(\mathscr{F}(X), Y)$.
+    In particular, if we fix $Y$, then there is a natural isomorphism between $h_{\mathscr{G}(Y)}$ and $h_Y \circ \mathscr{F}$ (since $h_Y \circ \mathscr{F}(X) = \Hom_{\mathsf{D}}(\mathscr{F}(X), Y)$).
+    That is, $\mathscr{G}(Y)$ represents $h_Y \circ \mathscr{F}$.
+    The other direction is effectively the same.
+\end{solution}
+
+% Problem 1.13
+\begin{problem}
+    Let $\mathsf{Z}$ be the `Zen' category consisting of no objects and no morphisms.
+    One can contemplate a functor $\mathscr{L}$ from $\mathsf{Z}$ to any category $\mathsf{C}$:
+    no datum whatsoever need be specified.
+    What is $\varprojlim \mathscr{L}$ (when such an object exists)?
+\end{problem}
+
+\begin{solution}
+    Since no datum is specified and by the definition of a limit, the object is final with respect to the property defined by a cone up to isomorphism, $\varprojlim \mathscr{L}$ is a final object of $\mathsf{C}$.
+\end{solution}
+
+% Problem 1.14
+\begin{problem}
+    Verify that the construction described in Example 1.11 indeed recovers the kernel of a homomorphism of $R$-modules, as claimed.
+\end{problem}
+
+\begin{solution}
+    The construction describes taking the limit of a functor from a two-object category with parallel morphisms in which one is sent to the zero morphism.
+    In particular, such a limit is determined by the choice of two modules, $A_1$ and $A_2$, along with morphisms $\varphi: A_2 \to A_1$ and $0: A_2 \to A_1$.
+    The limit of this functor, say $\varprojlim \mathscr{K}$, is a module $K$ equipped with morphisms $\lambda_i : K \to A_i$ such that $\lambda_1 = \varphi \circ \lambda_2$ and $\lambda_1 = 0 \circ \lambda_2$.
+    That is, any morphism from $K \to A_1$ is the zero map and uniquely factors through $A_2$.
+    Since $K$ is final with respect to this property, we recover the definition of the kernel of a module homomorphism.
+\end{solution}
+
+% Problem 1.15
+\begin{problem}
+    Verify that the construction given in the proof of Claim 1.13 is an inverse limit, as claimed.
+\end{problem}
+
+\begin{solution}
+    Claim 1.13 constructs the limit $\varprojlim A_i$ in $R\mathsf{-Mod}$.
+    Consider the product $\Pi A_i$ which consists of arbitrary sequences $(a_i)_{i > 0}$ where $a_i \in A_i$.
+    A sequence $(A_i)_{i > 0}$ is \textit{coherent} if for all $i > 0$, we have $a_i = \varphi_{i, i+1}(a_{i+1})$.
+    Coherent sequences form an $R$-submodule $A$ of $\Pi A_i$ where the canonical projections restrict to homomorphisms $\varphi_i : A \to A_i$.
+    Indeed, we have $\varphi_i(a) = a_i = \varphi_{i, i+1} \circ \varphi_{i+1}(a)$.
+    Furthermore, suppose $M$ is another module endowed with morphisms satisfying the requirement.
+    Then, since there are morphisms $\lambda_i : M \to A_i$, there is a unique morphism $\lambda: M \to A$ sending $m \mapsto (\lambda_i(m))_{i > 0}$.
+    This morphism makes all relevant diagrams to commute and is entirley determined by $M$, hence $A$ is final with respect to this property, making it a limit.
+\end{solution}
+
+% Problem 1.16
+\begin{problem}
+    Flesh out the sketch of the constructions of colimits in $\mathsf{Set}$ and $R\mathsf{-Mod}$ given in \S 1.4, for an indexing poset.
+    In $\mathsf{Set}$, observe that the construction of the colimit is simpler if the poset $\mathsf{I}$ is \textit{directed};
+    that is, if $\forall i, j \in \mathsf{I}$, there exists a $k \in \mathsf{I}$ such that $i \leq k$, $j \leq k$.
+\end{problem}
+
+\begin{solution}
+    No, I don't think I will. / To do.
+\end{solution}
+
+% Problem 1.23
+\begin{problem}
+    Let $R, S$ be rings.
+    Prove that an additive covariant functor $\mathscr{F} : R\mathsf{-Mod} \to S\mathsf{-Mod}$ is exact if and only if $\mathscr{F}(A) \longrightarrow \mathscr{F}(B) \longrightarrow \mathscr{F}(C)$ is exact in $S\mathsf{-Mod}$ whenever $A \longrightarrow B \longrightarrow C$ is exact in $R\mathsf{-Mod}$.
+    Deduce that an exact functor sends exact complexes to exact complexes.
+\end{problem}
+
+\begin{proof}
+    One direction is trivial since if
+    \[
+    \begin{tikzcd}
+        0 & A & B & C & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5]
+    \end{tikzcd}
+    \]
+    is exact, then so is
+    \[
+    \begin{tikzcd}
+        A & B & C.
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+    \end{tikzcd}
+    \]
+    For the other direction, suppose $\mathscr{F}$ is an additive covariant functor satisfying the specified property.
+    Let
+    \[
+    \begin{tikzcd}
+        0 & A & B & C & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5]
+    \end{tikzcd}
+    \]
+    be an exact sequence of $R$-modules.
+    In particular, each `sub-sequence' is exact.
+    Then applying $\mathscr{F}$ to each `sub-sequence' preserves exactness, and since $\mathscr{F}(d)^2 = 0$, we may concatenate the `sub-sequences` to obtain the necessary exact sequence of $S$-modules.
+    Thus, $\mathscr{F}$ is an exact functor.
+    The same logic applies to arbitrary exact sequences.
+\end{proof}
+
+% Problem 1.24
+\begin{problem}
+    Let $R, S$ be rings.
+    An additive covariant functor $\mathscr{F} : R\mathsf{-Mod} \to S\mathsf{-Mod}$ is \textit{faithfully} exact if `$\mathscr{F}(A) \longrightarrow \mathscr{F}(B) \longrightarrow \mathscr{F}(C)$ is exact in $S\mathsf{-Mod}$ if and only if $A \longrightarrow B \longrightarrow C$ is exact in $R\mathsf{-Mod}$'.
+    Prove that an exact functor $\mathscr{F} : R\mathsf{-Mod} \to S\mathsf{-Mod}$ is faithfully exact if and only if $\mathscr{F}(M) \neq 0$ for every nonzero $R$-module $M$, if and only if $\mathscr{F}(\varphi) \neq 0$ for every nonzero morphism $\varphi$ in $R\mathsf{-Mod}$.
+\end{problem}
+
+\begin{solution}
+    Suppose $\mathscr{F}$ is faithfully exact.
+    Suppose $\mathscr{F}(M) = 0$ for some $R$-module $M$.
+    Then there is an exact sequence $0 \longrightarrow \mathscr{F}(M) \longrightarrow 0$.
+    But then $0 \longrightarrow M \longrightarrow 0$ is an exact sequence of $R$-modules, implying that $M = 0$.
+
+    Now suppose $\mathscr{F}(M) \neq 0$ for every nonzero $R$-module $M$.
+    Let $\varphi : M \to N$ be a homomorphism of $R$-modules.
+    We obtain a commutative diagram with exact rows and columns
+    \[
+    \begin{tikzcd}
+	    & 0 \\
+	    {\mathscr{F}(M)} & {\mathscr{F}(\im \varphi)} & 0 \\
+	    & {\mathscr{F}(N)}
+            \arrow["\mathscr{F}(\varphi')", from=2-1, to=2-2]
+	    \arrow[from=2-2, to=2-3]
+	    \arrow[from=1-2, to=2-2]
+            \arrow["\mathscr{F}(i)", from=2-2, to=3-2]
+            \arrow["\mathscr{F}(\varphi)"', from=2-1, to=3-2]
+    \end{tikzcd}
+    \]
+    Suppose $\mathscr{F}(\varphi) = 0$.
+    Then $\mathscr{F}(i) \circ \mathscr{F}(\varphi') = 0$, and by the injectivity of $i$, we have $\mathscr{F}(\varphi') = 0$.
+    This implies that $\mathscr{F}(\im \varphi) = 0$, hence $\im \varphi = 0$, hence $\varphi = 0$.
+
+    Finally, suppose $\mathscr{F}(\varphi) \neq 0$ for every nonzero $R$-module homomorphism $\varphi$.
+    Let
+    $
+    \begin{tikzcd}
+        {\mathscr{F}(A)} & {\mathscr{F}(B)} & {\mathscr{F}(C)}
+        \arrow["\mathscr{F}(f)", from=1-1, to=1-2]
+        \arrow["\mathscr{F}(g)", from=1-2, to=1-3] 
+    \end{tikzcd}
+    $
+    be exact.
+    Since $\mathscr{F}(g) \circ \mathscr{F}(f) = \mathscr{F}(g \circ f) = 0$, we find that $g \circ f = 0$ and $\im f \subseteq \ker g$.
+    Then we have the following commutative diagram with exact rows and columns.
+    \[
+    \begin{tikzcd}
+	& 0 \\
+	0 & {\mathscr{F} (\im f)} & {\mathscr{F}(A)} \\
+	0 & {\mathscr{F}(\ker g)} & {\mathscr{F}(B)} & {\mathscr{F}(C)} \\
+	& {\mathscr{F}(\ker g / \im f)} \\
+	& 0
+	\arrow[from=1-2, to=2-2]
+	\arrow["{\mathscr{F}(i)}"', from=2-2, to=3-2]
+	\arrow["{\mathscr{F}(p)}"', from=3-2, to=4-2]
+	\arrow[from=4-2, to=5-2]
+	\arrow[from=3-1, to=3-2]
+	\arrow["{\mathscr{F}(j)}"', from=3-2, to=3-3]
+	\arrow["{\mathscr{F}(g)}"', from=3-3, to=3-4]
+	\arrow["{\mathscr{F}(f)}", from=2-3, to=3-3]
+	\arrow[from=2-2, to=2-1]
+	\arrow["{\mathscr{F}(f')}"', from=2-3, to=2-2]
+    \end{tikzcd}
+   \]
+   We show that $\mathscr{F}(i)$ is surjective.
+   Indeed, let $x \in \mathscr{F}(\ker g)$.
+   Since $\mathscr{F}(g) \circ \mathscr{F}(j) = 0$,  $\mathscr{F}(j)(x) \in \ker \mathscr{F}(g) = \im \mathscr{F}(f)$.
+   That is, there exists some $y \in \mathscr{F}(A)$ such that $\mathscr{F}(f)(y) = \mathscr{F}(j)(x)$.
+   Thus, $\mathscr{F}(j)(x) = \mathscr{F}(f)(y) = \mathscr{F}(j) \circ \mathscr{F}(i) \circ \mathscr{F}(f')(y)$.
+   By the injectivity of $\mathscr{F}(j)$, we find that $x = \mathscr{F}(i) \circ \mathscr{F}(f')(y)$.
+   Thus, $\mathscr{F}(i)$ is surjective, as well as injective.
+   Therefore, $\mathscr{F}(p) = 0$*, hence $p = 0$, hence $\ker g = \im f$, so the corresponding sequence of $R$-modules is exact. 
+\end{solution}
+
+% Problem 1.25
+\begin{problem}
+    Prove that localization is an \textit{exact} functor.
+
+    In fact, prove that localization `preserves homology': if
+    \[
+        M_{\bullet}: 
+        \begin{tikzcd}
+            {\cdots} & M_{i + 1} & M_{i} & M_{i-1} & {\cdots}
+            \arrow[from=1-1, to=1-2]
+            \arrow["d_{i+1}", from=1-2, to=1-3]
+            \arrow["d_i", from=1-3, to=1-4]
+            \arrow[from=1-4, to=1-5] 
+        \end{tikzcd}
+    \]
+    is a complex of $R$-modules and $S$ is a multiplicative subset of $R$, then the localization $S^{-1}H_i(M_{\bullet})$ of the $i$-th homology of $M_{\bullet}$ is the $i$-th homology $H_i(S^{-1}M_{\bullet})$ of the localized complex
+    \[
+        S^{-1}M_{\bullet}:
+        \begin{tikzcd}
+            {\cdots} & S^{-1}M_{i+1} & S^{-1}M_i & S^{-1}M_{i-1} & {\cdots}
+            \arrow[from=1-1, to=1-2]
+            \arrow["S^{-1}d_{i+1}", from=1-2, to=1-3]
+            \arrow["S^{-1}d_i", from=1-3, to=1-4]
+            \arrow[from=1-4, to=1-5] 
+        \end{tikzcd}
+    \]
+\end{problem}
+
+\begin{solution}
+    We first prove that localization is an exact functor.
+    Let
+    $
+    \begin{tikzcd}
+        A & B & C
+        \arrow["f", from=1-1, to=1-2]
+        \arrow["g", from=1-2, to=1-3] 
+    \end{tikzcd}
+    $
+    be an exact sequence of $R$-modules.
+    That is, $\ker g = \im f$.
+    Localizing yields a complex
+    $
+    \begin{tikzcd}
+        S^{-1}A & S^{-1}B & S^{-1}C
+        \arrow["S^{-1}f", from=1-1, to=1-2]
+        \arrow["S^{-1}g", from=1-2, to=1-3] 
+    \end{tikzcd}
+    $
+    where $\im S^{-1}f \subseteq \ker S^{-1}g$.
+    To see the other inclusion, let $m / s \in \ker S^{-1}g$.
+    That is, $S^{-1}g(m / s) = 0$, so $g(m) / s = 0$, hence there exists $t \in S$ such that $t g(m) = 0$.
+    But $t g(m) = g(tm)$, hence $tm \in \ker g = \im f$.
+    Therefore, there exists $a \in A$ such that $f(a) = tm$.
+    Thus, $m / s = mt / st = f(a) / st \in \im S^{-1}f$.
+    Hence, localization is an exact functor.
+
+    The $i$-th homology of $M_{\bullet}$ is given by $\frac{\ker d_i}{\im d_{i+1}}$, which inherits the structure of an $R$-module.
+    Thus, we may localize it to obtain the $S^{-1}R$-module $S^{-1}H_i(M_{\bullet})$.
+    On the other hand, localizing the complex yields induced morphisms $S^{-1}d_i$ such that the homology $H_i(S^{-1}M_{\bullet}) = \frac{\ker S^{-1}d_i}{\im S^{-1}d_{i+1}}$.
+
+    We have the following exact sequences:
+    \[
+    \begin{tikzcd}
+        0 & \ker d_i & M_i & M_{i-1}
+        \arrow[from=1-1, to=1-2]
+        \arrow["i", from=1-2, to=1-3]
+        \arrow["d_i", from=1-3, to=1-4] 
+    \end{tikzcd}
+    \] 
+    \[
+    \begin{tikzcd}
+        M_{i+1} & \im d_{i+1} & 0
+        \arrow["d_{i+1}", from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+    \end{tikzcd}
+    \]
+    Localizing both of these yields exact sequences which show that $S^{-1} \ker d_i \cong \ker S^{-1} d_i$ and that $\im S^{-1}d_{i+1} \cong S^{-1} \im d_{i+1}$.
+    Finally, we have the exact sequence
+    \[
+    \begin{tikzcd}
+        0 & \im d_{i+1} & \ker d_i & \frac{\ker d_i}{\im d_{i+1}} & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3] 
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    Localizing yields the exact sequence
+    \[
+    \begin{tikzcd}
+        0 & S^{-1} \im d_{i+1} & S^{-1} \ker d_i & S^{-1} \frac{\ker d_i}{\im d_{i+1}} & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3] 
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    Finally, combining all of the above yields
+    \[
+        S^{-1}H_i(M_{\bullet}) \cong S^{-1} \frac{\ker d_i}{\im d_{i+1}} \cong \frac{S^{-1}\ker d_i}{S^{-1} \im d_{i+1}} \cong \frac{\ker S^{-1} d_i}{\im S^{-1} d_{i+1}} \cong H_i(S^{-1} M_{\bullet}).
+    \]
+\end{solution}
+
+% Problem 1.26
+\begin{problem}
+    Prove that localization is faithfully exact in the following sense:
+    let $R$ be a commutative ring and let
+    \[
+        \begin{tikzcd}
+            0 & A & B & C & 0
+            \arrow[from=1-1, to=1-2]
+            \arrow[from=1-2, to=1-3]
+            \arrow[from=1-3, to=1-4]
+            \arrow[from=1-4, to=1-5] 
+        \end{tikzcd}\tag{*}
+    \]
+    be a sequence of $R$-modules.
+    Then (*) is exact if and only if the induced sequence of $R_{\mathfrak{p}}$-modules
+    \[
+        \begin{tikzcd}
+            0 & A_{\mathfrak{p}} & B_{\mathfrak{p}} & C_{\mathfrak{p}} & 0
+            \arrow[from=1-1, to=1-2]
+            \arrow[from=1-2, to=1-3]
+            \arrow[from=1-3, to=1-4]
+            \arrow[from=1-4, to=1-5] 
+        \end{tikzcd}
+    \]
+    is exact for evey prime ideal $\mathfrak{p}$ of $R$, if and only if it is exact for every maximal ideal $\mathfrak{p}$.
+\end{problem}
+
+\begin{solution}
+    Suppose (*) is exact and let $\mathfrak{p}$ be a prime ideal of $R$.
+    Then $S = R \setminus \mathfrak{p}$ so we may consider the localization $R_{\mathfrak{p}}$.
+    Since $(*)$ is exact, each homology group vanishes.
+    Furthermore, since localization preserves homology, the homology of the induced sequence of $R_{\mathfrak{p}}$-modules also vanishes, hence it is exact.
+
+    Now suppose the induced sequence is exact for every prime ideal of $R$.
+    In particular, since maximal ideals are prime, the sequence is exact for every maximal ideal of  $R$.
+
+    Finally, suppose the induced sequence of $R_{\mathfrak{p}}$-modules is exact for every maximal ideal $\mathfrak{p}$ of $R$.
+    Consider a homology group $H$ of (*) with the inherited $R$-module structure and suppose that $m \neq 0$ is in $H$.
+    Then the ideal $\{r \in R | rm = 0\}$ is a proper ideal of $R$ (since $1 \cdot m \neq 0$).
+    In particular, it is contained in some maximal ideal $\mathfrak{m}$.
+    But then we may consider the localized homology group $H_{\mathfrak{m}}$, which is nonempty in this case.
+    This implies that the sequence of $R_{\mathfrak{m}}$-modules is not exact.
+    Thus, the contrapositive yields the desired result.
+\end{solution}
+
+% Problem 1.27
+\begin{problem}
+    Let $R, S$ be rings.
+    Prove that right-adjoint functors $R\mathsf{-Mod} \to S\mathsf{-Mod}$ are left-exact and left-adjoint functors are right-exact.
+\end{problem}
+
+\begin{solution}
+    Let $\mathscr{F} : R\mathsf{-Mod} \to S\mathsf{-Mod}$ be a right-adjoint functor, say it is right-adjoint to $\mathscr{G}$.
+    Consider an exact sequence of $R$-modules
+    \[
+    \begin{tikzcd}
+        0 & A & B & C & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow["f", from=1-2, to=1-3]
+        \arrow["g", from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    We want to show that the sequence
+    \[
+        \begin{tikzcd}
+            \mathscr{F}(0) & \mathscr{F}(A) & \mathscr{F}(B) & \mathscr{F}(C)
+            \arrow[from=1-1, to=1-2] 
+            \arrow["\mathscr{F}(f)", from=1-2, to=1-3]
+            \arrow["\mathscr{F}(g)", from=1-3, to=1-4]
+        \end{tikzcd}
+    \]
+    is exact.
+    First, recall that $0$ as a zero object, hence a final object, is a limit.
+    Furthermore, right-adjoints commute with limits.
+    Therefore, $\mathscr{F}$ preserves this object; that is, $\mathscr{F}(0) = 0$.
+    Thus, it suffices to show that $\ker\mathscr{F}(f) = 0$ and $\ker \mathscr{F}(g) = \im \mathscr{F}(f)$.
+
+    Recall that the kernel is a categorical limit, so $\mathscr{F}$ preserves kernels.
+    Since $\ker f = 0$, we find that
+    \[
+        \ker \mathscr{F}(f) = \mathscr{F}(\ker f) = \mathscr{F}(0) = 0.
+    \]
+    Furthermore, we find that $\ker \mathscr{F}(g) = \mathscr{F}(\ker g) = \mathscr{F}(\im f)$.
+    Since $\ker \mathscr{F}(f) = 0$, $\mathscr{F}(f)$ is injective, hence $\mathscr{F}(A) \cong \im \mathscr{F}(f)$.
+    But from this, we find that
+    \[
+        \ker \mathscr{F}(g) = \mathscr{F}(\ker g) = \mathscr{F}(\im f) \cong \mathscr{F}(A) \cong \im \mathscr{F}(f).
+    \]
+    To tell the truth, this probably doesn't verify what's necessary but I'm stuck at this point so idk.
+    I figure it's a similar strategy for showing that left-adjoints are right-exact.
+    Note to come back and finish missing problems / To do.
 \end{solution}
 \end{document}

@@ -223,7 +223,8 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    Given any $\alpha \in F$, the map $T_{\alpha} : F \to F$, $x \mapsto \alpha x$ is $k$-linear.
+    Fixing a basis of $F$ as a $k$-vector space, the linear transformation $T_{\alpha}$ has a matrix representation.
 \end{solution}
 
 % Problem 1.11
@@ -236,7 +237,19 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    That $p(\alpha) = 0$ is a direct corollary of the Cayley-Hamilton theorem which states that every matrix satisfies its characteristic polynomial by realizing $\alpha$ as an element in a matrix ring (per Exercise 10).
+
+    Then we can consider the extension $\mathbb{Q} \subseteq \mathbb{Q}(\sqrt{2}, \sqrt{3})$ with basis $\{1, \sqrt{2}, \sqrt{3}, \sqrt{6}\}$.
+    Looking at the action of $\sqrt{2} + \sqrt{3}$ on the basis vectors, we find that the matrix representation of multiplication by this element is
+    \[
+    \begin{pmatrix}
+        0 & 1 & 1 & 0 \\
+        2 & 0 & 0 & 1 \\
+        3 & 0 & 0 & 1 \\
+        0 & 3 & 2 & 0
+    \end{pmatrix}
+    \]
+    The characteristic polynomial of this matrix is $p(x) = x^{4} - 10x^2 + 1 \in \mathbb{Q}[x]$, and $\sqrt{2} + \sqrt{3}$ is a root of this polynomial.
 \end{solution}
 
 % Problem 1.12
@@ -253,7 +266,31 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    The multiplicativity of the norm follows from the multiplicativity of the determinant.
+
+    We have $\mathbb{R} \subseteq \mathbb{R}(i) = \mathbb{C}$ is a degree 2 extension.
+    Fixing the basis $\{1, i\}$ for $\mathbb{C}$ as a real vector space, we find that left-multiplication by $a + bi$ is a linear map $T_i : \mathbb{C} \to \mathbb{C}$ which acts on basis vectors by $1 \mapsto a + bi$ and $i \mapsto -b + ai$.
+    Thus, we have
+    \[
+    T_i =
+    \begin{pmatrix}
+        a & b \\
+        -b & a
+    \end{pmatrix}.
+    \]
+    From here, we have $\det T_i = a^2 + b^2$, hence $N(i) = a^2 + b^2$ which aligns with our standard notion of the norm of a complex number.
+
+    In general for a quadratic extension $\mathbb{Q} \subseteq \mathbb{Q}(\sqrt{d})$ we fix a basis $\{1, \sqrt{d}\}$ for the latter.
+    Then the map $T_{a + b\sqrt{d}} : \mathbb{Q}(\sqrt{d}) \to \mathbb{Q}(\sqrt{d})$ acts on bases by $1 \mapsto a + b\sqrt{d}$ and $\sqrt{d} \mapsto bd + a\sqrt{d}$.
+    Then the matrix representation of the map is given by
+    \[
+    T_{a + b\sqrt{d}} = 
+    \begin{pmatrix}
+        a & b \\
+        bd & a
+    \end{pmatrix}.
+    \]
+    From here, we have $N(a + b\sqrt{d}) = a^2 - b^2d$ which aligns with the notion of norm defined in Exercise III.4.10.
 \end{solution}
 
 % Problem 1.13
@@ -263,12 +300,20 @@
     \[
         \tr_{k \subseteq F}(\alpha + \beta) = \tr_{k \subseteq F}(\alpha) + \tr_{k \subseteq F}(\beta)
     \]
-    for $\alpha, beta \in F$.
+    for $\alpha, \beta \in F$.
     Compute the trace of an element of an extension $\mathbb{Q} \subseteq \mathbb{Q}(\sqrt{d})$, for $d$ an integer that is not a square.
 \end{problem}
 
 \begin{solution}
-    To do.
+    Additivity of trace follows directly from the additivity of trace for matrices.
+    For an extension $\mathbb{Q} \subseteq \mathbb{Q}(\sqrt{d})$, we computed the matrix representing multiplication by an element to be
+    \[
+    \begin{pmatrix}
+        a & b \\
+        bd & a
+    \end{pmatrix}
+    \]
+    hence the trace of an element is $2a$.
 \end{solution}
 
 % Problem 1.14
@@ -276,13 +321,24 @@
     Let $k \subseteq k(\alpha)$ be a simple algebraic extension, and let $x^{d} + a_{d-1}x^{d-1} + \cdots + a_0$ be the minimal polynomial of $\alpha$ over $k$.
     Prove that
     \begin{gather*}
-        \tr_{k \subseteq k}(\alpha)(\alpha) = -a_{d-1} \quad \text{and} \quad N_{k \subseteq k(\alpha)}(\alpha) = (-1)^{d}a_0.
+        \tr_{k \subseteq k(\alpha)}(\alpha) = -a_{d-1} \quad \text{and} \quad N_{k \subseteq k(\alpha)}(\alpha) = (-1)^{d}a_0.
     \end{gather*}
     (Cf. Exercises 1.12 and 1.13.)
 \end{problem}
 
 \begin{solution}
-    To do.
+    A basis for $k(\alpha)$ is $\{a_0, a_1 \alpha, \ldots, a_{d-1}\alpha^{d-1}\}$ and multiplication by $\alpha$ is an invertible $d \times d$ matrix.
+    In particular, the minimal polynomial implies that $\alpha$ is represented by the matrix
+    \[
+    \begin{pmatrix}
+        0 & 1 & 0 & \hdots & 0 \\
+        0 & 0 & 1 & \hdots & 0 \\
+        0 & 0 & 0 & \ddots & 0 \\
+        0 & 0 & 0 & 0 & 1 \\
+        -a_0 & -a_1 & -a_2 & \hdots & -a_{d-1}
+    \end{pmatrix}
+    \]
+    Thus we find that $\tr(\alpha) = -a_{d-1}$ and performing cofactor expansion along the leftmost column yields that $N(\alpha) = (-1)^{d} a_0$ as the minor is simply the identity matrix.
 \end{solution}
 
 % Problem 1.15
@@ -297,7 +353,13 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    Since $k \subseteq F$ is finite, $\alpha$ is algebraic over $k$.
+    In particular, we can consider the extension $k \subseteq k(\alpha)$ and the corresponding $\tr_{k \subseteq k(\alpha)}(\alpha)$.
+    We consider $F$ as a $r$-dimensional vector space over $k(\alpha)$.
+    Then the matrix of left-multiplication by $\alpha$ on $F$ is given by a block-diagonal matrix in which each block is the matrix of multiplication by $\alpha$ on $k(\alpha)$.
+    Thus $\tr_{k \subseteq F} = r \tr_{k \subseteq k(\alpha)}(\alpha)$.
+
+    Similarly, the determinant of a block-diagonal matrix is the product of the determinants of the diagonal blocks, hence $N_{k \subseteq F} = N_{k \subseteq k(\alpha)}(\alpha)^{r}$.
 \end{solution}
 
 % Problem 1.16
@@ -325,7 +387,12 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    Let $f: k[t_1, \ldots, t_n] \to F$ denote the evaluation map and let $g_1, g_2 : F \to F'$ be ring homomorphisms such that $g_1 \circ f = g_2 \circ f$.
+    Since $f |_{k} = 1_{k}$ is the identity on $k$, $g_1$ and $g_2$ agree on $k \subseteq F$.
+    Thus, it suffices to show that $g_1(\alpha_i) = g_2(\alpha_i)$ for all $i$.
+    But $g_1(\alpha_i) = g_1 \circ f(t_i) = g_2 \circ f(t_i) = g_2 (\alpha_i)$.
+    Thus, since $g_1$ and $g_2$ are ring homomorphisms, they agree verywhere on $F$, hence $g_1 = g_2$.
+    That is, $f$ is an epimorphism.
 \end{solution}
 
 % Problem 1.18

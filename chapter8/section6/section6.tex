@@ -1,0 +1,944 @@
+\documentclass[../../master.tex]{subfiles}
+
+\begin{document}
+\section{Projective and injective modules and the Ext functors}
+
+% Exercise 6.1
+\begin{problem}
+    Prove that an $R$-module $P$ is projective if and only if every epimorphism $M \to P$ splits and $Q$ is injective if and only if every monomorphism $Q \to M$ splits.
+\end{problem}
+
+\begin{solution}
+    First suppose $P$ is projective.
+    Let $f: M \to P$ be an epimorphism; 
+    that is, we there is an exact sequence
+    \[
+    \begin{tikzcd}
+        M & P & 0
+        \arrow[from=1-1, to=1-2, "f"]
+        \arrow[from=1-2, to=1-3] 
+    \end{tikzcd}
+    \]
+    Then $P$ being projective is equivalent to $\Hom_R(P, -)$ being right-exact.
+    That is, the induced map $f^{*} : \Hom_R(P, M) \to \Hom_R(P, P)$ is surjective.
+    Equivalently, $P$ satisfies the projective lifting property, specifically for $1_P : P \to P$.
+    That is, there exists a morphism $g : P \to M$ such that the following diagram commutes:
+    \[
+    \begin{tikzcd}
+        & P & \\
+        M & P & 0
+        \arrow[from=1-2, to=2-1, "g"', dashed]
+        \arrow[from=1-2, to=2-2, "1_P"] 
+        \arrow[from=2-1, to=2-2, "f"]
+        \arrow[from=2-2, to=2-3] 
+    \end{tikzcd}
+    \]
+    That is, $f \circ g = 1_P$, hence $f$ has a right-inverse, hence it is a split epimorphism.
+
+    Now suppose every epimorphism $M \to P$ admits a right-inverse.
+    That is, given a surjection $f: M \to P$, there exists a map $g : P \to M$ such that $f \circ g = 1_P$.
+    But this is precisely the characterization of projective modules in terms of the projective lifting property.
+
+    The case for $Q$ an injective module is similar.
+    Let $f : Q \to M$ be a monomorphism, hence there is an exact sequence
+    \[
+    \begin{tikzcd}
+        0 & Q & M
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3, "f"]
+    \end{tikzcd}
+    \]
+    Then $Q$ being injective is equivalent to the induced map $f^{*} : \Hom_R(M, Q) \to \Hom_R(Q, Q)$ being surjective.
+    In other words, there for all morphisms $Q \to Q$, there exists a map $g : M \to Q$ such that the following diagram commutes:
+    \[
+    \begin{tikzcd}
+        0 & Q & M \\
+          & Q & 
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3, "f"]
+        \arrow[from=1-2, to=2-2]
+        \arrow[from=1-3, to=2-2, "g"] 
+    \end{tikzcd}
+    \]
+    In particular, there exists $g: M \to Q$ such that $g \circ f = 1_Q$, but this is precisely what it means for $f$ to be a split monomorphism.
+    The other direction is entirely analogous to the case for projective modules.
+\end{solution}
+
+% Exercise 6.2
+\begin{problem}
+    Prove that the result of Proposition 5.13 holds more generally whenever $P$ is a \textit{projective} module.
+    \begin{proposition}[Proposition 5.13] 
+        Let
+        \[
+        \begin{tikzcd}
+            0 & M & N & P & 0
+            \arrow[from=1-1, to=1-2]
+            \arrow[from=1-2, to=1-3, "\mu"]
+            \arrow[from=1-3, to=1-4, "\nu"] 
+            \arrow[from=1-4, to=1-5] 
+        \end{tikzcd}
+        \]
+        be an exact sequence of $R$-modules, with $P$ \text{projective}.
+        Then the induced sequence
+        \[
+        \begin{tikzcd}
+            0 & P^{\vee} & N^{\vee} & M^{\vee} & 0
+            \arrow[from=1-1, to=1-2]
+            \arrow[from=1-2, to=1-3, "\nu^{\vee}"]
+            \arrow[from=1-3, to=1-4, "\mu^{\vee}"] 
+            \arrow[from=1-4, to=1-5] 
+        \end{tikzcd}
+        \]
+        is exact.
+    \end{proposition}
+\end{problem}
+
+\begin{solution}
+    Recall that $M^{\vee} = \Hom_R(M, R)$.
+    It suffices to show that the map $\mu^{\vee}: N^{\vee} \to M^{\vee}$ is surjective.
+    Let $f: M \to R$ be an $R$-linear map.
+    Since $P$ is projective, the epimorphism $\nu : N \to P$ splits;
+    that is, there exists a map $\rho : P \to N$ such that $\nu \circ \rho = 1_P$.
+
+    Now let $n \in N$.
+    Then $\nu(\rho(\nu(n))) = \nu(n)$, hence $\nu(\rho(\nu(n)) - n) = 0$, hence $\rho(\nu(n)) - n \in \ker \nu = \im \mu$.
+    That is, there exists a unique (by injectivity) $m \in M$ such that $\mu(m) = \rho(\nu(n)) - n$.
+    Define $g : N \to R$ to be $g(n) := f(m)$.
+    Then it is clear that $g \in \Hom_R(N, R) = N^{\vee}$ and
+    \[
+    \mu^{\vee}(g)(m) = (g \circ \mu)(m) = g(\rho(\nu(n)) - n) = f(m)
+    \]
+    by definition, hence $\mu^{\vee}$ is surjective.
+\end{solution}
+
+% Exercise 6.3
+\begin{problem}
+    Prove that an $R$-linear map $A \to B$ is injective if and only if the induced map $\Hom_R(B, Q) \to \Hom_R(A, Q)$ is surjective for all \textit{injective} modules $Q$.
+    (Hint: $R\mathsf{-Mod}$ has enough injectives.)
+    This strengthens the result of Exercise 5.2.
+\end{problem}
+
+\begin{solution}
+    If $\varphi: A \to B$ is injective and $C = \coker \varphi$, then we have the exact sequence
+    \[
+    \begin{tikzcd}
+        0 & A & B & C & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3, "\varphi"] 
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    Applying $\Hom_R(-, Q)$ to both sides, where $Q$ is an injective module yields the exact sequence
+    \[
+    \begin{tikzcd}
+        0 & \Hom_R(C, Q) & \Hom_R(B, Q) & \Hom_R(A, Q) & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3] 
+        \arrow[from=1-3, to=1-4, "\varphi^{*}"]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    hence $\varphi^{*}$ is surjective for all injective modules $Q$.
+
+    Now suppose $\varphi^{*} : \Hom_R(B, Q) \to \Hom_R(A, Q)$ is surjective for all injective modules $Q$.
+    Let
+    \[
+    \begin{tikzcd}
+        0 & A & Q_0 & Q_1 & Q_2 & \cdots
+        \arrow[from=1-1, to=1-2] 
+        \arrow[from=1-2, to=1-3, "f"]
+        \arrow[from=1-3, to=1-4] 
+        \arrow[from=1-4, to=1-5] 
+        \arrow[from=1-5, to=1-6] 
+    \end{tikzcd}
+    \]
+    be an injective resolution of $A$.
+    Then by the surjectivity of $\varphi^{*}$, there exists a map $g : B \to Q_0$ such that $g \circ \varphi = f$.
+    But $\ker(f) = 0$, hence $\ker(\varphi) \subseteq \ker(g \circ \varphi) = 0$.
+    We conclude that $\varphi$ is injective.
+\end{solution}
+
+% Exercise 6.4
+\begin{problem}
+    Let $\{P_i\}_{i \in I}$ be a family of $R$-modules.
+    Prove that $\bigoplus_i P_i$ is projective if and only if each $P_i$ is projective.
+\end{problem}
+
+\begin{solution}
+    Suppose each $P_i$ is projective.
+    That is, for each $i \in I$ there exists a $K_i$ such that $P_i \oplus K_i \cong F_i$ where $f_i$ is a projective module.
+    Then
+    \[
+    \bigoplus_i P_i \oplus \bigoplus_i K_i \cong \bigoplus_i (P_i \oplus K_i) \cong \bigoplus_i F_i
+    \]
+    so $\bigoplus_i P_i$ is a summand of a free module, hence it is projective.
+
+    Now suppose $\bigoplus_i P_i$ is projective.
+    Let $\mu : M \to N$ be an epimorphism and let $p_i : P_i \to N$ be a morphism.
+    Then by the universal property of coproducts, there exists a morphism $p : \bigoplus_i P_i \to N$ such that $p \circ i = p_i$ where $i$ is the natural inclusion $P_i \hookrightarrow \bigoplus_i P_i$.
+    By the projective lifting property, there exists a map $\hat{p} : \bigoplus_i P_i \to M$ such that $\mu \circ \hat{p} = p$.
+    Then the restriction $\hat{p}|_{P_i}$ satisfies the projective lift property;
+    indeed
+    \[
+        \mu \circ \hat{p}|_{P_i} = p|_{P_i} = p_i.
+    \]
+    Thus, $P_i$ is a projective module for all $i \in I$.
+
+    For a more categorical proof using adjunction, recall that $\Hom_R(P, -)$ is a left-adjoint functor, hence it preserves colimits.
+    In particular,
+    \[
+    \Hom_R(\bigoplus_i P_i, -) \cong \bigoplus_i \Hom_R(P_i, -)
+    \]
+    where the two functors are naturally isomorphic.
+    Then this is reduced to checking when either side consists of exact functors.
+\end{solution}
+
+% Exercise 6.5
+\begin{problem}
+    Prove that the dual of a finitely generated projective module is projective.
+    Prove that the finitely generated projective modules are reflexive (that is, isomorphic to their biduals).
+\end{problem}
+
+\begin{solution}
+    If $P$ is a finitely generated projective module, then it is a direct summand of a free module of finite rank, say $F$.
+    Then
+    \[
+        P^{\vee} \oplus K^{\vee} \cong (P \oplus K)^{\vee} \cong F^{\vee} \cong F,
+    \]
+    so $P^{\vee}$ is a direct summand of a free module, hence it is projective.
+
+    Since we have $P^{\vee} \oplus K^{\vee} \cong F^{\vee}$, applying the dual functor again yields
+    \[
+    P^{\vee \vee} \oplus K^{\vee \vee} \cong F^{\vee \vee} \cong F.
+    \]
+    Then since $F$ splits, the restriction of the isomorphism $F \to F^{\vee \vee}$ induces an isomorphism $P \to P^{\vee \vee}$.
+\end{solution}
+
+% Exercise 6.6
+\begin{problem}
+    If $f: S \to R$ is a ring homomorphism and $P$ is a projective $S$-module, then $f^{*}(P)$ is a projective $R$-module.
+\end{problem}
+
+\begin{solution}
+    Recall that $f^{*}(P) = P \otimes_S R$.
+    Since $P$ is a projective $S$-module, there exists an $S$-module $K$ such that $P \oplus K \cong S^{n}$.
+    Then since $f^{*}$ is left-adjoint, it preserves colimits, hence
+    \[
+    f^{*}(P) \oplus f^{*}(K) \cong f^{*}(P \oplus K) \cong f^{*}(S^{n}) = R^{n},
+    \]
+    hence $f^{*}(P)$ is a projective $R$-module.
+\end{solution}
+
+% Exercise 6.7
+\begin{problem}
+    Give a proof of the fact that projective modules are flat, using adjunction.
+    (Hint: $R\mathsf{-Mod}$ has enough injectives, and Exercise 6.3.)
+\end{problem}
+
+\begin{solution}
+    Let $P$ be a projective module.
+    We want to show that the functor $- \otimes_R P$ is (left-)exact;
+    that is, given an injective map $\varphi : M \to N$, the induced map $M \otimes_R P \to N \otimes_R P$ is also injective.
+
+    Let
+    \[
+    \begin{tikzcd}
+        0 & A & B
+        \arrow[from=1-1, to=1-2] 
+        \arrow[from=1-2, to=1-3] 
+    \end{tikzcd}
+    \]
+    is exact.
+    Then by Exercise 6.3, the sequence
+    \[
+    \begin{tikzcd}
+        \Hom_R(B, Q) & \Hom_R(A, Q) & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3] 
+    \end{tikzcd}
+    \]
+    is exact for all injective modules $Q$.
+    Applying $\Hom_R(P, -)$ to the above sequence induces an exact sequence
+    \[
+    \begin{tikzcd}
+        \Hom_R(P, \Hom_R(B, Q)) & \Hom_R(P, \Hom_R(A, Q)) & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+    \end{tikzcd}
+    \]
+    Applying tensor-hom adjunction (and the commutativity of $\otimes_R$) yields the exact sequence
+    \[
+    \begin{tikzcd}
+        \Hom_R(B \otimes_R P, Q) & \Hom_R(A \otimes_R P, Q) & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+    \end{tikzcd}
+    \]
+    Since this holds for all injective modules $Q$, Exercise 6.3 implies that the map $A \otimes_R P \hookrightarrow B \otimes_R P$ is injective, hence $P$ is a flat $R$-module.
+\end{solution}
+
+% Exercise 6.8
+\begin{problem}
+    Prove that Exercises 2.24 and 6.7 together imply the result of Exercise VI.5.5.
+\end{problem}
+
+\begin{solution}
+    Recall that Exercise VI.5.5 asks to show that projective modules over local rings are free.
+    In Exercise 2.24, we show that a finitely generated module over a local ring is flat if and only if it is free.
+    Combining this with the results of Exercise 6.7, we find that a projective module over a local ring is flat, hence it is free.
+\end{solution}
+
+% Exercise 6.9
+\begin{problem}
+    Prove that vector spaces are flat, injective, and projective.
+    (Try to do this directly, without invoking Baer's criterion.)
+\end{problem}
+
+\begin{solution}
+    Let $f: A \hookrightarrow B$ be an injective map of vector spaces over a field $k$ and let $V$ be a vector space of dimension $n$.
+    We claim that the induced map $f \otimes 1 : A \otimes_k V \to B \otimes_k V$ is injective.
+    It suffices to check that the map is injective on a basis.
+    Let $a \otimes v$ be a basis vector and suppose $f \otimes 1(a \otimes v) = f(a) \otimes v = 0$.
+    Then either $f(a) = 0$, in which case $a = 0$, or $v = 0$.
+    Thus, $f \otimes 1$ is injective, hence $V$ is flat.
+
+    Let $f: A \hookrightarrow B$ be an injective map of vector spaces.
+    We claim that the induced map $f^{*}: \Hom_k(B, V) \to \Hom_k(A, V)$ is surjective.
+    Indeed, let $\{x_i\}$ be a basis for $A$.
+    Then by the injectivity of $f$, $\{f(x_i)\}$ is a linearly independent set of vectors in $B$, hence it may be extended to a basis for $B$.
+    Now let $g: A \to V$ be a map and define a map $\bar{g} : B \to V$ on a basis by $\bar{g}(f(x_i)) = g(x_i)$ and $\bar{g}(x) = 0$ for all basis vectors not in the image of $f$.
+    Then it is clear that $\bar{g} \circ f(x) = g(x)$ for all $x \in A$, hence $V$ is injective.
+
+    It is clear that vector spaces are projective because they are free.
+\end{solution}
+
+% Exercise 6.10
+\begin{problem}
+    Prove that a finitely generated module over a PID is free if and only if it is projective if and only if it is flat.
+    (Do this `by hand', without invoking Exercise 6.12.)
+\end{problem}
+
+\begin{solution}
+    Suppose $M$ is a finitely generated module over a PID.
+    All free modules are projective, so if $M$ is free then it is projective.
+    Similarly, all projective modules are flat, so if $M$ is projective, then it is flat.
+
+    The only nontrivial part is showing that $M$ flat implies it is free.
+    Recall that a flat module is torsion free since the map $R \otimes_R M \to RM$ is an isomorphism, hence injective, hence $rm = 0$ for all $m \in M$ implies $r = 0$.
+    But then by the classification of finitely generated modules over a PID, $M$ is free.
+\end{solution}
+
+% Exercise 6.11
+\begin{problem}
+    Prove that a finitely generated module over a local ring is projective if and only if it is free.
+    (You have already done this, in Exercise VI.5.5.)
+
+    Besides PIDs and local rings, there are other classes of rings for which projective and free modules coincide.
+    Topological considerations suggested to Serre that projective modules over a polynomial ring over a field should necessarily by free, but it took two decades to prove that this is indeed the case.
+\end{problem}
+
+\begin{solution}
+    One direction is trivial since free modules are projective.
+    Let $P$ be a finitely generated projective module over a local ring $R$.
+    Then $P/\mathfrak{m}P$ is a finite-dimensional vector space over $R/\mathfrak{m}$.
+    Choose a basis for this vector space and apply Nakayama's lemma to lift it to a minimal generating set for $P$ over $R$.
+    Then we have an exact sequence
+    \[
+    \begin{tikzcd}
+        0 & K & R^{n} & P & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3] 
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    where $K$ is the kernel of the surjection onto $P$.
+    Since $P$ is projective, this exact sequence splits, hence we have $R^{n} \cong P \oplus K$.
+    Quotienting by $\mathfrak{m}$, we have an isomorphism
+    \[
+        \left(\frac{R}{\mathfrak{m}}\right)^{n} \cong \frac{P}{\mathfrak{m}P} \oplus \frac{K}{\mathfrak{m}K}.
+    \]
+    In particular, $K/\mathfrak{m}K$ is finite-dimensional, hence $K$ is finitely generated.
+    But since $P/\mathfrak{m}P$ is an $n$-dimensional vector space, we must have $K/\mathfrak{m}K = 0$, hence $K = \mathfrak{m}K$, so by Nakayama's lemma, $K = 0$.
+    That is, $P \cong R^{n}$, hence $P$ is free.
+\end{solution}
+
+% Exercise 6.12
+\begin{problem}
+    An $R$-module $M$ is `locally free' if $M_\mathfrak{p}$ is free as an $R_\mathfrak{p}$-module for every prime ideal $\mathfrak{p}$ of $R$.
+
+    Prove that a finitely generated module over a Noetherian ring is locally free if and only if it is projective if and only if it is flat.
+    (Use the results of Exercise 2.24 and 6.11.)
+
+    The hypothesis of finite generation is necessary (cf. Exercise 6.13).
+\end{problem}
+
+\begin{solution}
+    Suppose $M$ is a finitely generated locally free $R$-module.
+    That is, $M_\mathfrak{p}$ is a finitely-generated free $R_\mathfrak{p}$-module for every prime ideal $\mathfrak{p}$ of $R$.
+    In particular, $M_\mathfrak{p}$ is a flat $R_\mathfrak{p}$-module, since free modules are flat.
+    But flatness is a local property (cf. Exercise 2.21), hence $M$ is a flat $R$-module.
+
+    Conversely, if $M$ is a flat $R$-module, then $M_\mathfrak{p}$ is a flat $R_\mathfrak{p}$-module for every prime ideal $\mathfrak{p}$.
+    But $R_\mathfrak{p}$ is a local Noetherian ring, hence flat modules are free.
+    That is, $M_\mathfrak{p}$ is a free $R_\mathfrak{p}$-module for every prime ideal, hence $M$ is a locally free $R$-module.
+
+    Similarly, if $M$ is a projective $R$-module, then $M_\mathfrak{p}$ is a projective $R_\mathfrak{p}$-module.
+    Indeed, if $M \oplus K \cong R^{n}$, then $M_\mathfrak{p} \oplus K_\mathfrak{p} \cong R_\mathfrak{p}^{n}$ since localization is an exact functor.
+    But $R_\mathfrak{p}$ is a local ring, hence finitely generated projective modules are free.
+    Thus, $M$ is a locally free module.
+
+    It remains to show that if $M$ is a finitely generated locally free module, then it is projective.
+    Since $M$ is finitely generated, there is a surjection $R^{n} \to M$ with kernel $K$.
+    Furthermore, $K$ is a submodule of $R^{n}$, which is Noetherian.
+    Therefore, $K$ is finitely generated, hence there is a surjection $R^{m} \to K$, which induces an exact sequence
+    \[
+    \begin{tikzcd}
+        0 & R^{m} & R^{n} & M & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    Let $N$ be an $R$-module.
+    Then applying $\Hom_R(-, N)$ and localizing yields the exact sequence
+    \[
+    \begin{tikzcd}
+        0 & \Hom_R(M, N)_\mathfrak{p} & N^{n}_\mathfrak{p} & N^{m}_\mathfrak{p}
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+    \end{tikzcd}
+    \]
+    On the other hand, localizing and then applying $\Hom_{R_\mathfrak{p}}(-, N_\mathfrak{p})$ yields the exact sequence
+    \[
+    \begin{tikzcd}
+        0 & \Hom_{R_\mathfrak{p}}(M_\mathfrak{p}, N_\mathfrak{p}) & N_\mathfrak{p}^{n} & N_\mathfrak{p}^{m}
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+    \end{tikzcd}
+    \]
+    It follows that $\Hom_R(M, N)_\mathfrak{p} \cong \Hom_{R_\mathfrak{p}}(M_\mathfrak{p}, N_\mathfrak{p})$ for finitely presented modules $M$.
+    The result follows trivially from this;
+    indeed, if $M$ is locally free, then for all $R$-modules $N$ we have $\Ext^{1}_{R_\mathfrak{p}}(M_\mathfrak{p}, N_\mathfrak{p}) = 0$ because $M_\mathfrak{p}$ is free, hence projective.
+    But since $M$ is finitely presented, $\Ext_{R_\mathfrak{p}}^{1}(M_\mathfrak{p}, N_\mathfrak{p}) \cong \Ext_R^{1}(M, N)_\mathfrak{p}$.
+    Since this module is 0 for all prime ideals $\mathfrak{p} \subseteq R$, $\Ext_R^{1}(M, N) = 0$.
+    This holds for all $R$-modules $N$, hence $M$ is projective.
+\end{solution}
+
+% Exercise 6.13
+\begin{problem}
+    Prove that $\mathbb{Q}$ is flat, but not projective, as a $\mathbb{Z}$-module.
+\end{problem}
+
+\begin{solution}
+    By Exercise 2.20, a module over a PID is flat if and only if it is torsion-free.
+    Therefore, $\mathbb{Q}$ is flat over $\mathbb{Z}$.
+    On the other hand, $\mathbb{Q}$ is not projective over $\mathbb{Z}$.
+    Indeed, if $\mathbb{Q}$ were projective then it would be a direct summand of a free module, hence free itself (submodules of free modules over a PID are free).
+    We claim $\mathbb{Q}$ is not free.
+    Suppose $\mathbb{Q} = \mathbb{Z}^{S}$ for some nonempty set $S$.
+    Then given a nonzero set map $S \to \mathbb{Z}$, by the universal property of free modules, this induces a nonzero module morphism $\mathbb{Q} \to \mathbb{Z}$.
+    But $\Hom_\mathbb{Z}(\mathbb{Q}, \mathbb{Z}) = 0$, a contradiction.
+    Thus, $\mathbb{Q}$ is not a projective $\mathbb{Z}$-module.
+\end{solution}
+
+% Exercise 6.14
+\begin{problem}
+    Prove that a module over a PID is injective if and only if it is divisible.
+    (Use Baer's criterion.)
+\end{problem}
+
+\begin{solution}
+    Recall that an $R$-module $M$ is divisible if $rM = M$ for every non-zero-divisor $r \in R$.
+    Baer's criterion states that a module $M$ is injective if and only if every $R$-linear map $f: I \to M$ where $I$ is an ideal of $R$ extends to a map $\hat{f}:R \to M$ such that $f = \hat{f} \circ i$ where $i$ is the inclusion of the ideal.
+
+    First suppose $M$ is injective, fix $a \in R$, $a \neq 0$, and let $m \in M$. 
+    Consider the map $f : R \to M$ defined by $f(r) = rm$.
+    Since $M$ is injective, there exists a map $\hat{f} : R \to M$ which makes the diagram
+    \[
+    \begin{tikzcd}
+        0 & R & R \\
+          & M
+          \arrow[from=1-1, to=1-2]
+          \arrow[hook, from=1-2, to=1-3, "\cdot a"]
+          \arrow[from=1-2, to=2-2, "f"']
+          \arrow[from=1-3, to=2-2, "\exists \hat{f}", dashed] 
+    \end{tikzcd}
+    \]
+    commute.
+    In particular, we use the fact that since $M$ is injective, the map $(a) \to M$ lifts to a map $R \to M$.
+    Now consider $m = f(1)$.
+    By commutativity of the diagram, $m = \hat{f}(s) \cdot a$ for some $s \in R$, hence $M$ is divisible.
+
+    Now suppose $M$ is a divisible module.
+    By Baer's criterion, it suffices to check that every map $f: (a) \to M$ lifts to a map $\hat{f} : R \to M$.
+    If $a = 0$, simply take $\hat{f}(r) = 0$.
+    If $a \neq 0$, since $M$ is divisible, there exists $n \in M$ such that $an = f(a)$.
+    Then define $\hat{f}(1) = n$ and extend by linearity.
+    We verify that this map satisfies the relevant commutative diagram:
+    \[
+        \hat{f} \circ i(a) = \hat{f}(a) = an = f(a).
+    \]
+    Thus, $M$ is injective.
+\end{solution}
+
+% Exercise 6.15
+\begin{problem}
+    Prove that $Q_1 \oplus Q_2$ is injective if and only if $Q_1, Q_2$ are both injective.
+    More generally, prove that if $\{Q_i\}_{i \in I}$ is a family of $R$-modules, then $\prod_i Q_i$ is injective if and only if each $Q_i$ is injective.
+\end{problem}
+
+\begin{solution}
+    For a categorical proof using adjunction, note that $\Hom_R(-, Q)$ is a right-adjoint functor (right-adjoint to its corresponding functor in the opposite category).
+    Thus, it preserves limits;
+    that is, for all $R$-modules $M$, 
+    \[
+    \Hom_R(M, \prod_i Q_i) \cong \prod_i \Hom_R(M, Q_i).
+    \]
+    Now if $M \to N$ is an injective map, then $\prod_i \Hom_R(N, Q_i) \to \prod_i \Hom_R(M, Q_i)$ is surjective if and only if $\Hom_R(N, \prod_i Q_i) \to \Hom_R(M, \prod_i Q_i)$ is surjective.
+    Thus, $\prod_i Q_i$ is injective if and only if each $Q_i$ is injective.
+\end{solution}
+
+% Exercise 6.16
+\begin{problem}
+    Prove that $\mathbb{Z} \oplus \mathbb{Q}$ is flat as a $\mathbb{Z}$-module but neither projective nor injective.
+\end{problem}
+
+\begin{solution}
+    First note that $\mathbb{Z}$ is a free, hence flat, $\mathbb{Z}$-module.
+    Similarly, $\mathbb{Q}$ is a localization of $\mathbb{Z}$, hence flat.
+    Furthermore, $\otimes$ commutes with colimits, hence a direct sum of flat modules is flat, hence $\mathbb{Z} \oplus \mathbb{Q}$ is a flat $\mathbb{Z}$-module.
+
+    On the other hand, a direct sum of modules is projective if and only if each summand is projective.
+    $\mathbb{Q}$ is not a projective module, hence $\mathbb{Z} \oplus \mathbb{Q}$ is not projective.
+    Similarly, a direct sum of modules is injective if and only if each summand is injective.
+    $\mathbb{Z}$ is not an injective module (one cannot extend the injection $n \mapsto 2n$ to the identity map), hence $\mathbb{Z} \oplus \mathbb{Q}$ is not injective.
+\end{solution}
+
+% Exercise 6.17
+\begin{problem}
+    Prove that $\Hom_R(M, N) \cong \Ext_R^{0}(M, N)$, using any of the definitions provided for $\Ext_R^{i}(M, N)$.
+\end{problem}
+
+\begin{solution}
+    Take a projective resolution of $M$:
+    \[
+    \begin{tikzcd}
+        \cdots & P_2 & P_1 & P_0 & M & 0,
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5]
+        \arrow[from=1-5, to=1-6] 
+    \end{tikzcd}
+    \]
+    apply the contravariant functor $\Hom_R(-, N)$ to the projective part to obtain the new complex
+    \[
+    \begin{tikzcd}
+        0 & \Hom_R(P_0, N) & \Hom_R(P_1, N) & \Hom_R(P_2, N) & \cdots
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5]
+    \end{tikzcd}
+    \]
+    and define $\Ext_R^{i}(M, N)$ to be the $i$-th cohomology group of this complex.
+    Note that $\Hom_R(-, N)$ is left-exact, hence the kernel of the map $\Hom_R(P_0, N) \to \Hom_R(P_1, N)$ is precisely the image of the map $\Hom_R(M, N) \to \Hom_R(P_0, N)$, but this map is injective, hence its image is isomorphic to $\Hom_R(M, N)$.
+    Thus, $\Ext_R^{0}(M, N) \cong \Hom_R(M, N)$.
+\end{solution}
+
+% Exercise 6.18
+\begin{problem}
+    Prove that if $R$ is a PID, then $\Ext_R^{i}(M, N) = 0$ for all $i \geq 2$ and all $R$-modules $M, N$.
+\end{problem}
+
+\begin{solution}
+    Recall that every module over a PID admits a free resolution of length 2.
+    Thus, start by taking a free resolution of $M$:
+    \[
+    \begin{tikzcd}
+        0 & R^{m} & R^{n} & M & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5]
+    \end{tikzcd}
+    \]
+    Then we apply the contravariant $\Hom_R(-, N)$ to the free part, obtaining the complex
+    \[
+    \begin{tikzcd}
+        0 & \Hom_R(R^{n}, N) & \Hom_R(R^{m}, N) & 0 & \cdots
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5]
+    \end{tikzcd}
+    \]
+    Taking cohomology, it is clear that $\Ext_R^{i}(M, N) = 0$ for $i \geq 2$.
+\end{solution}
+
+% Exercise 6.19
+\begin{problem}
+    Let $r$ be a non-zero-divisor in $R$, and let $M$ be an $R$-module.
+    Compute all $\Ext^{i}(R/(r), M)$.
+\end{problem}
+
+\begin{solution}
+    Start with the free resolution
+    \[
+    \begin{tikzcd}
+        0 & R & R & R/(r) & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3, "\cdot r"]
+        \arrow[from=1-3, to=1-4, "\pi"]
+        \arrow[from=1-4, to=1-5]
+    \end{tikzcd}
+    \]
+    and apply the contravariant functor $\Hom_R(-, M)$ to obtain the complex
+    \[
+    \begin{tikzcd}
+        0 & \Hom_R(R, M) & \Hom_R(R, M) & 0 & \cdots
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3, "\cdot r"]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5]
+    \end{tikzcd}
+    \]
+    which is isomorphic to the complex
+    \[
+    \begin{tikzcd}
+        0 & M & M & 0 & \cdots
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3, "\cdot r"]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5]
+    \end{tikzcd}
+    \]
+    Then we compute $\Ext^{0}(R/(r), M) = \{m \in M : rm = 0\}$ is the $r$-torsion of $M$.
+    We also compute
+    \[
+        \Ext^{1}(R/(r), M) = \frac{M}{rM}
+    \]
+    and $\Ext^{i}(R/(r), M) = 0$ for all $i > 1$.
+\end{solution}
+
+% Exercise 6.20
+\begin{problem}
+    Let $I$ be an ideal of $R$.
+    Prove that $\Ext_R^{1}(R/I, R/I) \cong \Hom_R(I/I^2, R/I)$.
+    (Cf. Exercise 5.4.
+    This says that this Ext module essentially computes the normal bundle of an embedding.)
+\end{problem}
+
+\begin{solution}
+    Consider the exact sequence
+    \[
+    \begin{tikzcd}
+        0 & I & R & R/I & 0.
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    Applying contravariant $\Hom_R(-, R/I)$, there is an induced long exact sequence
+    \[
+    \begin{tikzcd}
+        \cdots & \Hom_R(R, \frac{R}{I}) & \Hom_R(I, \frac{R}{I}) & \Ext_R^{1}(\frac{R}{I}, \frac{R}{I}) & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    where $\Ext_R^{1}(R, R/I) = 0$ because $R$ is a projective $R$-module.
+    Furthermore, $\Hom_R(R, R/I) \cong R/I$.
+
+    Now consider the image of the map $\Hom_R(R, R/I) \to \Hom_R(I, R/I)$ which sends a map $f \mapsto f \circ i$.
+    If $a \in I$, then $f \circ i(a) = 0 \in R/I$, hence the image of the map is 0.
+    This implies that the map $\Hom_R(I, R/I) \to \Ext_R^{1}(R/I, R/I)$ is injective.
+    It is surjective by the exactness of the sequence.
+    Thus, it is an isomorphism.
+    By Exercise 5.4, $\Hom_R(I, R/I) \cong \Hom_R(I^2, R/I)$.
+    We conclude that $\Ext_R^{1}(R/I, R/I) \cong \Hom_R(I^2, R/I)$.
+\end{solution}
+
+% Exercise 6.21
+\begin{problem}
+    In Exercise 2.15, we have seen why $\Tor$ is called $\Tor$.
+    Why is $\Ext$ called $\Ext$?
+
+    Let $M, N, E$ be $R$-modules.
+    An \textit{extension} of $M$ by $N$ is an exact sequence
+    \[
+        \tag{*}
+        \begin{tikzcd}
+            0 & N & E & M & 0.
+            \arrow[from=1-1, to=1-2]
+            \arrow[from=1-2, to=1-3]
+            \arrow[from=1-3, to=1-4]
+            \arrow[from=1-4, to=1-5] 
+        \end{tikzcd}
+    \]
+    Two extensions are `isomorphic' if there is a commutative diagram
+    \[
+        \begin{tikzcd}
+            0 & N & E & M & 0 \\
+            0 & N & E' & M & 0
+            \arrow[from=1-1, to=1-2]
+            \arrow[from=1-2, to=1-3]
+            \arrow[from=1-3, to=1-4]
+            \arrow[from=1-4, to=1-5] 
+            \arrow[from=2-1, to=2-2]
+            \arrow[from=2-2, to=2-3]
+            \arrow[from=2-3, to=2-4]
+            \arrow[from=2-4, to=2-5] 
+            \arrow[from=1-2, to=2-2, equal] 
+            \arrow[from=1-3, to=2-3]
+            \arrow[from=1-4, to=2-4, equal] 
+        \end{tikzcd}
+    \]
+    linking them.
+    (Note that, by the snake lemma, the middle arrow must then be an isomorphism:
+    cf. Exercise III.7.10.)
+    Extensions that are isomorphic to the standard sequence 
+    $
+    \begin{tikzcd}
+        0 & N & N \oplus M & M & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}$
+    are `trivial'.
+
+    Every extension $\mathscr{E}$ as above determines an element $\epsilon = \epsilon(\mathscr{E}) \in \Ext^{1}(M, N)$ as follows.
+    The sequence $(^{*})$ induces a long exact sequence of $\Ext$, i.e.,
+    \[
+    \begin{tikzcd}
+        \cdots & \Hom_R(E, N) & \Hom_R(N, N) & \Ext_R^{1}(M, N) & \cdots,
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    and we let $\epsilon(\mathscr{E})$ be the image in $\Ext_R^{1}(M, N)$ of the distinguished element $\id_N \in \Hom_R(N, N)$.
+
+    Prove that if $\mathscr{E}$ and $\mathscr{E}'$ are isomorphic extensions, then $\epsilon(\mathscr{E}) = \epsilon(\mathscr{E}')$.
+    Prove that if $\mathscr{E}$ is a trivial extension, then $\epsilon(\mathscr{E}) = 0$.
+\end{problem}
+
+\begin{solution}
+    If $\mathscr{E}$ and $\mathscr{E}'$ are isomorphic extensions, then in particular, $E \cong E'$.
+    Then the induced maps in the long exact sequence are the same, hence $\epsilon(\mathscr{E}) = \epsilon(\mathscr{E}')$.
+    
+    Now suppose $\mathscr{E}$ is the trivial extension;
+    that is, $E \cong M \oplus N$.
+    Then the induced long exact sequence is
+    \[
+    \begin{tikzcd}
+        \cdots & \Hom_R(M \oplus N, N) & \Hom_R(N, N) & \Ext_R^{1}(M, N) & \cdots
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    Recall that the induced map $\Hom_R(M \oplus N, N) \to \Hom_R(N, N)$ sends $f \mapsto f \circ i$ where $i : N \hookrightarrow M \oplus N$ is the inclusion.
+    In particular, consider $f(m, n) = n$, which is the projection onto $N$.
+    Then $f \circ i(n) = f(0, n) = n$, hence $\id_N$ is in the image of the induced map.
+    But the image of this is precisely the kernel of $\Hom_R(N, N) \to \Ext_R^{1}(M, N)$.
+    Thus, $\id_N$ is sent to 0, which is equivalent to saying that $\epsilon(\mathscr{E}) = 0$.
+\end{solution}
+
+% Exercise 6.22
+\begin{problem}
+    Exercise 6.21 teaches us that extensions determine elements of $\Ext_R^{1}$.
+    We get an even sharper statement by constructing an \textit{inverse} to the map $\epsilon$:
+    for every element $\kappa \in \Ext_R^{1}(M, N)$, we will construct an extension $e(\kappa)$ such that $\epsilon(e(\kappa)) = \kappa$ and such that $e(\epsilon(\mathscr{E}))$ is isomorphic to $\mathscr{E}$.
+    \begin{itemize}[leftmargin=*] 
+        \item Let $F$ be any free module surjecting onto $M$, and let $i : K \hookrightarrow F$ be the kernel of $\pi : F \twoheadrightarrow M$. 
+            Since $F$ is free (hence projective), a piece of the long exact sequence of $\Ext$, i.e.,
+            \[
+            \begin{tikzcd}
+                \cdots & \Hom_R(K, N) & \Ext_R^{1}(M, N) & \Ext_R^{1}(F, N) = 0 & \cdots,
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+            \end{tikzcd}
+            \]
+            tells us that there exists a homomorphism $k : K \to N$ mapping to the element $\kappa \in \Ext_R^{1}(M, N)$.
+        \item We now have a monomorphism $(i, k) : K \to F \oplus N$.
+            Let $E$ be the cokernel $(F \oplus N)/K$.
+            Prove that the epimorphism $(\pi, 0) : F \oplus N \to M$ factors through this cokernel, defining an epimorphism $E \twoheadrightarrow M$.
+        \item Prove that the natural monomorphism $N \cong 0 \oplus N \hookrightarrow F \oplus N$ defines a monomorphism $N \hookrightarrow E$, identifying $N$ with the kernel of $E \to M$.
+        \item We let $e(\kappa)$ be the extension
+            \[
+            \begin{tikzcd}
+                0 & N & E & M & 0
+                \arrow[from=1-1, to=1-2]
+                \arrow[from=1-2, to=1-3]
+                \arrow[from=1-3, to=1-4]
+                \arrow[from=1-4, to=1-5] 
+            \end{tikzcd}
+            \]
+            that we have obtained.
+            Prove that different choices in the procedure lead to isomorphic extensions.
+        \item Prove that $e(\epsilon(\mathscr{E}))$ is isomorphic to $\mathscr{E}$ and that $\epsilon(e(\kappa)) = \kappa$.
+    \end{itemize}
+    The upshot is that there is a natural \textit{bijection} between $\Ext_R^{1}(M, N)$ and the set of isomorphism classes of extensions of $M$ by $N$.
+    Hence the name.
+    `Higher' $\Ext_R^{i}$ $(i > 1)$ may also be treated similarly:
+    for example, $\Ext_R^2(M, N)$ can be analyzed in terms of two-step extensions consisting of exact sequences
+    \[
+    \begin{tikzcd}
+        0 & N & E_1 & E_2 & M & 0,
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+        \arrow[from=1-5, to=1-6] 
+    \end{tikzcd}
+    \]
+    where two such extensions are `isomorphic' if there is a diagram
+    \[
+    \begin{tikzcd}
+        0 & N & E_1 & E_2 & M & 0 \\
+        0 & N & E_1' & E_2' & M & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+        \arrow[from=1-5, to=1-6] 
+        \arrow[from=2-1, to=2-2]
+        \arrow[from=2-2, to=2-3]
+        \arrow[from=2-3, to=2-4]
+        \arrow[from=2-4, to=2-5] 
+        \arrow[from=2-5, to=2-6] 
+        \arrow[from=1-2, to=2-2, equals]
+        \arrow[from=1-3, to=2-3]
+        \arrow[from=1-4, to=2-4]
+        \arrow[from=1-5, to=2-5, equals] 
+    \end{tikzcd}
+    \]
+    This approach to $\Ext$ is attributed to Nobuo Yoneda.
+\end{problem}
+
+\begin{solution}
+    The epimorphism $(\pi, 0): F \oplus N \to M$ sends $(f, n) \mapsto \pi(f)$.
+    Since $F$ surjects onto $M$, there is an isomorphism $\varphi: F/K \to M$.
+    Consider the map $(\varphi, 0): (F \oplus N) / K$ which sends $(f, n) + K \mapsto \varphi(f + K) \in M$.
+    Then $(\varphi, 0) \circ \pi_K(f, n) = (\varphi, 0)((f, n) + K) = \varphi(f + K) = (\pi, 0)(f, n)$, where $\pi_K$ is the projection $F \twoheadrightarrow F/K$, hence the map factors through $E$.
+    Furthermore, this map is a surjection because for all $m \in M$, we may identify $m = \varphi(f + K)$.
+    Then we find $(\varphi, 0)((f + K, n)) = \varphi(f + K) = m$, as desired.
+
+    In particular, the kernel of the epimorphism $E \twoheadrightarrow M$ is precisely $N$.
+    To verify this, there is a natural embedding $N \hookrightarrow F \oplus N$, which extends to a map $N \to E$ which sends $n \mapsto (0, n) \mapsto (0, n) + K$.
+    We claim that this map is injective;
+    indeed, $K$ is a submodule of $F$, hence $(m, n) + K = 0$ if and only if $m \in K$.
+    In particular, the choice of $n$ does not matter, hence the kernel of the epimorphism $E \twoheadrightarrow M$ is $0 \oplus N \cong N$.
+
+    This yields the exact sequence
+    \[
+    \begin{tikzcd}
+        0 & N & E & M & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    If $F'$ is a different free module surjecting onto $M$ with kernel $K'$, then we find that $F' \oplus N \to M$ induces a surjection $E' = (F' \oplus N)/K' \to M$ by the same reasoning as above.
+
+    We find that $E \cong E'$ since we can identify an element $(f', n) + K' \in E'$ with its image $f' + K' \in F'/K' \cong M$.
+    Then there is exactly one corresponding element $f + K \in F/K \cong M$ mapped to by $(f, n) + K$.
+    This essentially yields the needed isomorphism for the diagrams to commute, hence the two extensions are isomorphic.
+
+    The two maps are probably inverses, but I think you have to trace through with the snake lemma to verify this which I can't be bothered to do right now.
+    Instead, I'll illustrate an explicit example.
+    We will construct all extensions
+    \[
+    \begin{tikzcd}
+        0 & \frac{\mathbb{Z}}{2\mathbb{Z}} & M & \frac{\mathbb{Z}}{2\mathbb{Z}} & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    First we compute $\Ext^{1}(\mathbb{Z}/2\mathbb{Z}, \mathbb{Z}/2\mathbb{Z})$.
+    There is a free resolution
+    \[
+    \begin{tikzcd}
+        0 & \mathbb{Z} & \mathbb{Z} & \frac{\mathbb{Z}}{2\mathbb{Z}} & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3, "\cdot 2"]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    and applying $\Hom(-, \mathbb{Z}/2\mathbb{Z})$ yields
+    \[
+    \begin{tikzcd}
+        0 & \Hom\left(\mathbb{Z}, \frac{\mathbb{Z}}{2\mathbb{Z}}\right) \cong \frac{\mathbb{Z}}{2\mathbb{Z}} & \Hom\left(\mathbb{Z}, \frac{\mathbb{Z}}{2\mathbb{Z}}\right) \cong \frac{\mathbb{Z}}{2\mathbb{Z}} & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3, "\cdot 2"]
+        \arrow[from=1-3, to=1-4]
+    \end{tikzcd}
+    \]
+    Taking cohomology shows that $\Ext^{1}(\mathbb{Z}/2\mathbb{Z}, \mathbb{Z}/2\mathbb{Z}) = \mathbb{Z}/2\mathbb{Z}$.
+    That is, there are two isomorphism classes of extensions of the above form.
+    We first construct the trivial one:
+    take $\kappa = 0 \in \mathbb{Z}/2\mathbb{Z}$.
+    Let $\mathbb{Z} \to \mathbb{Z}/2\mathbb{Z}$ be the projection with kernel $2\mathbb{Z}$.
+    That is, we have the exact sequence
+    \[
+    \begin{tikzcd}
+        0 & 2\mathbb{Z} & \mathbb{Z} & \frac{\mathbb{Z}}{2\mathbb{Z}} & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    Then applying $\Hom(-, \mathbb{Z}/2\mathbb{Z})$, there is an induced exact sequence
+    \[
+    \begin{tikzcd}
+        \cdots & \Hom\left(\mathbb{Z}, \frac{\mathbb{Z}}{2\mathbb{Z}}\right) & \Hom\left(2\mathbb{Z}, \frac{\mathbb{Z}}{2\mathbb{Z}}\right) & \Ext^{1}\left(\frac{\mathbb{Z}}{2\mathbb{Z}}, \frac{\mathbb{Z}}{2\mathbb{Z}}\right) & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    Since the differentials are all module homomorphisms, the map sent to $\kappa = 0$ is the zero map $k: 2\mathbb{Z} \to \mathbb{Z}/2\mathbb{Z}$, $k(n) = 0$.
+    The image of $2\mathbb{Z}$ in $\mathbb{Z}/2\mathbb{Z}$ under this map is simply $0$.
+    Then letting $E := (\mathbb{Z} \oplus \mathbb{Z}/2\mathbb{Z}) / 2\mathbb{Z}$, there is a natural epimorphism $\pi: E \to \mathbb{Z}/2\mathbb{Z}$ whose kernel is $\mathbb{Z}/2\mathbb{Z}$.
+    Then it becomes clear that $E \cong \mathbb{Z}/2\mathbb{Z} \oplus \mathbb{Z}/2\mathbb{Z}$, reconstructing the trivial sequence.
+
+    On the other hand, we can take $\kappa = 1 \in \Ext^{1}(\mathbb{Z}/2\mathbb{Z}, \mathbb{Z}/2\mathbb{Z})$.
+    Then we can take the same exact sequence
+    \[
+    \begin{tikzcd}
+        \cdots & \Hom\left(\mathbb{Z}, \frac{\mathbb{Z}}{2\mathbb{Z}}\right) & \Hom\left(\mathbb{Z}, \frac{\mathbb{Z}}{2\mathbb{Z}}\right) & \Ext^{1}\left(\frac{\mathbb{Z}}{2\mathbb{Z}}, \frac{\mathbb{Z}}{2\mathbb{Z}}\right) & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    which shows that the non-trivial map $k : \mathbb{Z} \to \mathbb{Z}/2\mathbb{Z}$, $k(n) = n \pmod 2$ maps to $\kappa$.
+    The image $\mathbb{Z} \hookrightarrow \mathbb{Z} \oplus \mathbb{Z}/2\mathbb{Z}$ is the set $K = \{(2n, n \pmod 2) : n \in \mathbb{Z}\}$.
+    Then we set
+    \[
+    E := \frac{\mathbb{Z} \oplus \mathbb{Z}/2\mathbb{Z}}{K}.
+    \]
+    Finally, writing out our addition table makes it clear that $E \cong \mathbb{Z}/4\mathbb{Z}$.
+\end{solution}
+\end{document}

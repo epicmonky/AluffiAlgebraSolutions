@@ -1,0 +1,555 @@
+\documentclass[../../master.tex]{subfiles}
+
+\begin{document}
+\section{Hom and duals}
+
+% Problem 5.1
+\begin{problem}
+    Prove that if $F$ is a free $R$-module of finite rank and $N$ is any $R$-module, then $\Hom_R(F, N) \cong F^{\vee} \otimes_R N$.
+\end{problem}
+
+\begin{solution}
+    We have
+    \[
+    \Hom_R(R^{n}, N) \cong \Hom_R(R, N)^{n} \cong N^{n} \cong R^{n} \otimes_R N \cong (R^{n})^{\vee} \otimes_R N.
+    \]
+\end{solution}
+
+% Problem 5.2
+\begin{problem}
+    Let $\alpha : A \to B$ be a homomorphism of $R$-modules.
+    Prove that $\alpha$ is an epimorphism if the induced map $\alpha^{*} : \Hom_R(B, N) \to \Hom_R(A, N)$ is injective for all $R$-modules $N$ and $\alpha$ is a monomorphism if $\alpha^{*}$ is surjective for all $N$.
+
+    Prove that the converse to the first statement holds and the converse to the second statement does not hold.
+    However, show that if $\alpha$ admits a left-inverse, then $\alpha^{*}$ \textit{is} surjective for all $N$.
+\end{problem}
+
+\begin{solution}
+    Suppose the induced map $\alpha^{*} : \Hom_R(B, N) \to \Hom_R(A, N)$ is injective for all $R$-modules $N$.
+    Let $g_1, g_2 : B \to N$ be morphisms such that $g_1 \circ \alpha(a) = g_2 \circ \alpha(a)$ for all $a \in A$.
+    In particular, $(g_1 \circ \alpha - g_2 \circ \alpha)(a) = (g_1 - g_2) \circ \alpha(a) = 0$.
+    But $(g_1 - g_2) \circ \alpha = \alpha^{*} (g_1 - g_2)$, and $\alpha^{*}$ is injective, hence $g_1 - g_2 = 0 \Longrightarrow g_1 = g_2$.
+
+    For the second statement, recall that a module homomorphism is monic if and only if it is injective, i.e. its kernel is trivial.
+    Suppose $\alpha^{*}$ is surjective for all $R$-modules $N$.
+    In particular, there exists $g : B \to A$ such that $1_A = g \circ \alpha$.
+    Let $x \in \ker(\alpha)$.
+    Then $1_A(x) = g \circ \alpha(x) = 0$, hence $x = 0$ so $\ker(\alpha)$ is trivial and $\alpha$ is injective.
+
+    The converse to the first statement is clear if one recalls that an epimorphism of modules is also a surjection of modules.
+    In particular, if $\alpha$ is surjective, then we have an exact sequence
+    \[
+    \begin{tikzcd}
+        A & B & 0
+        \arrow[from=1-1, to=1-2, "\alpha"]
+        \arrow[from=1-2, to=1-3] 
+    \end{tikzcd}
+    \]
+    Applying $\Hom_R(-, N)$ and using its left-exactness yields the exact sequence
+    \[
+    \begin{tikzcd}
+        0 & \Hom_R(B, N) & \Hom_R(A, N)
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3, "\alpha^{*}"] 
+    \end{tikzcd}
+    \]
+    which implies that $\alpha^{*}$ is injective since its kernel is trivial.
+
+    To see that the converse of the second statement is not true in general, consider the monomorphism $\alpha : \mathbb{Z} \to \mathbb{Z}$, $\alpha(n) = 2n$.
+    Applying $\Hom_\mathbb{Z}(-, \mathbb{Z})$ yields the map $\alpha^{*} : \mathbb{Z}^{\vee} \to \mathbb{Z}^{\vee}$ sending a linear functional $\gamma \mapsto \gamma \circ (\cdot 2)$ which precomposes with multiplication by 2.
+    Clearly this map is not surjective because by linearity, we have $\gamma(2n) = 2\gamma(n)$ for all $n \in \mathbb{Z}$, so in particular, $1_{\mathbb{Z}} \notin \im(\alpha^{*})$.
+
+    However, suppose that $\alpha$ admits a left-inverse $\beta$.
+    Let $f : A \to N$ be a morphism.
+    Consider the precomposition $f \circ \beta : B \to N$.
+    Then
+    \[
+    \alpha^{*}(f \circ \beta) = f \circ \beta \circ \alpha = f
+    \]
+    hence $f \in \im(\alpha^{*})$ so $\alpha^{*}$ is surjective.
+\end{solution}
+
+% Exercise 5.3
+\begin{problem}
+    Prove that a sequence
+    \[
+    \begin{tikzcd}
+        0 & A & B & C & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3, "\alpha"]
+        \arrow[from=1-3, to=1-4, "\beta"]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    of $R$-modules is exact if the induced sequence
+    \[
+        \tag{*}
+        \begin{tikzcd}
+            0 & \Hom_R(C, N) & \Hom_R(B, N) & \Hom_R(A, N) & 0
+            \arrow[from=1-1, to=1-2]
+            \arrow[from=1-2, to=1-3, "\beta^{*}"]
+            \arrow[from=1-3, to=1-4, "\alpha^{*}"]
+            \arrow[from=1-4, to=1-5] 
+        \end{tikzcd}
+    \]
+    is exact for all $R$-modules $N$.
+    (You have done most of this already, in Exercise 5.2.
+    To show $\ker \beta \subseteq \im \alpha$, choose $N = B / \im(\alpha)$.)
+    Remember that the converse does not hold, since in general $\Hom_R(-, N)$ is not exact.
+    What extra hypothesis on $\alpha$ would guarantee the exactness of (*) for all $N$?
+\end{problem}
+
+\begin{solution}
+    By Exercise 5.2, if $\alpha^{*}$ is surjective (that is, the induced sequence is exact at $\Hom_R(A, N)$) then $\alpha$ is injective (hence the sequence is exact at $A$).
+    Similarly, if $\beta^{*}$ is injective (that is, the induced sequence is exact at $\Hom_R(C, N)$) then $\beta$ is surjective (hence the sequence is exact at $B$).
+
+    To show that exactness at $\Hom_R(B, N)$ implies exactness at $B$, choose $N = B / \im(\alpha)$ and let $x \in \ker \beta$.
+    Exactness at $\Hom_R(B, N)$ implies that if $f : B \to N$ is a morphism such that $f \circ \alpha(b) = 0$ for all $b \in B$, then there exists $g : C \to N$ such that $g \circ \beta = f$.
+    In particular, consider $\pi : B \to B / \im(\alpha)$ to be the natural projection.
+    Then $\pi \circ \alpha = 0$, hence there exists $g : C \to B / \im(\alpha)$ such that $g \circ \beta = \pi$.
+    In particular, we have $\pi(x) = g \circ \beta(x) = 0$, hence $x \in \ker \pi = \im \alpha$.  
+
+    As stated in the problem, this does not hold in general though $\Hom_R(-, N)$ is left-exact.
+    By Exercise 5.2, the extra condition needed is that $\alpha$ admits a left-inverse.
+\end{solution}
+
+% Exercise 5.4
+\begin{problem}
+    Let $I$ be an ideal of $R$.
+    As $I^2 \subseteq I$, there is a natural restriction map $\Hom_R(I, R/I) \to \Hom_R(I^2, R/I)$.
+    Prove that the image of this map is 0.
+    Prove that $\Hom_R(I/I^2, R/I) \cong \Hom_R(I, R/I)$.
+    (This module is important in algebraic geometry, as it carries the information of a `normal bundle' in good situations.)
+\end{problem}
+
+\begin{solution}
+    Let $f : I \to R / I$ be a homomorphism of modules.
+    The action of the restriction map sends $f$ to $f \circ i$ where $i$ is the inclusion $I^2 \hookrightarrow I$.
+    Let $x \in I^2$.
+    Then $x = ij$ for some $i, j \in I \subseteq R$.
+    But then $f \circ i(x) = f(ij) = i \cdot f(j) = 0 \in R/I$.
+    Thus, the image of the restriction map is 0.
+
+    For the second part, we have the exact sequence
+    \[
+        \begin{tikzcd}
+            0 & I^2 & I & I/I^2 & 0
+            \arrow[from=1-1, to=1-2]
+            \arrow[from=1-2, to=1-3, "i"]
+            \arrow[from=1-3, to=1-4, "\pi"]
+            \arrow[from=1-4, to=1-5] 
+        \end{tikzcd}
+    \]
+    which, after applying $\Hom_R(-, R/I)$, yields the exact sequence
+    \[
+    \begin{tikzcd}
+        0 & \Hom_R(I/I^2, R/I) & \Hom_R(I, R/I) & \Hom_R(I^2, R/I)
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3, "\pi^{*}"]
+        \arrow[from=1-3, to=1-4, "i^{*}"] 
+    \end{tikzcd}
+    \]
+    We know the image of $i^{*}$ is 0, hence $\Hom_R(I/I^2, R/I) = \ker(i^{*}) = \im(\pi^{*})$ so $\pi^{*}$ is surjective.
+    By exactness on the left, $\pi^{*}$ is injective.
+    Thus, it is an isomorphism.
+\end{solution}
+
+% Exercise 5.5
+\begin{problem}
+    Prove that the evaluation map $M^{\vee} \otimes_R F \to \Hom_R(M, F)$ is an isomorphism if $F$ is free of finite rank, providing an alternative proof of Proposition 5.5.
+\end{problem}
+
+\begin{solution}
+    Recall that the evaluation map is given by $f \otimes x \mapsto \varphi$ where $\varphi(m) = f(m) \cdot x$.
+    We claim that the diagram
+    \[
+    \begin{tikzcd}
+        M^{\vee} \otimes_R R^{n} & & \Hom_R(M, R^{n}) \\
+                                 & (M^{\vee})^{n}
+        \arrow[from=1-1, to=1-3, "\epsilon"]
+        \arrow[from=1-1, to=2-2, "\sim"'] 
+        \arrow[from=1-3, to=2-2, "\sim"] 
+    \end{tikzcd}
+    \]
+    commutes.
+    
+    Indeed, let $f \otimes x \in M^{\vee} \otimes_R R^{n}$.
+    Tracing one direction yields
+    \[
+    f \otimes x \mapsto (x_1 \cdot f, \ldots, x_n \cdot f)
+    \]
+    while tracing the other direction yields
+    \[
+    f \otimes x \mapsto \varphi \mapsto (\varphi_1, \ldots, \varphi_n)
+    \]
+    where the latter map sends $\varphi$ to each of its component morphisms.
+    Indeed, evaluating both at an element $m \in M$ yields
+    \begin{gather*}
+        (x_1 \cdot f, \ldots, x_n \cdot f)(m) = (x_1 \cdot f(m), \ldots, x_n \cdot f(m)), \\
+        (\varphi_1, \ldots, \varphi_n)(m) = \varphi(m) = f(m) \cdot x = (x_1 \cdot f(m), \ldots, x_n \cdot f(m)).
+    \end{gather*}
+        Thus, the diagram commutes, hence $\varepsilon$ must be an isomorphism.
+\end{solution}
+
+% Exercise 5.6
+\begin{problem}
+    Show that $(\mathbb{Z}/2\mathbb{Z})^{\vee} = \Hom_\mathbb{Z}(\mathbb{Z}/2\mathbb{Z}, \mathbb{Z}) = 0$.
+\end{problem}
+
+\begin{solution}
+    Suppose $\varphi : \mathbb{Z} / 2\mathbb{Z} \to \mathbb{Z}$ is a module homomorphism.
+    In particular, we have $\varphi(0) = \varphi(1 + 1) = \varphi(1) + \varphi(1)$.
+    This implies that $\varphi(1)$ is a zero-divisor in $\mathbb{Z}$, but since $\mathbb{Z}$ is an integral domain, we must have $\varphi(1) = 0$.
+    Thus, $\varphi$ is the zero morphism, hence $(\mathbb{Z}/2\mathbb{Z})^{\vee} = 0$.
+\end{solution}
+
+% Exercise 5.7
+\begin{problem}
+    Prove `directly' that $(R^{\oplus S})^{\vee} \cong R^{S}$ :
+    how does an $R$-linear map $R^{\oplus S} \to R$ determine a function $S \to R$, and what is the inverse of this correspondence?
+\end{problem}
+
+\begin{solution}
+    Recall that $R^{\oplus S}$ consists of all sequences $(r_s)$ for $s \in S$ such that $r_s = 0$ for all but finitely many $s$.
+    Then the datum of an element $\varphi \in (R^{\oplus S})^{\vee} = \Hom_R(R^{\oplus S}, R)$ consists of a collection of maps such that the restriction $\varphi |_{R_s}$ is $R$-linear.
+    Thus, this yields an $R$-linear map $(R^{\oplus S})^{\vee} \to (R^{\vee})^{S}$ given by $\varphi \mapsto (\varphi |_{R_s})_{s \in S}$.
+    Finally, since $R^{\vee} \cong R$ by $f \mapsto f(1)$, we have the induced map $(R^{\oplus S})^{\vee} \to R^{S}$ which sends $\varphi \mapsto (\varphi|_{R_{s}}(1))_{s \in S}$.
+
+    For the inverse correspondence, given $(r_s)_{s \in S} \in R^{S}$, consider
+    \[
+        (\varphi_s)_{s \in S} \in (R^{\vee})^{s}, \quad \varphi_s(1) = r_s
+    \]
+    where each morphism is extended by linearity.
+    Note that this collection of morphisms may be infinite.
+    However, we may now define a map $\varphi : R^{\oplus S} \to R$ given by
+    \[
+        \varphi((r'_s)_{s \in S}) = \sum_{s \in S} \varphi_s(r'_s)
+    \]
+    This map is well-defined because $(r'_s)_{s \in S} \in R^{\oplus S}$, hence there are only finitely many non-zero terms.
+    Furthermore, it is $R$-linear, hence $\varphi \in (R^{\oplus S})^{\vee}$.
+    Thus, this yields a map $R^{S} \to (R^{\oplus S})^{\vee}$.
+
+    Finally, we can check that this is a two-sided inverse to the first map.
+    Indeed, given a map $\varphi \in (R^{\oplus S})^{\vee}$, the first map sends it to $(\varphi|_{R_s}(1))_{s \in S} \in R^{S}$.
+    Applying the second map sends this to
+    \[
+        \psi((r_s)_{s \in S}) = \sum_{s \in S} \varphi \mid_{R_s}(r_s) = \varphi((r_s)_{s \in S})
+    \]
+    by virtue of the fact that $\varphi$ is $R$-linear, hence we can evaluate it as a sum of its restriction to the submodules $R_s$.
+    On the other hand, given an element $(r_s)_{s \in S} \in R^{S}$, applying the second map yields a morphism $\varphi : R^{\oplus S} \to R$ where
+    \[
+        \varphi((r'_s)_{s \in S}) = \sum_{s \in S} \varphi_s(r'_s), \quad \varphi_s(1) = r_s
+    \]
+    Finally, applying the first map to this morphism sends $\varphi$ to
+    \[
+        (\varphi|_{R_s}(1))_{s \in S} = (\varphi_s(1))_{s \in S} = (r_s)_{s \in S}
+    \]
+    proving that this is in fact an isomorphism $(R^{\oplus S})^{\vee} \cong R^{S}$.
+\end{solution}
+
+% Exercise 5.8
+\begin{problem}
+    Prove that the datum of an $R$-linear map $M \to M^{\vee}$ is equivalent to the datum of an $R$-bilinear map $M \times M \to R$, and explain why this equivalence can be set up in two ways.
+    If $F = R^{n}$ is a free $R$-module of finite rank, determine the bilinear map $F \times F \to R$ corresponding to the isomorphism $F \cong F^{\vee}$ given in Corollary 5.7.
+\end{problem}
+
+\begin{solution}
+    Let $\varphi : M \to M^{\vee} = \Hom_R(M, R)$ be an $R$-linear map.
+    Then $\varphi$ determines an $R$-bilinear map $M \times M \to R$ given by $(m_1, m_2) \mapsto \varphi(m_1)(m_2)$.
+    Indeed, the fact that this is bilinear follows from the fact that $\varphi$ is linear (hence this map is linear in the first argument) and that elements of $\Hom_R(M, R)$ are linear (hence this map is linear in the second argument).
+    Conversely, let $f : M \times M \to R$ be an $R$-bilinear map.
+    Then we may construct an $R$-linear map $\varphi : M \to M^{\vee}$ given by $\varphi(m) = f(m, -) \in \Hom_R(M, R)$.
+
+    Of course, the choice of mapping $m$ to the first argument of $f$ is arbitrary, and we could just as easily send it to the second argument, yielding a different element of $M^{\vee}$.
+
+    In the case where $F = R^{n}$ is a free $R$-module of finite rank, the isomorphism $F \cong F^{\vee}$ is given by $(r_n) \mapsto \varphi$ where
+    \[
+    \varphi((r'_n)) = \sum \varphi_n(r'_n), \quad \varphi_n(1) = r_n.
+    \]
+    This determines an $R$-bilinear map $R^{n} \times R^{n} \to R$ which sends
+    \[
+        ((r_n), (s_n)) \mapsto \sum \varphi_n(s_n), \quad \varphi_n(1) = r_n
+    \]
+    but by the $R$-linearity of $\varphi_n$, this is merely
+    \[
+    \sum r_n \cdot s_n.
+    \]
+    Note that this is the inner product in $\mathbb{R}^{n}$.
+\end{solution}
+
+% Exercise 5.9
+\begin{problem}
+    An $R$-bilinear map $\varphi : M \times M \to R$ is \textit{nondegenerate} if the induced maps $M \to M^{\vee}$ are injective, and it is \textit{nonsingular} if they are isomorphisms.
+    The notions coincide if $M$ is a finite-dimensional vector space.
+    Prove that the `standard inner product' in $\mathbb{R}^{n}$ (defined in Exercise VI.6.18) is nondegenerate.
+
+    If $M$ is free of rank $n$, let $(e_1, \ldots, e_n)$ be a basis of $M$, and let $A = (a_{ij})$ be the matrix with entries $a_{ij} = \varphi(e_i, e_j)$.
+    Prove that $\varphi$ is nondegenerate if and only if $\det A$ is nonzero, and it is nonsingular if and only if $\det A$ is a unit.
+    (Cf. Proposition VI.6.5.)
+\end{problem}
+
+\begin{solution}
+    The standard inner product in $\mathbb{R}^{n}$ is given by
+    \[
+        \langle v, w \rangle = v^{t} w.
+    \]
+    The induced map $\mathbb{R} \to \mathbb{R}^{\vee}$ is $v \mapsto \langle v, - \rangle$ (or alternatively, $v \mapsto \langle -, v \rangle$).
+    Suppose $\langle v, w \rangle = 0$ for all $w \in \mathbb{R}^{n}$.
+    In particular, for each elementary basis vector $e_i$, we have $\langle v, e_i \rangle = v_i = 0$.
+    But then $v = 0$, hence the induced map is injective.
+
+    This second part won't be formal because I suck at using the algebraic determinant, but intuition prevails.
+    If $\det A = 0$, then one row is a linear combination of the others.
+    In particular, this implies that fixing the elementary basis vector corresponding to that column, there is a linear combination for the second argument of $\varphi(e_i, -)$ which maps to zero, hence the induced map $M \to M^{\vee}$ is not injective.
+    On the other hand, if $\varphi$ is degenerate, then there exists some nonzero $v$ such that $\varphi(v, w) = 0$ for for all $w \in R^{n}$.
+    Expanding in terms of the basis and applying bilinearity, this implies that the rows of $A$ are linearly dependent, hence $\det A = 0$.
+
+    For nonsingularity, my intuition tells me that $\det A$ a unit corresponds to $A$ being invertible, hence there is a dual map $M^{\vee} \to M$ sending $f \mapsto f(1)$ since this is guaranteed to be an isomorphism, or something along those lines.
+\end{solution}
+
+% Exercise 5.10
+\begin{problem}
+    Prove Lemma 5.15.
+    \begin{proposition}[Lemma 5.15] 
+        Let $A$ be the matrix representing a linear map $\alpha : R^{n} \to R^{m}$ with respect to the standard bases.
+        Then the dual map $\alpha^{\vee} : (R^{m})^{\vee} \to (R^{n})^{\vee}$ is represented by the transpose of $A$ with respect to the corresponding dual bases.
+    \end{proposition}
+\end{problem}
+
+\begin{solution}
+    Recall that the dual map $\alpha^{\vee}$ sends a map $f \mapsto f \circ \alpha$.
+    We show that $A^{t}$ agrees with $\alpha^{\vee}$ on the dual basis.
+    Let $e^{*}_i$ denote a dual standard basis vector.
+    Suppose $\alpha^{\vee}(e^{*}_i) = \sum_{j} b_{ij} e^{*}_j$.
+    In particular, $[b_{ij}]$ is the matrix of $\alpha^{\vee}$ with respect to the dual basis.
+    It follows that for all $i, j$ we have
+    \begin{align*}
+        b_{ij} = \sum_{k} b_{ik} \delta_{kj} = \sum_{k} b_{ik} e^{*}_k e_j &= \left( \sum_{k} b_{ik} e^{*}_k \right) e_j \\
+                                                                           &= \alpha^{\vee}(e^{*}_i) e_j \\
+                                                                           &= (e^{*}_i \circ \alpha)(e_j)
+    \end{align*}
+    But then
+    \begin{align*}
+        e^{*}_i (\alpha(e_j)) = e^{*}_i \left( \sum_{k} a_{jk} e_k \right) &= \sum_{k} a_{jk} e^{*}_i e_k \\
+                                                                           &= a_{ji}
+    \end{align*}
+    Thus, $b_{ij} = a_{ji}$, or in other words, $[b_{ij}] = A^{t}$.
+\end{solution}
+
+% Exercise 5.11
+\begin{problem}
+    Let $M$ be a finitely generated module over a PID of rank $r$.
+    `Compute' the dual $M^{\vee}$.
+\end{problem}
+
+\begin{solution}
+    Recall that a finitely generated module over a PID $R$ has the form
+    \[
+    M = R^{r} \oplus (R/r_1)^{m_1} \oplus \cdots \oplus (R/r_n)^{m_n}.
+    \]
+    Then any $R$-linear map $M \to R$ must send torsion elements to zero, and clearly every element in $(R/r_i)^{m_i}$ is $r_i$-torsion.
+    Thus, $M^{\vee} = (R^{r})^{\vee} \cong R^{r}$.
+\end{solution}
+
+% Exercise 5.12
+\begin{problem}
+    Let $M, N$ be $R$-modules.
+    Show that there is a canonical bijection
+    \[
+    \Hom_R(N, M^{\vee}) \cong \Hom_R(M, N^{\vee}).
+    \]
+    Choosing $N = M^{\vee}$, the left-hand side has a distinguished element, namely the identity $M^{\vee} \to M^{\vee}$.
+    Prove that the corresponding element on the right is the map $\omega : M \to M^{\vee \vee}$ defined in \S 5.5.
+\end{problem}
+
+\begin{solution}
+    The isomorphism follows from an application of tensor-hom adjunction:
+    \[
+    \Hom_R(N, M^{\vee}) \cong \Hom_R(N \otimes M, R) \cong \Hom_R(M \otimes N, R) \cong \Hom_R(M, N^{\vee}).
+    \]
+    Under this identification, the identity $1_{M^{\vee}}: M^{\vee} \to M^{\vee}$ is first sent to the map $f \otimes m \mapsto f(m)$ by tracing through adjunction.
+    This is then sent to the map $m \otimes f \mapsto f(m)$.
+    Finally, this is sent to the map taking $m$ to evaluation at $m$ (i.e. $f(m)$ as $f \in M^{\vee}$).
+    This is precisely the map $\omega : M \to M^{\vee \vee}$.
+\end{solution}
+
+% Exercise 5.13
+\begin{problem}
+    Let $F \cong R^{n}$ be a finite-rank free $R$-module.
+    Verify that the composition of the (noncanonical) isomorphisms $F \cong F^{\vee} \cong F^{\vee \vee}$ from Corollary 5.7 is the (canonical isomorphism) $\omega$ defined in $\S 5.5$.
+\end{problem}
+
+\begin{solution}
+    Let $\{e_1, \ldots, e_n\}$ be a basis for $F$ and let $\{e^{*}_1, \ldots, e^{*}_n\}$ denote the dual basis for $F^{\vee}$.
+    On the basis, the noncanonical isomorphism $F \to F^{\vee}$ sends $e_i \mapsto e^{*}_i$ where
+    \[
+        e^{*}_i (e_j) = 
+        \begin{cases}
+            1 & \text{if $i = j$} \\
+            0 & \text{otherwise}
+        \end{cases}
+    \]
+    Since a basis has already been determined for $F^{\vee}$, this induces a basis $\{e^{**}_1, \ldots, e^{**}_n\}$ for $F^{\vee \vee}$.
+    Then the noncanonical isomorphism sends $e^{*}_i$ to $e^{**}_i$ where
+    \[
+    e^{**}_i (e^{*}_j) = 
+    \begin{cases}
+            1 & \text{if $i = j$} \\
+            0 & \text{otherwise}
+    \end{cases}
+    \]
+    That is, expanding an element $m$ in terms of the basis and taking it through both isomorphisms yields a map $M^{\vee} \to R$ which is precisely evaluation of an element of the dual space at $m$, the canonical isomorphism specified earlier.
+\end{solution}
+
+% Exercise 5.14
+\begin{problem}
+    Let $F$ be a free $R$-module (of any rank).
+    Prove that the canonical map $F \to F^{\vee \vee}$ is injective.
+    What is the simplest example you know of a module $M$ such that $M \to M^{\vee \vee}$ is not injective?
+\end{problem}
+
+\begin{solution}
+    Suppose $f(m) = 0$ for all $f \in F^{\vee}$.
+    In particular, letting $\{e^{*}_i\}$ denote the standard basis of the dual space $F^{\vee}$, we find that $e^{*}_i(m) = 0$, hence the $i$-th component of $m$ is 0 for all $i$.
+    Thus, $m = 0$ and the canonical map $F \to F^{\vee \vee}$ is injective.
+    The simplest module for which the map is not injective is $\mathbb{Z}/2\mathbb{Z}$, for which $(\mathbb{Z}/2\mathbb{Z})^{\vee \vee} = 0$.
+\end{solution}
+
+% Exercise 5.15
+\begin{problem}
+    Let $V$ be a vector space, and let $W \subseteq V$ be a subspace.
+    The \textit{annihilator} of $W$ is
+    \[
+        W^{\perp} := \{v^{*} \in V^{\vee} \mid (\forall w \in W), v^{*}(w) = 0\}.
+    \]
+    Prove that $W^{\perp}$ is a subspace of $V^{\vee}$.
+    If $\dim V = n$ and $\dim W = r$, prove that $\dim W^{\perp} = n-r$.
+
+    Assuming $V$ is finite dimensional, prove that, under the canonical isomorphism $V^{\vee \vee} \cong V$, $W^{\perp \perp}$ maps isomorphically to $W$.
+\end{problem}
+
+\begin{solution}
+    To show that $W^{\perp}$ is a subspace of $V^{\vee}$, first note that $0 \in W^{\perp}$.
+    Indeed, for all $w \in W$, $0(w) = 0$.
+    Now suppose $f, g \in W^{\perp}$.
+    Then $(f - g)(w) = f(w) - g(w) = 0$, so  $f - g \in W^{\perp}$.
+    Thus, $W^{\perp}$ is a subspace of $V^{\vee}$.
+
+    To compute $\dim W^{\perp}$, let $T : V^{\vee} \to W^{\vee}$ be the map which sends $f^{*} \mapsto f^{*}|_W$.
+    It is easy to see that this is a linear map and it is surjective since the image of any element $W^{\vee}$ is itself.
+    Furthermore, the kernel of this map is the set of functionals on $V$ which vanish on $W$, but this is precisely $W^{\perp}$.
+    Then by the rank-nullity theorem, we find that $\dim W^{\perp} = \dim V^{\vee} - \dim W^{\vee} = n - r$.
+
+    Recall that the isomorphism $V \cong V^{\vee \vee}$ sends a vector $v$ to evaluation of an element of the dual space at $v$.
+    Note that 
+    \[
+    W^{\perp \perp} = \{v^{**} \in V^{\vee \vee} \mid (\forall w^{*} \in W^{\perp}),  v^{**}(w^{*}) = 0\}.
+    \]
+    Under the canonical isomorphism, a vector $w \in W$ is sent to evaluation at $w$.
+    Given an element $v^{*} \in W^{\perp}$, we find that $w^{**}(v^{*}) = v^{*}(w) = 0$, hence $w^{**} \in W^{\perp \perp}$.
+    Thus, the restriction of the canonical isomorphism to $W$ induces an isomorphism $W \cong W^{\perp \perp}$.
+\end{solution}
+
+% Exercise 5.16
+\begin{problem}
+    Let
+    \[
+    \begin{tikzcd}
+        0 & F_1 & F_2 & F_3 & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5] 
+    \end{tikzcd}
+    \]
+    be an exact sequence of free $R$-modules.
+    Viewing $F_1$ as a submodule of $F_2$ and extrapolating the notation introduced for vector spaces in Exercise 5.15, prove that $F_1^{\perp} \cong F_3^{\vee}$.
+\end{problem}
+
+\begin{solution}
+    Let $\alpha : F_1 \to F_2$ and $\beta : F_2 \to F_3$ be the maps in the above exact sequence.
+    Dualizing and using the left-exactness of Hom yields the exact sequence
+    \[
+    \begin{tikzcd}
+        0 & F_3^{\vee} & F_2^{\vee} & F_1^{\vee}
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3, "\beta^{\vee}"] 
+        \arrow[from=1-3, to=1-4, "\alpha^{\vee}"] 
+    \end{tikzcd}
+    \]
+    where $\alpha^{\vee}(f) = f \circ \alpha$ and $\beta^{\vee}(g) = g \circ \beta$.
+    
+    We claim that $\ker \beta^{\vee} = F_1^{\perp}$.
+    Indeed, 
+    \[
+        \ker \beta^{\vee} = \{g \in \Hom(F_2, R) : (g \circ \alpha)(m) = 0, \forall m \in F_1\} = F_1^{\perp}
+    \]
+    where $\alpha$ identifies $F_1$ as a submodule of $F_2$.
+    Then the exactness of the above sequence implies that $\im \beta^{\vee} = \ker(\alpha^{\vee})$, but by the injectivity of $\beta^{\vee}$ we conclude that $F_3^{\vee} \cong F_1^{\perp}$.
+\end{solution}
+
+% Exercise 5.17
+\begin{problem}
+    Let $V$ be a vector space of dimension $n$.
+    Prove that there is a natural bijection between the Grassmannian $\Gr(r, V)$ of $r$-dimensional subspaces of $V$ (cf. Exercise VI.2.13) and the Grassmannian $\Gr(n-r, V^{\vee})$ of $(n-r)$-dimensional subspaces of the dual of $V$. 
+    (Use Exercise 5.15.)
+
+    In particular, the Grassmannian $\Gr_k(n-1, n)$ has the same structure as the projective space $\mathbb{P}V = \Gr_k(1, n)$.
+    We could in fact \textit{define} the projective space associated to a vector space $V$ of dimension $n$ to be the set of subspaces of `codimension 1' (that is, dimension $n-1$) in $V$.
+    There are reasons why this would be preferable, but established conventions are what they are.
+\end{problem}
+
+\begin{solution}
+    Let $W \in \Gr(r, V)$ be an $r$-dimensional subspace of $V$.
+    By Exercise 5.15, $W^{\perp}$ is an $(n-r)$-dimensional subspace of $V^{\vee}$.
+    Furthermore, given an $(n-r)$-dimensional subspace of $V^{\vee}$, we can send it to \textit{its} annihilator, which is an $n$-dimensional subspace of $V^{\vee \vee} \cong V$, and again by Exercise 5.15, this map sends $W^{\perp} \mapsto W$.
+    Thus, the natural bijection $\Gr(r, V) \to \Gr(n-r, V^{\vee})$ sends a subspace to its annihilator (or orthogonal complement, in more standard terminology).
+\end{solution}
+
+% Exercise 5.18
+\begin{problem}
+    Let $F$ be a free $R$-module of finite rank.
+    For any $r \geq 1$, define a multilinear map
+    \[
+        \delta : \underbrace{F \times \cdots \times F}_{r} \times \underbrace{F^{\vee} \times \cdots \times F^{\vee}}_{r} \to R
+    \]
+    by
+    \[
+    \delta(v_1, \ldots, v_r, w_1^{*}, \ldots, w_r^{*}) = \det(w_i^{*}(v_j)), \quad 1 \leq i, j \leq r.
+    \]
+    \begin{itemize}
+        \item Prove that $\delta$ is multilinear and alternating in the first $r$ and in the last $r$ entries.
+        \item Deduce that $\delta$ induces a bilinear map $\hat{\delta} : \Lambda^{r}(F) \times \Lambda^{r}(F^{\vee}) \to R$.
+        \item Prove that $\hat{\delta}$ induces an isomorphism $(\Lambda^{r}(F))^{\vee} \cong \Lambda^{r}(F^{\vee})$.
+    \end{itemize}
+\end{problem}
+
+\begin{solution}
+    To do.
+\end{solution}
+
+% Exercise 5.19
+\begin{problem}
+    Let $R$ be a ring, not necessarily commutative, and let $M$ be a \textit{left}-$R$-module.
+    Prove that $M^{\vee}$ carries a natural \textit{right}-$R$-module structure.
+    Prove that $R^{\vee}$ is isomorphic as a ring to the \textit{opposite} ring $R^{op}$.
+    (Cf. Exercise III.5.1.)
+\end{problem}
+
+\begin{solution}
+    Define a right-$R$-module structure on $M^{\vee} = \Hom_R(M, R)$ by
+    \[
+        (f \cdot r)(m) := f(m)r.
+    \]
+    Indeed, for all $r, s \in R$ and $f, g \in M ^{\vee}$ we have
+    \begin{gather*}
+        ((f + g) \cdot r)(m) = (f(m) + g(m)) r = f(m)r + g(m)r = (f \cdot r)(m) + (g \cdot r)(m), \\
+        (f \cdot (r + s))(m) = f(m) (r + s) = f(m)r + f(m)s = (f \cdot r)(m) + (f \cdot s)(m), \\
+        (f \cdot (rs))(m) = f(m) (rs) = (f \cdot r \cdot s)(m), \\
+        (f \cdot 1)(m) = f(m) \cdot 1 = f(m),
+    \end{gather*}
+    hence this is a right-$R$-module structure.
+
+    Since $R^{\vee} \cong R$ as $R$-modules, this action induces a ring structure on $R^{\vee}$ given by $r \cdot s = sr$, hence $R^{\vee} \cong R^{op}$ as rings.
+\end{solution}
+\end{document}

@@ -504,7 +504,30 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    Note that the given function is merely a function between sets.
+    It is clearly injective because if $(1 : c_1 : \ldots : c_n) = (1 : c_1' : \ldots : c_n')$ then the corresponding scalar $\lambda \in K*$ is simply 1, hence $c_1 = c_1', \ldots, c_n = c_n'$ so the affine coordinates are equal.
+    Similarly, it is easily seen to be surjective since the projective coordinate $(1 : c_1 : \ldots : c_n)$ is mapped to by $(c_1, \ldots, c_n)$.
+    Thus, the function is a bijection.
+    
+    To cover $\mathbb{P}^{n}_K$ with $n + 1$ copies of $\mathbb{A}^{n}_K$, simply consider the images of the bijections $f_i : \mathbb{A}^{n}_K \to \mathbb{P}^{n}_K$ which sends $(c_1, \ldots, c_n) \mapsto (c_1 : \ldots : 1 \ldots : c_n)$ with a $1$ in the $i$-th coordinate for $0 \leq i \leq n$.
+    By this convention, the above map is $f_0$.
+    Then every projective point is equal to a point in the image of one of the $f_i$ since not all of the projective coordinates are equal to 0.
+
+    Working this out explicitly for $n = 2$, the functions are
+    \begin{gather*}
+        f_0 : (a, b) \mapsto (1 : a : b) \\
+        f_1 : (a, b) \mapsto (a : 1 : b) \\
+        f_2 : (a, b) \mapsto (a : b : 1)
+    \end{gather*}
+    For any projective point $(c_0 : c_1 : c_2)$, it is equivalent to at least one of the following: $(1 : \frac{c_1}{c_0} : \frac{c_2}{c_0})$, $(\frac{c_0}{c_1} : 1 : \frac{c_2}{c_1})$, or $(\frac{c_0}{c_2} : \frac{c_1}{c_2} : 1)$ as at least one of the $c_i \neq 0$.
+    In any case, these are all contained in the image of the $f_i$.
+
+    Recall that the cell decomposition in Exercise VI.2.13 states that $\mathbb{P}^{n-1}_K = k^{n-1} \cup k^{n-2} \cup \cdots k^{1} \cup k^{0}$.
+    The connection is that the map $f_{n}$ identifies the subset $k^{n-1} \subset \mathbb{P}^{n-1}_K$ since by the realization of projective space as a union, the $n$-th projective coordinate is 1 for all points in the hyperplane lying above the origin.
+    Then the remaining $f_{i}$ can be realized as identifying $k^{i-1} \subset \mathbb{P}^{i-1}_K$ inductively.
+    Returning to our explicit example, $f_2$ identifies $\mathbb{A}^{2}_K$ with the plane $z = 1$ in $K^3$.
+    Then $f_1$ restricted to points of the form $(a, 0)$ maps to projective coordinates in the plane $z = 0$ where lines are identified with a unique point on the line $y = 1$.
+    Finally, there is a single point identified by the restriction of $f_0$ to $k$ since all lines in this space pass throught the point $x = 1$.
 \end{solution}
 
 % Problem 2.21
@@ -514,7 +537,7 @@
     it does not depend on the representative $(c_0, \ldots, c_n)$ chosen for the points $(c_0 : \ldots : c_n)$.
     We can then define the following subset of $\mathbb{P}^{n}_K$ :
     \[
-        \mathscr{V}(F) := \{(c_0 : \ldots : c_n) \in \mathbb{P}^{n}_K | F(c_0, \ldots, c_n) = 0\}.
+        \mathscr{V}(F) := \{(c_0 : \ldots : c_n) \in \mathbb{P}^{n}_K \mid F(c_0, \ldots, c_n) = 0\}.
     \]
     Prove that this `projective algebraic set' can be covered with $n + 1$ affine algebraic sets.
 
@@ -523,6 +546,23 @@
 \end{problem}
 
 \begin{solution}
-    To do.
+    Recall that a homogeneous polynomial is one whose nonzero terms all have the same degree.
+    Suppose $F$ is homogeneous and let $(c_0 : \ldots : c_n) \in \mathbb{P}^{n}_K$ be such that $F(c_0, \ldots, c_n) = 0$.
+    Choose another representative, say $(\lambda c_0, \ldots, \lambda c_n)$.
+    Then since $F$ is homogeneous (say of degree $i$), every nonzero term has a factor $\lambda^{i}$.
+    Thus, we may factor this out, yielding
+    \[
+    F(\lambda c_0, \ldots, \lambda c_n) = \lambda^{i} F(c_0, \ldots, c_n) = 0
+    \]
+    proving that the choice of representative is irrelevant.
+    Thus, the notion of a `projective algebraic set' is well-defined.
+
+    To cover this set with affine algebraic sets, we effectively use the same process as in the previous exercise.
+    In particular, consider the $n+1$ polynomials $F_i := F(x_0, \ldots, 1, \ldots, x_n)$ defined by setting the $i$-th argument of $F$ to be 1.
+    Letting $f_i$ denote the same injection as in the previous exercise, we find that for a point $(c_0 : \ldots : c_n) \in \mathscr{V}(F)$, 
+    \[
+        F(c_0, \ldots, c_n) = F\left(\frac{c_0}{c_i}, \ldots, 1, \ldots, \frac{c_n}{c_i}\right) = F(f_i(c_1, \ldots c_n)) = F_i(c_1, \ldots, c_n) = 0.
+    \]
+    Thus, every point of the projective algebraic set is in the image of one of the $F_i$.
 \end{solution}
 \end{document}
